@@ -94,7 +94,7 @@
 				</div>
 			</div>
 			<div class="header-phone rl">
-				<p>服务时间：09:00-20:00</p>
+				<p>服务时间：09:00-17:30</p>
 				<p class="colorE66202">4006-777-666<p style="font: 12px 'Microsoft Yahei'; color:#e66202;">专家热线：64743032、64743035</p></p>
 			</div>
 		</div>

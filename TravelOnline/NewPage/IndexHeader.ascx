@@ -20,7 +20,6 @@
 							</ul>
 							<b></b>
 						</li>
-						<li rel="nofollow"  class="collect fl"><a onclick="AddFavorite()" href="javascript:;">收藏本站</a></li>
 						<li rel="nofollow"  class="wx fl">
 							<a id="top_showwx" class="weixin relative-box" href="javascript:;">微信
 								<div class="top-wx absolute-box">
@@ -32,6 +31,7 @@
 							</a>
 						</li>
 						<li rel="nofollow"  class="fl"><a class="weibo relative-box" href="http://weibo.com/scyts?sudaref=www.scyts.com" title="关注青旅" style="background-position: 0 -36px">微博</a></li>
+                        <li rel="nofollow"  class="collect fl"><a href="../OfficeFiles/游客满意度调查表17年最终版.doc">满意度调查表</a></li>
 					</ul>
 				</div>
 			</div>

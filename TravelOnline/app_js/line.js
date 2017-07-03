@@ -247,7 +247,7 @@ $('#linelist a').live("click", function () {
     document.title = $(this).attr("linename");
     $("#titlename").html("线路详情");
     var userId = $("#UserId").val();
-    state = { action: "line", title: $(this).attr("linename"), url: "/WeChat/linelist.aspx?linetype="+$(this).attr("tag")+"&userId="+userId };
+    state = { action: "line", title: $(this).attr("linename"), url: "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") + "&userId=" + userId };
     window.location.href = "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") + "&userId=" + userId;
     //history.pushState(state, $(this).attr("linename"), "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") + "&userId=" + userId);
     scroll_top = document.body.scrollTop;
@@ -302,16 +302,14 @@ $('.tiles a').live("click", function () {
     $("#titlename").html($(this).attr("tname"));
     document.title = $(this).attr("tname");
     var userId = $("#UserId").val();
-    state = { action: "list", title: $(this).attr("tname"), url: "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") + "&userId=" + userId };
-    history.pushState(state, $(this).attr("tname"), "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") + "&userId=" + userId);
-    $("#linelist").html("");
-    $("#s_lineclass").val($(this).attr("tag"));
-    $("#page_view").hide();
-    $("#linelist_view").show();
-    $("#s_pages").val("1");
-    $("#s_dest").val("0");
-    LoadDestination();
-    LoadList();
+    if (userId != "") {
+        state = { action: "list", title: $(this).attr("tname"), url: "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") + "&userId=" + userId };
+        history.pushState(state, $(this).attr("tname"), "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") + "&userId=" + userId);
+    } else {
+        state = { action: "list", title: $(this).attr("tname"), url: "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag") };
+        history.pushState(state, $(this).attr("tname"), "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag"));
+    }
+    window.location.href = "/WeChat/linelist.aspx?linetype=" + $(this).attr("tag");
 });
 
 $('.scroller a').live("click", function () {
@@ -328,14 +326,14 @@ $(".showdate,#BeginOrder").live("click", function () {
     $.cookie("lineflag", $('#s_lineflag').val(), { expires: 7, path: '/WeChat' });
     switch ($("#s_lineflag").val()) {
         case "2":
-//            var val = $('input:radio[name="iCheck"]:checked').val();
-//            if (val == null) {
-//                showmessage("请选择您要预订的舱型");
-//                return false;
-//            }
-//            else {
-//                alert(val);
-//            }
+            //            var val = $('input:radio[name="iCheck"]:checked').val();
+            //            if (val == null) {
+            //                showmessage("请选择您要预订的舱型");
+            //                return false;
+            //            }
+            //            else {
+            //                alert(val);
+            //            }
             showmessage("请电话咨询<br>4006777666");
             return false;
             break;
@@ -420,7 +418,7 @@ function LoadCalender() {
         scroll(0, 0);
         if (calendarNums > 0) {
             $("#plandate").showRenderCalendar({ events: eval(json), showNum: calendarNums });
-            
+
             if ($.cookie("lineid") != null) {
                 if ($('#s_lineid').val() == $.cookie("lineid")) {
                     $("#plandate .hasEvent").each(function () {
@@ -502,7 +500,8 @@ $('#ordernow').click(function () {
 });
 
 function showmessage(msg) {
-    App.blockUI({ message: msg,
+    App.blockUI({
+        message: msg,
         boxed: true,
         textOnly: true
     });

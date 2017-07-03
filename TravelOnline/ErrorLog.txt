@@ -270,3 +270,33 @@ select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as
 2017/5/12 10:02:15:
 将字符串转换为 uniqueidentifier 时失败。
 select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:36:10:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:36:11:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:36:58:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:37:02:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:37:04:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:37:44:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:37:45:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:37:47:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:39:54:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/3 10:39:55:
+将字符串转换为 uniqueidentifier 时失败。
+select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'

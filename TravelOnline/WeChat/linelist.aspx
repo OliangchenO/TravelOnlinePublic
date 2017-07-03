@@ -397,7 +397,7 @@ var _hmt = _hmt || [];
 <script src="/assets/scripts/app.js"></script>
 <script src="/app_js/swipe.js"></script>
 <script src="/app_js/datePicker.js"></script>
-<script src="/app_js/line.js?v=20170517"></script>
+<script src="/app_js/line.js?v=20170703"></script>
 <script type="text/javascript">
     //var defaultStartDate = '2014-06-16'; var defaultEndDate = '2014-08-12'; var json = [{ 'planid': '207165', 'date': '2014-06-16', 'price': '4310', 'content': '报名截止', 'route': '324234' }, { 'planid': '207166', 'date': '2014-06-23', 'price': '4310', 'content': '已满', 'route': '423' }, { 'planid': '222919', 'date': '2014-07-06', 'price': '4480', 'content': '尚有余位', 'route': '0' }, { 'planid': '222920', 'date': '2014-07-13', 'price': '4480', 'content': '尚有余位', 'route': '0' }, { 'planid': '222922', 'date': '2014-07-27', 'price': '4480', 'content': '尚有余位', 'route': '0' }, { 'planid': '222922', 'date': '2014-07-28', 'price': '4480', 'content': '尚有余位', 'route': '0' }, { 'planid': '222922', 'date': '2014-08-02', 'price': '4480', 'content': '尚有余位', 'route': '0' }, { 'planid': '222922', 'date': '2014-08-12', 'price': '4480', 'content': '尚有余位', 'route': '0'}];
     //var ShowMonthNum = 3;

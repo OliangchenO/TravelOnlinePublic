@@ -1,6 +1,7 @@
 .header-top {margin-bottom: 11px; padding-top: 5px; height: 23px;}
 .header-top .column,.header-lv {width: 1200px; margin: 0 auto; height: 23px;}
-.header-top .column .siderbar-r .collect a {display: block; margin-top: 2px; background-position: 0 0; height: 15px; padding: 0 12px 0 23px;}
+.header-top .column .siderbar-r .collect {display: block; margin-top: 2px; background-position: 0 0; height: 15px; padding-left:12px;}
+.header-top .column .siderbar-r .collect a {display: block; background-position: 0 0; height: 15px; padding-left:18px;}
 .header-top .column .siderbar-r .register {margin: 1px 20px 0 0; display: inline; color: #f90;}
 .header-top .column .siderbar-r .register span {color: #e7e7e7; padding: 0 7px;}
 .header-top .column .siderbar-r .my-menu,.header-top .column .siderbar-r .my-menu ul li {width: 80px; text-align: center;}

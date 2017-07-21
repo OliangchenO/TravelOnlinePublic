@@ -627,7 +627,6 @@ namespace TravelOnline.Member
 
         protected void RegisterYoung()
         {
-            CheckRegEmail();
             CheckRegMobile();
 
             String AutoId = Convert.ToString(CombineKeys.NewComb());

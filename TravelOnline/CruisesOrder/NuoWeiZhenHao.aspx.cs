@@ -384,7 +384,7 @@ namespace TravelOnline.CruisesOrder
                             cel9.SetCellValue("CHN");
 
                             ICell cel10 = row1.CreateCell(10); //客人的国籍
-                            cel10.SetCellValue(string.Format("{0:dd}", dr["BirthDay"]) + "/" + string.Format("{0:MM}", dr["BirthDay"]) + "/" + string.Format("{0:yyyy}", dr["BirthDay"]));
+                            cel10.SetCellValue(string.Format("{0:yyyy}", dr["BirthDay"]) + "/" + string.Format("{0:MM}", dr["BirthDay"]) + "/" + string.Format("{0:dd}", dr["BirthDay"]));
                             
                             ICell cel11 = row1.CreateCell(11); //客人的护照号
                             ICell cel12 = row1.CreateCell(12); //客人的护照签发期
@@ -399,8 +399,8 @@ namespace TravelOnline.CruisesOrder
                             {
                                 cel11.SetCellValue(dr["IdNumber"].ToString());
                             }
-                            if (MyConvert.ConToDateTime(dr["PassBgn"].ToString()) < DateTime.Today) cel12.SetCellValue(string.Format("{0:dd}", dr["PassBgn"]) + "/" + string.Format("{0:MM}", dr["PassBgn"]) + "/" + string.Format("{0:yyyy}", dr["PassBgn"]));
-                            if (MyConvert.ConToDateTime(dr["PassEnd"].ToString()) > DateTime.Today) cel13.SetCellValue(string.Format("{0:dd}", dr["PassEnd"]) + "/" + string.Format("{0:MM}", dr["PassEnd"]) + "/" + string.Format("{0:yyyy}", dr["PassEnd"]));
+                            if (MyConvert.ConToDateTime(dr["PassBgn"].ToString()) < DateTime.Today) cel12.SetCellValue(string.Format("{0:yyyy}", dr["PassBgn"]) + "/" + string.Format("{0:MM}", dr["PassBgn"]) + "/" + string.Format("{0:dd}", dr["PassBgn"]));
+                            if (MyConvert.ConToDateTime(dr["PassEnd"].ToString()) > DateTime.Today) cel13.SetCellValue(string.Format("{0:yyyy}", dr["PassEnd"]) + "/" + string.Format("{0:MM}", dr["PassEnd"]) + "/" + string.Format("{0:dd}", dr["PassEnd"]));
                             cel14.SetCellValue(dr["sign"].ToString());
                             rowNum += 1;
                         }

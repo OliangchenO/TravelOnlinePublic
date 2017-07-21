@@ -57,18 +57,9 @@
                 </dl>
                 <div class="reg-error authcode_e"></div>
                 <dl class="reg-form-line clearfix">
-                    <dt>短信验证码</dt>
-                    <dd>
-                        <input type="text" class="reg-input" maxlength="4" name="Phoneyzm" id="Phoneyzm" placeholder="请查收手机短信，并填写验证码">
-                    </dd>
-                    <%--<span><a href="javascript:;">免费获取验证码</a></span>--%>
-                    <INPUT id="Button1" name="Button1" value="免费获取验证码" type=button style="background-color: white;cursor:pointer;margin-left:10px;margin-top:10px" />
-                </dl>
-                <div class="reg-error Phoneyzm_e"></div>
-                <dl class="reg-form-line clearfix">
 					<dt>单位名称</dt>
 					<dd>
-						<input type="text" class="reg-input"  name="companyName" id="companyName" placeholder="请填写单位名称">
+						<input type="text" class="reg-input"  name="companyName" id="companyName" placeholder="请填写报名单位名称">
 					</dd>
 					<b class="pass companyName"></b>
 				</dl>
@@ -88,6 +79,7 @@
                     </dd>
                     <b class="pass email"></b>
                 </dl>
+                <div class="reg-error email_e"></div>
 				<dl class="reg-form-line clearfix">
 					<dt>密码</dt>
 					<dd>
@@ -116,6 +108,7 @@
 				<dl class="reg-form-line clearfix">
 					<dt>&nbsp;</dt>
 					<dd>
+						<%--<a href="javascript:;" class="reg-btn">同意协议并注册</a>--%>
                         <INPUT type=button class="reg-btn" value="同意协议并注册" />
 					</dd>
 				</dl>
@@ -123,7 +116,7 @@
 		    </form>
         </div>
 		<div class="reg-catoon fl">
-			<img src="/image/member/logoin_cartoon.jpg">
+			<img src="../AD/2017YoungPlan/images/舞-01.jpg">
 		</div>
 	</div>
 	<div class="term-pop" id="pop">
@@ -216,15 +209,14 @@
                         required: true,
                         digits: true
                     },
-                    Phoneyzm: {
-                        minlength: 4,
-                        required: true,
-                        digits: true
-                    },
                     email: {
                         minlength: 5,
                         required: true,
                         email: true
+                    },
+                    authcode: {
+                        minlength: 4,
+                        required: true
                     },
                     password: {
                         minlength: 6,
@@ -248,15 +240,14 @@
                         minlength: "<i></i>请填写有效的11位手机号码",
                         digits: "<i></i>请正确填写手机号"
                     },
-                    Phoneyzm: {
-                        required: "<i></i>请填写您收到的短信验证码",
-                        minlength: "<i></i>短信验证码为4位数字",
-                        digits: "<i></i>短信验证码为4位数字"
-                    },
                     email: {
                         required: "<i></i>请输入邮件地址",
                         minlength: "<i></i>请正确填写邮箱地址",
                         email: "<i></i>请输入正确的邮件地址"
+                    },
+                    authcode: {
+                        required: "<i></i>请输入验证码",
+                        minlength: "<i></i>请正确填写验证码"
                     },
                     password: {
                         required: "<i></i>请设置登录密码",
@@ -294,7 +285,7 @@
                 $.post(url, $("#submit_form").serialize(), function (data) {
                     var obj = eval(data);
                     if (obj.success) {
-                        top.location = "/AD/2017Young/index.aspx";
+                        top.location = "/AD/2017Young/index.aspx#pos";
                     }
                     else {
                         $(".reg-btn").val("同意协议并注册");
@@ -317,24 +308,6 @@
 
         })
 
-        var wait = 60;
-        function time(o) {
-            if (wait == 0) {
-                o.removeAttribute("disabled");
-                o.value = "发送动态密码";
-                wait = 60;
-                verc();
-            } else {
-                o.setAttribute("disabled", true);
-                o.value = "重新发送(" + wait + ")";
-                wait--;
-                setTimeout(function () {
-                    time(o)
-                },
-		1000)
-            }
-        }
-
         function verc() {
             $("#JD_Verification1").click();
         }
@@ -349,34 +322,6 @@
                 return null;
         }
 
-        $("#Button1").click(function () {
-            if ($("#mobilePhone").val().length < 11) {
-                $('.mobilePhone_e').html("<i></i>手机号长度必须是11位");
-                return false;
-            }
-//            var code = getCookie("CheckCode");
-//            if ($("#authcode").val().toLocaleLowerCase() != code.toLocaleLowerCase()) {
-//                $('.authcode_e').html("<i></i>验证码错误");
-//                return false;
-//            }
-//由后台进行验证输入与验证码是否一致！
-
-            time(this);
-
-            var random = Math.random();
-            $("#random").val(random);
-            var url = "AjaxService.aspx?action=SendRegSMS&code=" + $("#authcode").val().toLocaleLowerCase() + "&r=" + random;
-            $.post(url, $("#submit_form").serialize(), function (data) {
-                var obj = eval(data);
-                if (obj.success) {
-                    $('.Phoneyzm_e').html(obj.success);
-                }
-                else {
-                    $('.Phoneyzm_e').html(obj.error);
-                }
-            });
-
-        });
 	</script>
 </body>
 </html>

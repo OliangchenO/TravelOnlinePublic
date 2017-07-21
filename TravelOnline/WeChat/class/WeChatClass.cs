@@ -23,6 +23,7 @@ namespace TravelOnline.WeChat
         public static string LineInfoStringCreate(string lineid)
         {
             string infos = Convert.ToString(HttpContext.Current.Cache["WeChat_LineDetail_" + lineid]);
+            infos = "";
             if (infos == "")
             {
                 StringBuilder AllStrings = new StringBuilder();
@@ -32,6 +33,8 @@ namespace TravelOnline.WeChat
                 StringBuilder Routes = new StringBuilder();
                 StringBuilder VisaString = new StringBuilder();
                 string Days = "";
+                string linePrice = "";
+                string tuanDiscount = "";
                 string SqlQueryText = string.Format("select top 1 * from OL_Line where MisLineId='{0}'", lineid);
                 //return SqlQueryText;
                 DataSet DS = new DataSet();
@@ -67,16 +70,33 @@ namespace TravelOnline.WeChat
                     Strings.Append(string.Format("<h3>{0}</h3>", MyConvert.TeShuChar(DS.Tables[0].Rows[0]["LineName"].ToString())));
                     Strings.Append(string.Format("<p class=\"xdesc\">{0}</p>", DS.Tables[0].Rows[0]["LineFeature"].ToString()));
                     Strings.Append(string.Format("<h2>编号:{0}</h2>", DS.Tables[0].Rows[0]["MisLineId"].ToString()));
+                    linePrice = DS.Tables[0].Rows[0]["Price"].ToString().Replace(".00", "");
                     Strings.Append(string.Format("<div class=\"price_box\"><p class=\"price\"><dfn>¥</dfn>{0}<em>起</em></p></div>", DS.Tables[0].Rows[0]["Price"].ToString().Replace(".00", ""), lijian.ToString()));
-                    //Strings.Append(string.Format("<div class='sp fl' style='color:#f00;'>分期：￥<b style='font-size:18px;'>"));
-                    //Strings.Append(string.Format("{0}</b> /期 起", Math.Ceiling(Convert.ToDouble(DS.Tables[0].Rows[0]["Price"].ToString()) / 6)));
-                    //Strings.Append(string.Format("<div class='show' style='width:334px'><strong style='color:#659006;display:inline-block;'>支持以下分期方式"));
-                    //Strings.Append(string.Format("</strong><p style='color:#93B34C;margin:0;line-height:1em;'>.............................................................................</p>"));
-                    //Strings.Append(string.Format("<p>首付出发</p><ul class='payment_box' style='margin:0;'><li>期数</li><li>分期价</li><li>含利息</li><li>月利率</li></br><li class='actua'>6期</li><li class='actua'>￥"));
-                    //Strings.Append(string.Format("{0}</li><li class='actua'>0</li><li class='actua'>0</li><li class='actua'>3期</li><li class='actua'>￥", Math.Ceiling(Convert.ToDouble(DS.Tables[0].Rows[0]["Price"].ToString()) / 6)));
-                    //Strings.Append(string.Format("{0}</li><li class='actua'>0</li><li class='actua'>0</li></ul></br><p style='color:#527903;'>（以上分期是根据青旅价计算得出，仅作参考）</p></div></div>", Math.Ceiling(Convert.ToDouble(DS.Tables[0].Rows[0]["Price"].ToString()) / 3)));
-                    
-                    if (null != HttpContext.Current.Session["Fx_UserId"]){
+                    string SqlQueryText1 = string.Format("select top 1 * from OL_GroupPlan where MisLineId='{0}'", lineid);
+                    DataSet DS1 = new DataSet();
+                    DS1.Clear();
+                    DS1 = MyDataBaseComm.getDataSet(SqlQueryText1);
+                    bool isPintuan = false;
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+                        isPintuan = true;
+                        string orderNums = MyDataBaseComm.getScalar(string.Format("select SUM(OrderNums) from ol_order where LineID='{0}' and PayFlag=1 and GroupOrder=1", lineid));
+                        string groupNums = DS1.Tables[0].Rows[0]["Num"].ToString();
+                        tuanDiscount = DS1.Tables[0].Rows[0]["discount"].ToString();
+                        int leaveNum = (MyConvert.ConToInt(groupNums) - MyConvert.ConToInt(orderNums)) % MyConvert.ConToInt(groupNums);
+                        if (leaveNum > 0)
+                        {
+                            Strings.Append(string.Format("<div id='g-local-groups'><div class='local-groups-title'>{0}人已参团<div class='see-more-button' style='display:block;'>查看更多</div></div>", orderNums));
+                            Strings.Append(string.Format("<div class='local-group-item'><img class='local-group-img' src='/Images/headImage.jpg'/><div class='local-group-detial'><div class='local-group-detial-row1'>"));
+                            string orderName = MyDataBaseComm.getScalar(string.Format("select top 1 OrderName from ol_order where LineID='{0}' and PayFlag=1 order by OrderTime desc", lineid));
+                            Strings.Append(string.Format("<span class='local-group-name'>{0} 等已参团</span></div><div class='local-group-detial-row2'><span class='local-group-timer'>还差{1}人</span></div></div>", orderName, leaveNum));
+                            Strings.Append(string.Format("<div class='local-group-btn-border BeginOrder'>去参团</div></div></div>"));
+                        }
+
+                    }
+
+                    if (null != HttpContext.Current.Session["Fx_UserId"])
+                    {
                         Strings.Append(string.Format("<div class='shopInfo'>"));
                         if (null != HttpContext.Current.Session["Fx_Storename"])
                         {
@@ -91,8 +111,8 @@ namespace TravelOnline.WeChat
                     }
 
                     string pdates = DS.Tables[0].Rows[0]["Pdates"].ToString();
-                    
-                    
+
+
                     switch (LineFlag)
                     {
                         case "2":
@@ -111,7 +131,7 @@ namespace TravelOnline.WeChat
                             Strings.Append("</div>");
                             break;
                     }
-                    
+
                     Strings.Append("</div>");
 
                     //Strings.Append("");
@@ -230,7 +250,7 @@ namespace TravelOnline.WeChat
                                     Strings.Append(string.Format("{0}", Visa6));
                                     Strings.Append("</div>");
                                 }
-                                
+
                                 Strings.Append("</div>");
                                 Strings.Append("</div>");
 
@@ -263,7 +283,7 @@ namespace TravelOnline.WeChat
                                 AllStrings.Append("<li style=\"width:100%\" class=\"active\">");
                                 AllStrings.Append("<a href=\"#tab_1_1\" data-toggle=\"tab\">" + MyConvert.TeShuChar(DS.Tables[0].Rows[0]["LineName"].ToString()) + "</a>");
                                 AllStrings.Append("</li>");
-                                 AllStrings.Append("</ul>");
+                                AllStrings.Append("</ul>");
                                 AllStrings.Append("</div>");
                                 AllStrings.Append("<div class=\"tab-content\">");
                                 AllStrings.Append("<div class=\"tab-pane fade active in\" id=\"tab_1_1\">");
@@ -479,47 +499,32 @@ namespace TravelOnline.WeChat
                                     AllStrings.Append("</div>");
                                     AllStrings.Append("</div>");
                                 }
-                                
                             }
-                            
-
                         }
                     }
-
+                    if (isPintuan == true)
+                    {
+                        AllStrings.Append("<div class='goods-bottom-bar'><div class='goods-home-button'><a href='/app/main'><span>首页</span></a></div>");
+                        AllStrings.Append("<div class='goods-unlike-button'><span>收藏</span></div>");
+                        AllStrings.Append("<div class='goods-chat-button'><a href='tel:4006777666'><span>咨询</span></a></div>");
+                        decimal tuanPrice = (MyConvert.ConToDec(linePrice) - MyConvert.ConToDec(tuanDiscount));
+                        AllStrings.Append(string.Format("<div class='goods-direct-btn'><span class='goods-buy-price'><i>￥</i>{0}</span><span>单独购买</span></div>", linePrice));
+                        AllStrings.Append(string.Format("<div class='goods-group-btn BeginOrder'><span class='goods-buy-price'><i>￥</i>{0}</span><span>一键开团</span></div></div>", tuanPrice));
+                    }
+                    else
+                    {
+                        AllStrings.Append("<div class='clearfix'></div><div class='pre-footer order-footer' style='position: fixed; bottom: -1px; left: 0px;width:101%'><div class='container'><div class='row'>");
+                        if (HttpContext.Current.Session["Fx_Storename"] != null)
+                        {
+                            AllStrings.Append(string.Format("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:{0}'><i class='fa fa-phone-square'></i> 电话咨询</a></div>", HttpContext.Current.Session["Fx_Storename"].ToString()));
+                        }
+                        else
+                        {
+                            AllStrings.Append("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:4006777666' ><i class='fa fa-phone-square'></i> 电话咨询</a></div>");
+                        }
+                        AllStrings.Append("<div class='col-xs-6 BeginOrder' style='text-align:center'><a class='yd cur' href='javascript:;'><i class='fa fa-shopping-cart'></i> 开始预订</a></div></div></div></div>");
+                    }
                 }
-
-                //AllStrings.Append(Pics.ToString());
-                //AllStrings.Append("<div class=\"portlet-body\" style=\"margin-bottom: 50px;width:100%\">");
-                //AllStrings.Append("<div style=\"height:45px;\">");
-                //AllStrings.Append("<ul class=\"nav nav-tabs\">");
-                //AllStrings.Append("<li style=\"width:50%\" class=\"active\">");
-                //AllStrings.Append("<a href=\"#tab_1_1\" data-toggle=\"tab\">线路概述</a>");
-                //AllStrings.Append("</li>");
-                //AllStrings.Append("<li style=\"width:50%\" >");
-                //AllStrings.Append("<a href=\"#tab_1_2\" data-toggle=\"tab\">" + Days + "天行程</a>");
-                //AllStrings.Append("</li>");
-                //AllStrings.Append("</ul>");
-                //AllStrings.Append("</div>");
-                //AllStrings.Append("<div class=\"tab-content\">");
-                //AllStrings.Append("<div class=\"tab-pane fade active in\" id=\"tab_1_1\">");
-                //AllStrings.Append(Strings.ToString().Replace("<li></li>", ""));
-                //AllStrings.Append("</div>");
-                //AllStrings.Append("<div class=\"tab-pane fade\" id=\"tab_1_2\">");
-                //AllStrings.Append("<div class=\"recommend_wrap\">");
-                //AllStrings.Append(Routes.ToString());
-                //AllStrings.Append("</div>");
-                //AllStrings.Append("</div>");
-                //AllStrings.Append("</div>");
-                //AllStrings.Append("</div>");
-
-                //AllStrings.Append("<div class=\"clearfix\"></div>");
-                //AllStrings.Append("<div class=\"pre-footer order-footer\"  style=\"position: fixed; bottom: -1px; left: 0px;width:101%\">");
-                //AllStrings.Append("<div class=\"container\">");
-                //AllStrings.Append("<div class=\"row\">");
-                //AllStrings.Append("<div class=\"col-xs-12\" style=\"text-align:center\"><a class=\"yd cur\" href=\"tel:4006777666\" ><i class=\"fa fa-phone-square\"></i> 电话咨询</a></div>");
-                //AllStrings.Append("</div>");
-                //AllStrings.Append("</div>");
-                //AllStrings.Append("</div>");
 
                 infos = AllStrings.ToString();
                 //infos = "aasfa";
@@ -576,7 +581,7 @@ namespace TravelOnline.WeChat
                         dt3.Columns.Add(new DataColumn("Shopping", typeof(string)));
                         DataRow dr2 = dt3.NewRow();
                         dr2["Feature"] = x.SelectSingleNode("Feature").InnerText.Replace("\n", "</li><li>");
-                        dr2["PriceIn"]= x.SelectSingleNode("PriceIn").InnerText.Replace("\n", "</li><li>");
+                        dr2["PriceIn"] = x.SelectSingleNode("PriceIn").InnerText.Replace("\n", "</li><li>");
                         dr2["PriceOut"] = x.SelectSingleNode("PriceOut").InnerText.Replace("\n", "</li><li>");
                         dr2["OwnExpense"] = x.SelectSingleNode("OwnExpense").InnerText.Replace("\n", "</li><li>");
                         dr2["Attentions"] = x.SelectSingleNode("Attentions").InnerText.Replace("\n", "</li><li>");
@@ -713,7 +718,7 @@ namespace TravelOnline.WeChat
             {
                 string T_Price, C_Price;
                 for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
-                { 
+                {
                     T_Price = " --";
                     C_Price = " --";
                     if (MyConvert.ConToInt(DS.Tables[0].Rows[i]["thirdprice"].ToString()) > 0) T_Price = " &yen;" + DS.Tables[0].Rows[i]["thirdprice"].ToString();
@@ -760,7 +765,7 @@ namespace TravelOnline.WeChat
                         }
                     }
                 }
-                
+
             }
             return Rooms.ToString();
         }
@@ -778,9 +783,9 @@ namespace TravelOnline.WeChat
                 ss = ListInfo[0];
             }
             catch
-            { 
+            {
             }
-            return  (string.Format("<script type=\"text/javascript\">{0}</script>", ss));
+            return (string.Format("<script type=\"text/javascript\">{0}</script>", ss));
             //return ss;
         }
 
@@ -856,7 +861,7 @@ namespace TravelOnline.WeChat
                             }
                             string PriceOut = x.SelectSingleNode("PriceOut").InnerText.Replace("\n", "</li><li>");
                             PriceOut = PriceOut.Replace("<li></li>", "aa");
-                            if (PriceOut.Length >5 )
+                            if (PriceOut.Length > 5)
                             {
                                 Strings.Append("<div><strong>报价包含</strong></div>");
                                 Strings.Append("<ul>");
@@ -924,9 +929,9 @@ namespace TravelOnline.WeChat
                                     }
                                     catch
                                     { }
-                                    
+
                                 }
-                    
+
                                 Routes.Append("<div class=\\\"recommend_detail\\\">");
                                 Routes.Append("<div class=\\\"recommend_txt route\\\">");
                                 Routes.Append(string.Format("<h3><i class=\\\"fa fa-calendar\\\"></i> {0}</h3>", elemList[i].SelectSingleNode("daterank").InnerText));
@@ -950,7 +955,7 @@ namespace TravelOnline.WeChat
                                 Pics.Append(PicUrl.ToString());
                                 Pics.Append("</div></div>");
                                 Pics.Append("<ul id=\\\"position\\\"><li class=\\\"cur\\\"></li>");
-                                for (int i = 0; i < PicCount-1; i++)
+                                for (int i = 0; i < PicCount - 1; i++)
                                 {
                                     Pics.Append("<li class=\"\"></li>");
                                 }
@@ -965,11 +970,11 @@ namespace TravelOnline.WeChat
                                 Pics.Append("<ul id=\\\"position\\\"><li class=\\\"cur\\\"></li>");
                                 Pics.Append("</ul>");
                             }
-                            
-                            
+
+
                         }
                     }
-                
+
                 }
                 infos = "{\"success\":0,\"Days\":\"" + Days + "\",\"Pics\":\"" + Pics.ToString() + "\",\"line\":\"" + Strings.ToString().Replace("<li></li>", "") + "\",\"Routes\":\"" + Routes.ToString() + "\"}";
                 Pics.Clear();
@@ -1049,11 +1054,11 @@ namespace TravelOnline.WeChat
                         {
                             Strings.Append(string.Format("<div><a href=\"{0}\"><img class=\"img-responsive img-h250\" src=\"{1}\"/></a></div>", DS.Tables[0].Rows[i]["AdPageUrl"].ToString(), DS.Tables[0].Rows[i]["AdPicUrl"].ToString()));
                         }
-                        
+
                     }
                     Strings.Append("</div></div>");
                     Strings.Append("<ul id=\"position\"><li class=\"cur\"></li> \r\n");
-                    for (int i = 0; i < DS.Tables[0].Rows.Count-1; i++)
+                    for (int i = 0; i < DS.Tables[0].Rows.Count - 1; i++)
                     {
                         Strings.Append("<li class=\"\"></li> \r\n");
                     }
@@ -1094,7 +1099,7 @@ namespace TravelOnline.WeChat
             if (infos == "")
             {
                 string SqlQueryText = string.Format("SELECT top 6 MisLineId,LineName,Price,Pics,BigPics,(select DestinationName from OL_Destination where id=OL_Line.FirstDestination) as Destination FROM OL_Line where Sale='0' and Price>0 and WeChat='1' and PlanDate>='{0}'order by WeChatSortTime desc", DateTime.Today.ToString());//PlanDate>'{1}'
-            
+
                 StringBuilder Strings = new StringBuilder();
                 DataSet DS = new DataSet();
                 DS.Clear();
@@ -1110,14 +1115,14 @@ namespace TravelOnline.WeChat
                         Strings.Append("<li>");
                         Strings.Append("<div class=\"product-item product-list\">");
                         Strings.Append("<div class=\"pi-img-wrapper\">");//<a href=\"/app/line{0}\"></a>
-                        
+
                         //Strings.Append(string.Format("<a href=\"/app/line/{0}\"><img src=\"{1}\" class=\"img-responsive\" alt=\"{2}\"></a>", DS.Tables[0].Rows[i]["MisLineId"].ToString(), Pics, DS.Tables[0].Rows[i]["LineName"].ToString()));
                         //Strings.Append("</div>");
 
                         //Strings.Append(string.Format("<h3><a href=\"/app/line/{0}\">{1}</a></h3>", DS.Tables[0].Rows[i]["MisLineId"].ToString(), DS.Tables[0].Rows[i]["LineName"].ToString()));
                         //Strings.Append(string.Format("<div class=\"pi-price\">&#165;{0}起</div>", DS.Tables[0].Rows[i]["Price"].ToString().Replace(".00", "")));
                         //Strings.Append(string.Format("<a href=\"/app/line/{0}\" class=\"btn btn-default add2cart\">去看看</a>", DS.Tables[0].Rows[i]["MisLineId"].ToString()));
-						if (null != HttpContext.Current.Session["Fx_UserId"])
+                        if (null != HttpContext.Current.Session["Fx_UserId"])
                         {
                             url = string.Format("/WeChat/linelist.aspx?linetype=line?{0}&userId={1}", DS.Tables[0].Rows[i]["MisLineId"].ToString(), HttpContext.Current.Session["Fx_UserId"]);
                         }
@@ -1287,7 +1292,7 @@ namespace TravelOnline.WeChat
                     {
                         String1.Append(string.Format("<div class='row'><div class='col-xs-12'><h3 class='row-tit row-h3'>限时抢购<a class='more' href='{0}'>更多></a></h3></div></div>", DS.Tables[0].Rows[0]["Url"].ToString()));
                     }
-                    
+
                     //SqlQueryText = string.Format("select top 3 * from View_SpecialLine where Stid='{0}' order by SortNum,EditTime desc", DS.Tables[0].Rows[0]["ID"].ToString());
                     SqlQueryText = string.Format("select top 3 * from View_SpecialLine_New where Stid='{0}' order by SortNum,EditTime desc", DS.Tables[0].Rows[0]["ID"].ToString());
                     DS = MyDataBaseComm.getDataSet(SqlQueryText);
@@ -1324,12 +1329,14 @@ namespace TravelOnline.WeChat
                         if (null != HttpContext.Current.Session["Fx_UserId"])
                         {
                             url = string.Format("/WeChat/linelist.aspx?linetype=line?{0}&userId={1}", DS.Tables[0].Rows[i]["Id"].ToString(), HttpContext.Current.Session["Fx_UserId"]);
-                        }else{
+                        }
+                        else
+                        {
                             url = string.Format("/WeChat/linelist.aspx?linetype=line?{0}", DS.Tables[0].Rows[i]["Id"].ToString());
                         }
                         String1.Append(string.Format("<div class='row'><a href='{0}'><div class='col-xs-7 overflow'><img src='{1}' alt='{2}', title='{2}'/></div>", url, Pics, DS.Tables[0].Rows[i]["Cname"].ToString()));
                         String1.Append(string.Format("<div class='col-xs-5 product'><p>{0}</p><strong>￥<span>{1}</span></strong></div>", DS.Tables[0].Rows[i]["Cname"].ToString(), DS.Tables[0].Rows[i]["Price"].ToString()));
-                        
+
                         String1.Append("<div class='col-xs-5 product' style='border:0;'><form name='form1'><input type='text' name='left' size='30' style='font-size:12px;'></form></div></a></div>");
                     }
                 }
@@ -1395,7 +1402,7 @@ namespace TravelOnline.WeChat
                 }
                 return json.SerializeObject(ObJson);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -1409,7 +1416,7 @@ namespace TravelOnline.WeChat
             {
                 string SqlQueryText = string.Format("SELECT top 30 MisLineId,LineName,Price,Pics FROM OL_Line where Sale='0' and Price>0 and WeChat='2' and LineType='{0}' and PlanDate>='{1}' order by WeChatSortTime desc", flag, DateTime.Today.ToString());//PlanDate>'{1}'
                 if (flag == "recommend") SqlQueryText = string.Format("SELECT top 30 MisLineId,LineName,Price,Pics FROM OL_Line where Sale='0' and Price>0 and WeChat='2' and PlanDate>='{1}' order by WeChatSortTime desc", flag, DateTime.Today.ToString());
-                
+
                 StringBuilder Strings = new StringBuilder();
                 DataSet DS = new DataSet();
                 DS.Clear();
@@ -1473,7 +1480,7 @@ namespace TravelOnline.WeChat
                         {
                             url = string.Format("/WeChat/linelist.aspx?linetype=line?{0}", DS.Tables[0].Rows[i]["MisLineId"].ToString());
                         }
-                        
+
                         Strings.Append(string.Format("<a href=\"{0}\"><img src=\"{1}\" class=\"img-responsive\" alt=\"{2}\"></a>", url, Pics, DS.Tables[0].Rows[i]["LineName"].ToString()));
                         Strings.Append("</div>");
                         Strings.Append(string.Format("<h3><a href=\"{0}\">{1}</a></h3>", url, DS.Tables[0].Rows[i]["LineName"].ToString()));
@@ -1557,7 +1564,7 @@ namespace TravelOnline.WeChat
                     {
                         Pics = "/images/none.gif";
                         if (dt.Rows[i]["PhotoPath"].ToString().Length == 24) Pics = string.Format("/Images/Views/{0}/M_{1}", dt.Rows[i]["PhotoPath"].ToString().Split("/".ToCharArray())[0], dt.Rows[i]["PhotoPath"].ToString().Split("/".ToCharArray())[1]);
-                        
+
                         if (null != HttpContext.Current.Session["Fx_UserId"])
                         {
                             dt.Rows[i]["url"] = string.Format("/WeChat/linelist.aspx?linetype=line?{0}&userId={1}", dt.Rows[i]["Id"].ToString(), HttpContext.Current.Session["Fx_UserId"]);
@@ -1953,7 +1960,7 @@ namespace TravelOnline.WeChat
                 {
                     Strings.Append(string.Format(") and ", dest_id));
                 }
-                    
+
             }
             else
             {
@@ -2000,7 +2007,7 @@ namespace TravelOnline.WeChat
                     break;
             }
 
-            string SqlQueryText = "", ListResult="非常抱歉，没有找到您需要的内容";
+            string SqlQueryText = "", ListResult = "非常抱歉，没有找到您需要的内容";
             if (rowcount != 0)
             {
                 SqlQueryText = LineListPageSerch.GetPagesSqlQueryText(fieldlist, condition, pkey, tablename, sortflag, sortname, pagesize, currpage);
@@ -2008,7 +2015,7 @@ namespace TravelOnline.WeChat
             }
             Strings.Clear();
             Strings.Append("{");
-            Strings.Append(string.Format("\"success\":0,\"pages\":{0},\"pagecount\":{1},\"content\":\"{2}\"", pages+1, PageCount, ListResult));
+            Strings.Append(string.Format("\"success\":0,\"pages\":{0},\"pagecount\":{1},\"content\":\"{2}\"", pages + 1, PageCount, ListResult));
             Strings.Append("}");
             return Strings.ToString();
         }
@@ -2021,7 +2028,7 @@ namespace TravelOnline.WeChat
             {
                 string dest_id = "0";
                 dest_id = MyDataBaseComm.getScalar("select Id from OL_Destination where DestinationName like '%" + searchval + "%'");
-                
+
                 Strings.Append(string.Format("(Cname like '%{0}%' ", searchval));
                 if (MyConvert.ConToInt(dest_id) != 0)
                 {
@@ -2039,7 +2046,7 @@ namespace TravelOnline.WeChat
                 if (lineclass != "") Strings.Append(string.Format("(LineType='{0}' or Cname like '%{1}%') and ", lineclass, lineclassname));
                 if (dest != "0") Strings.Append(string.Format("Destination like '%,{0},%' and ", dest));
             }
-            
+
             string fieldlist = "*,(select max(preferAmount) from OL_Preferential where (Lineid=dbo.tbLine.Id and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate()))) AS preferAmount";
             Strings.Append("1=1 ");
             //查询条件结束
@@ -2183,21 +2190,23 @@ namespace TravelOnline.WeChat
                     }
 
                     Strings.Append("<li>");
-                    if (navbar == "1") {
+                    if (navbar == "1")
+                    {
                         Strings.Append("<div class=\\\"product-item\\\">");
                     }
-                    else {
+                    else
+                    {
                         Strings.Append("<div class=\\\"product-item product-list\\\">");
                     }
 
 
-                    
+
                     Strings.Append("<div class=\\\"pi-img-wrapper\\\">");
                     url = string.Format("line?{0}", DS.Tables[0].Rows[i]["MisLineId"].ToString());
                     Strings.Append(string.Format("<a tag=\\\"{0}\\\" lineid=\\\"{2}\\\" linename=\\\"{3}\\\"><img src=\\\"{1}\\\" class=\\\"img-responsive\\\" alt=\\\"{3}\\\"></a>", url, Pics, DS.Tables[0].Rows[i]["MisLineId"].ToString(), DS.Tables[0].Rows[i]["LineName"].ToString()));
                     Strings.Append("</div>");
                     Strings.Append(string.Format("<h3><a tag=\\\"{0}\\\" lineid=\\\"{1}\\\" linename=\\\"{2}\\\">{2}</a></h3>", url, DS.Tables[0].Rows[i]["MisLineId"].ToString(), DS.Tables[0].Rows[i]["LineName"].ToString()));
-;                   Strings.Append(string.Format("<div class=\\\"pi-price\\\">&#165;{0}起</div>", DS.Tables[0].Rows[i]["Price"].ToString().Replace(".00", "")));
+                    Strings.Append(string.Format("<div class=\\\"pi-price\\\">&#165;{0}起</div>", DS.Tables[0].Rows[i]["Price"].ToString().Replace(".00", "")));
                     Strings.Append(string.Format("<a tag=\\\"{0}\\\" class=\\\"btn btn-default add2cart\\\" lineid=\\\"{1}\\\" linename=\\\"{2}\\\">去看看</a>", url, DS.Tables[0].Rows[i]["MisLineId"].ToString(), DS.Tables[0].Rows[i]["LineName"].ToString()));
                     if (Convert.ToString(DS.Tables[0].Rows[i]["preferAmount"]).Length > 0 || (Convert.ToString(DS.Tables[0].Rows[i]["wwwyh"]).Length > 0 && !Convert.ToString(DS.Tables[0].Rows[i]["wwwyh"]).Equals("0")) || Convert.ToString(ConfigurationManager.AppSettings["showBanklj"]).Equals("Y"))
                     {

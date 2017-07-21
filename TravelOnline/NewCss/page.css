@@ -8,17 +8,18 @@
 #nav .current a{background: #f38e22; color: #fff;}
 .wrap .aside .hotplace-wrap .place-con a:hover,.wrap .month-con .place a:hover {color: #f60;}
 .top-tit b,.info-r .price-info .sp .show b,.info-r .line-info .btn-box a.btn,.visa-info-r .btn-box a.btn,.buy-content .buy-now a,.buy-content .buy-now a:hover,.detail-tab .buy-now-fixed a,.sure,.affirm-box .affirm-buy a,.affirm-box .affirm-buy a:hover {background: url('../image/detail/pro_btn.png') no-repeat;}
-.info-r .line-info dl b,.info-r .line-info .btn-box .collect b,.visa-info-r .btn-box .collect b,.info-r .line-info .btn-box .collect b .share,.visa-info-r .btn-box .collect b .share,.info-r .line-info .btn-box .collect .share-box a,.visa-info-r .btn-box .collect .share-box a,.info-r .recommend-box h4 b,.info-r .recommend-box h4 .c-bh,.buy-content .t2 b,.buy-content .t4 b,.under-tab-box .present,.day-content i,.expense,.qz-box,.yd-box,.under-tab-box .material,.select-num .choose b,.visa-select .t4 b,.cruises-select .select-content .room .t1 b,.cruises-select .select-content .room .t7 .xuan,.cruises-select .select-content .room .t7 .shouwan,.cruises-select .select-content .room .choose-box .choose .hdl .d5 b,.cruises-select .select-content .room .choose-box .choose .hdl .select b,.selected-tit i,.route-tit i,.selected-info table .alter-popover .popover-content .adl .select b,.selected-info table .alter-popover .popover-content .afbtn-box .confirm,.selected-info table .alter-popover .popover-content .afbtn-box .cancel,.cruises-fr,.shore .click-bnt i,.shore-popover .sight-select .s4 .select b,.shore-popover .sight-select .nextstep a{background: url('../image/detail/pro_ui.png') no-repeat;}
+.info-r .line-info dl b,.info-r .line-info .btn-box .collect b,.visa-info-r .btn-box .collect b,.info-r .line-info .btn-box .collect b .share,.visa-info-r .btn-box .collect b .share,.info-r .line-info .btn-box .collect .share-box a,.visa-info-r .btn-box .collect .share-box a,.info-r .recommend-box h4 b,.info-r .recommend-box h4 .c-bh,.buy-content .t2 b,.buy-content .t4 b,.under-tab-box .present,.day-content i,.expense,.qz-box,.yd-box,.under-tab-box .material,.select-num .choose b,.visa-select .t4 b,.cruises-select .select-content .room .t1 b,.cruises-select .select-content .room .t7 .xuan,.cruises-select .select-content .room .t7 .shouwan,.cruises-select .select-content .room .choose-box .choose .hdl .d5 b,.cruises-select .select-content .room .choose-box .choose .hdl .select b,.selected-tit i,.route-tit i,.selected-info table .alter-popover .popover-content .adl .select b,.selected-info table .alter-popover .popover-content .afbtn-box .confirm,.selected-info table .alter-popover .popover-content .afbtn-box .cancel,.cruises-fr,.shore .click-bnt i,.shore-popover .sight-select .s4 .select b,.shore-popover .sight-select .nextstep a,.buy-content .t2 b,.buy-content .t4 b,.select-num .choose b,.visa-select .t4 b,.choose-data-box .t2 b{background: url('../image/detail/pro_ui.png') no-repeat;}
 /* aside */
 .wrap .aside {float: left; margin-right: 22px; width: 300px;}
 .wrap .aside .hotplace-wrap h2 {width: 300px; height: 40px; background: #ffae2c; text-align: center; font: 16px/38px 'Microsoft Yahei'; color: #fff;}
 .wrap .aside .hotplace-wrap .place-con {margin: 22px 0; padding: 0 10px;}
 .wrap .aside .hotplace-wrap .vplace-con {margin: 6px 0;}
 .wrap .aside .hotplace-wrap .place-con p {font-weight: bold; font-size: 14px; height: 30px;}
-.wrap .aside .hotplace-wrap .place-con p span {color: #999; padding: 0 2px;}
+.wrap .aside .hotplace-wrap .place-con p span {color: #999; padding: 0 5px;}
 .wrap .aside .hotplace-wrap .place-con .v-place {height: 24px;}
-.wrap .aside .hotplace-wrap .place-con a {display: inline-block;  padding-right: 18px; line-height: 26px; color: #666; white-space: nowrap;}
+.wrap .aside .hotplace-wrap .place-con a {display: inline-block;  padding-right: 18px; line-height: 26px; color: #333; white-space: nowrap;}
 .wrap .aside .hotplace-wrap .place-con a:hover {color: #f60;}
+.wrap .aside .hotplace-wrap .place-con .country {padding: 0;}
 .wrap .ranking {margin: 40px 0 35px 0; width: 300px;}
 .wrap .ranking h3,.month-hot h3 {margin-bottom: 10px; padding-left: 10px; border-bottom: 1px solid #ddd; height: 29px; color: #333; font: 16px 'Microsoft Yahei';}
 .wrap .ranking li {position: relative; margin-bottom: 28px; height: 45px;}
@@ -32,10 +33,15 @@
 .wrap .ranking li .cost {padding: 5px 10px 0 0; text-align: right; width: 70px; font: 20px 'arial'; font-weight: bold; color: #f60;}
 .wrap .ranking li span {padding-right: 2px; font-size: 14px;}
 .wrap .month-hot {margin-top: 57px;}
-.wrap .month-con {margin: 0 0 25px 0;}
 .wrap .month-con p {margin-bottom: 6px; color: #E99D24; font: 16px 'Microsoft Yahei';}
 .wrap .month-con .place {width: 100%;}
 .wrap .month-con .place a {display: inline-block; margin-right: 10px; line-height: 28px; color: #666; white-space: nowrap;}
+/* aside主题游 */
+.noshadow {margin-right: 22px; width: 300px; box-shadow: none;}
+.btc {height: 422px;}
+.btc li {padding-top: 13px; border-top-color: #d9d9d9;}
+.theme_side {position: absolute; top: 0; left: 0; width: 32px; height: 32px; background: url('../image/theme.png') no-repeat;}
+
 /* banner */
 .wrap .index-top .banner-box {position: relative; width: 876px; height: 360px;}
 .wrap .index-top div.cruise-banner-box {width: 1200px; height: 350px;}
@@ -45,6 +51,7 @@
 .wrap .index-top .banner-box ol {right: 22px; bottom: 25px;}
 .wrap .index-top .banner-box ol .current {background-position: -95px 0;}
 .wrap .index-top .banner-box ol li {float: left; margin-right: 13px; width: 18px; height: 18px; background-position: -117px 0; cursor: pointer;}
+.wrap .index-top .banner-box .ad-min {width: 36px; height: 18px; position: absolute; top: 0; right: 0; z-index: 99; background: url('../image/promote.png') no-repeat;}
 /* 特惠 */
 .wrap .sale-content,.wrap .visa-content {padding: 50px 0 50px 0;}
 .wrap .sale-content .sale-main {width: 876px; height: 330px;}
@@ -68,6 +75,7 @@
 /* 线路精选 */
 .wrap .line-selected {margin-bottom: 40px;}
 .wrap .line-selected .tab-wrap {width: 877px; height: 32px; border-bottom: 3px solid #8EC343;}
+.wrap .line-selected .tab-wrap .by_left {float: left; margin-left: 50px;}
 .wrap .line-selected .guonei {border-bottom-color: #e99d24;}
 .wrap .line-selected .tab-wrap h2 {float: left; font: 20px/26px 'Microsoft Yahei'; color: #80bc2b;}
 .wrap .line-selected .tab-wrap .org {color: #e99d24;}
@@ -95,7 +103,7 @@
 .wrap .line-selected .product-wrap .theme-trip ul li a.color06:hover {background: #973bbd; color: #fff;}
 .wrap .line-selected .product-wrap ul.current {display: block;}
 .wrap .line-selected .product-wrap .product-list {display: none; position: relative; width: 876px;}
-.wrap .line-selected .product-wrap .product-list .more {position: absolute; right: 0; bottom: -26px; color: #2382D9;}
+.wrap .line-selected .product-wrap .product-list .more {position: absolute; right: 0; top: -46px; color: #999;}
 .wrap .line-selected .product-wrap .product-list li {float: left; margin-bottom: 15px; margin-right: 18px; width: 205px; height: 194px; border-bottom: 2px solid #fff;}
 
 .wrap .line-selected .product-wrap .product-list li.no-mrr {margin-right: 0;}
@@ -108,7 +116,7 @@
 .wrap .line-selected .product-wrap .product-list li dl dt p b span {display: inline; margin-right: 2px; color: #f70; font-size: 14px;}
 .wrap .line-selected .product-wrap .product-list li dl dt p b i {font-size: 12px; position: relative; top: -1px;}
 .wrap .line-selected .product-wrap .product-list li dl dt a {display: block; position: relative; overflow: hidden; height: 140px;}
-.wrap .line-selected .product-wrap .product-list li dl dt a img {width: 205px; height: 140px;}
+.wrap .line-selected .product-wrap .product-list li dl dt a img {width: 100%; height: 140px;}
 .wrap .line-selected .product-wrap .product-list li dl dt a .action {top: 0; display: block;}
 .wrap .line-selected .product-wrap .product-list li dl dt a .recommend {position: absolute; left: 0; top: 140px; z-index: 90; padding: 9px 7px 0 7px; width: 191px; height: 131px; background: url('../image/opacity_bg.png');} 
 .wrap .line-selected .product-wrap .product-list li dl dt a .recommend span {font: 14px/1em 'Microsoft Yahei'; color: #fc0; padding-bottom: 12px;}
@@ -129,6 +137,8 @@
 .wrap .shipping-line .tab-wrap li {float: left; position: relative; padding: 0 25px; font: 16px/50px 'Microsoft Yahei'; color: #333; cursor: pointer;}
 .wrap .shipping-line .tab-wrap li span {display: none; position: absolute; left: 6px; top: 20px; background-position: 0 -25px; width: 10px; height: 10px; }
 .wrap .shipping-line .tab-wrap li .current {display: block; color: #1b91dd;}
+.wrap .shipping-line .product-wrap {position: relative;}
+.wrap .shipping-line .product-wrap .product-list .more {position: absolute; right: 20px; top: -35px; color: #fff; padding: 3px 7px; background: #459AEA;}
 .wrap .shipping-line .product-wrap ul.current {display: block;}
 .wrap .shipping-line .product-wrap .product-list {display: none; float: left; padding: 18px 21px 12px; width: 1138px; background: #f0f0f0;}
 .wrap .shipping-line .product-wrap .product-list li {float: left; display: inline; margin-bottom: 15px; background: #fff; border: 1px solid #e2e2e2; padding: 16px 16px 26px; width: 332px; height: 324px;}
@@ -204,6 +214,7 @@
 .wrap .state-wrap .state .s-content a.mrr {margin-right: 0;}
 .wrap .state-wrap .state .s-content a em {display: block; width: 160px; height: 20px; line-height: 20px; text-align: center;}
 /* 搜索List页面 */
+.wrap .pictags {padding: 0 5px 5px 5px;}
 .wrap .left-content {float: left; width: 900px;}
 .seach-wrap {position: relative; height: 70px;}
 .hotseach-box {display: none; position: absolute; left: 0; top: 39px; z-index: 200; box-shadow: 1px 2px 3px #ccc;}    /* 搜索框隐藏界面Begin */
@@ -266,20 +277,27 @@
 .searchresult_left .recommend .txt {font: 16px/23px 'Microsoft Yahei'; text-align: center; color: #fff;}
 .searchresult_left .product_list {padding: 0 13px 0 11px;}
 .product_list .mb {margin-bottom: 19px;}
-.pro_li {width: 870px; overflow: hidden;}
+.pro_li {width: 870px;}
+.pro_tit_text .discount {width: 346px; height: 22px; position: relative;}
+.pro_tit_text .discount .down {width: 346px; position: absolute; top: 0; left: 0; height: 22px; overflow: hidden; z-index: 999; background: #fff url('../image/arr-down.png') right top no-repeat; cursor: pointer;}
+.pro_tit_text .discount .sidedown {height: auto; box-shadow: 2px 2px 5px rgba(0,0,0,.4);}
+.discount .type {margin-bottom: 2px; line-height: 20px; color: #999;}
+.discount .type em {display: inline-block; margin-right: 4px; border-radius: 3px; width: 34px; height: 20px; line-height: 20px; text-align: center; color: #fff; background: #ff6005;}
+.discount .type .cu {background: #82ae19;}
+.discount .type .yin {background: #e61a5d;}
 .pro_li .pro_img {float: left; width: 300px; height: 160px; overflow: hidden;}
 .pro_li .pro_img img {width: 300px; height: 160px;}
 .pro_li .pro_tit_text {position: relative; float: left; padding: 0 21px 0 15px; width: 397px;}
 .pro_li .pro_tit_text a.more {position: absolute; right: 97px; bottom: -1px; color: #666;}
 .pro_li .pro_tit_text .title_pro {position: relative; margin: 4px 0 21px 0; width: 398px; height: 66px;}
 .pro_li .pro_tit_text .title_pro a {display: block; height: 36px; font: 16px/18px 'Microsoft Yahei'; overflow: hidden; color: #1267c6;}
-.pro_li .pro_tit_text .title_pro span {display: block; position: absolute; bottom: 0; width: 54px; height: 18px; background: #eead40; color: #fff; text-align: center; font-size: 12px; border-radius: 4px;}
+.pro_li .pro_tit_text .title_pro span {display: block; float: left; width: 54px; height: 18px; background: #eead40; color: #fff; text-align: center; font-size: 12px; border-radius: 4px;}
 .pro_li .pro_tit_text .title_pro .tg {background: #0092D2;}
 .pro_li .pro_tit_text .title_pro .tz {background: #EEAD40;}
 .pro_li .pro_tit_text .title_pro .td {background: #90C7A4;}
 .pro_li .pro_tit_text .title_pro .yl {background: #64AFD8;}
 .pro_li .pro_tit_text .title_pro .qz {background: #ea5843;}
-.pro_li .pro_tit_text .comment,.pro_li .pro_tit_text .date {margin-bottom: 30px; width: 398px; height: 15px; text-overflow: ellipsis; white-space: nowrap; color: #666; overflow: hidden;}
+.pro_li .pro_tit_text .comment,.pro_li .pro_tit_text .date {margin: 5px 0; width: 398px; height: 15px; text-overflow: ellipsis; white-space: nowrap; color: #666; overflow: hidden;}
 .pro_li .pro_tit_text .date {margin-bottom: 0; width: 288px;}
 .pro_li .pro_price {float: left; padding-top: 40px; width: 137px; height: 120px;}
 .pro_li .pro_price .price-box {height: 37px; font: 24px/20px 'arial'; color: #f60; font-weight: bold; text-align: center;}
@@ -304,7 +322,7 @@
 .theme-mod a {display: block; width: 273px; height: 298px;}
 .note-mod {height: 180px;}
 .note-mod ul {padding-left: 22px; height: 139px;}
-.note-mod i {display: inline-block; position: relative; top: -2px; width: 3px; height: 3px; background: #666; margin-right: 10px;}
+.note-mod i {display: inline-block; position: relative; top: -9px; width: 3px; height: 3px; background: #666; margin-right: 10px;}
 .note-mod a {display: inline-block; width: 230px; height: 20px; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .note-mod a:hover,.browsed-mod .record .record-tit a:hover {color: #f70;}
 .browsed-mod {height: 620px; overflow: hidden;}
@@ -338,13 +356,20 @@
 .info-r {width: 476px; border-right: 4px solid #e1e1e1; border-bottom: 4px solid #e1e1e1;}
 .info-r .price-info {padding: 15px 0 0 58px; height: 45px; background: #8ab923;}
 .info-r .price-info span {float: left; font: 16px/34px 'Microsoft Yahei'; color: #fff;}
-.info-r .price-info .cost p {font: 30px/25px 'Microsoft Yahei'; color: #fff799;}
-.info-r .price-info .cost p span{font-size: 14px; color: #fff799;}
+.info-r .price-info .cost p {font: 25px/25px 'Microsoft Yahei'; color: #fff799;}
+.info-r .price-info .cost p span{font-size: 26px; color: #fff799;}
 .info-r .price-info .cost p i {position: relative; left: -7px; top: -2px; font-size: 12px;}
+.info-r .price-info .payment_box li {display: inline-block; width: 66px; text-align: center; background: #b4df5c;}
+.info-r .price-info .payment_box .actua {background: #c6ec78;}
 .info-r .price-info .sp {position: relative; padding-left: 21px; line-height: 34px; text-decoration: underline; color: #fff; cursor: pointer;}
+.info-r .price-info .ss {position: relative; padding-left: 21px; line-height: 34px; text-decoration: underline; color: #fff; cursor: pointer;
+    top: 0px;
+    left: 127px;
+    width: 109px;
+}
 .info-r .price-info .sp .show {display: none; position: absolute; left: -153px; top: 34px; z-index: 30; padding: 8px; width: 288px; line-height: 18px; background: #fff; border: 1px solid #ccc; color: #666; cursor: auto; box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);}
 .info-r .price-info .sp .show b {display: block; position: absolute; top: -11px; right: 99px; background-position: 0 -164px; width: 16px; height: 12px;}
-.info-r .line-info {margin-bottom: 15px; padding: 24px 0 0 59px;}
+.info-r .line-info {position: relative; margin-bottom: 15px; padding: 24px 0 0 59px;}
 .info-r .line-info dl {height: 43px; font: 14px/13px 'Microsoft Yahei';}
 .info-r .line-info dl .list-name {color: #999;}
 .info-r .line-info dl em {color: #666;}
@@ -359,6 +384,8 @@
 .info-r .line-info .btn-box {position: relative; height: 85px;}
 .info-r .line-info .btn-box a.btn {float: left; padding-right: 14px; width: 182px; height: 60px; background-position: -200px 0;}
 .info-r .line-info .btn-box a.btn:hover {background-position: -200px -77px;}
+.info-r .line-info .btn-box a.act-ready {background: url('../image/detail/activity_nobegin.png') no-repeat;}
+.info-r .line-info .btn-box a.act-off {background: url('../image/detail/sale_off.png') no-repeat;}
 .info-r .line-info .btn-box .collect {display: inline; box-shadow: 0 0 2px #bbb; position: relative; float: left; margin: 35px 8px 0 0; width: 70px; height: 22px; border: 1px solid #ccc; z-index: 10;}
 .info-r .line-info .btn-box .collect:hover {border-color: #bbb;}
 .info-r .line-info .btn-box .collect b {position: absolute; left: 11px; top: 5px; width: 14px; height: 13px; background-position: 0 -94px;}
@@ -377,18 +404,18 @@
 .info-r .recommend-box h4 {position: relative; padding-left: 48px; height: 35px; font: 18px 'Microsoft Yahei';}
 .info-r .recommend-box h4 b {position: absolute; left: 2px; background-position: 0 -63px; float: left; width: 30px; height: 26px;}
 .info-r .recommend-box li {margin-bottom: 10px; width: 404px; color: #666; word-wrap:break-word; word-break:break-all;}
-.info-r .hotline {margin-bottom: 11px; height: 30px; background: url('../image/detail/phone.png') 232px 0 no-repeat;}
+.info-r .hotline {float: right; padding-right: 22px; font: bold 18px/30px 'Microsoft Yahei'; color: #FF6A6A;}
 /* 详情页-banner */
 #tFocus-btn li.active,#tFocus-leftbtn,#tFocus-rightbtn{display:block;background:url(../image/detail/spr.png) no-repeat;}
 #tFocus{width: 500px; height: 350px; background:#DDD; overflow:hidden;}
 #tFocus-pic{width: 500px; height: 280px; position: relative;}
 #tFocus-pic li{width: 500px; height: 280px; position: absolute; left: 0; top: 0; filter: alpha(opacity:0); opacity: 0;}
-#tFocus-pic li img {width: 500px; height: 280px; overflow: hidden;}
+#tFocus-pic li img {width: 100%; height: 280px; overflow: hidden;}
 #tFocusBtn{width: 495px; height: 65px; padding-left: 5px; padding-top: 5px; z-index: 20; overflow: hidden;}
 #tFocus-btn{width: 410px; height: 68px; position: relative; left: 0; bottom: 3px; overflow: hidden; float: left; margin-right: 5px;}
 #tFocus-btn ul{width: 100000px; position: absolute; left: 0; top: 0;}
 #tFocus-btn li{height: 50px; width: 90px; padding-top: 7px; display: block; float: left; margin-right: 17px;}
-#tFocus-btn li img{width: 90px; height: 50px; border: 2px solid #dddddd; cursor: pointer;}
+#tFocus-btn li img{width: 100%; height: 50px; border: 2px solid #dddddd; cursor: pointer;}
 #tFocus-btn li.active{background-position: -448px -100px;}
 #tFocus-btn li.active img{border: 2px solid #40b9e5}
 #tFocus-leftbtn,#tFocus-rightbtn{height: 40px; margin-top: 22px; margin-left: 5px; width: 15px; float: left; text-indent: -9999px;}
@@ -404,7 +431,7 @@
 .buy-content .t2 .dynamic,.buy-content .t2 p a {padding-left: 10px; font: 14px/30px 'Microsoft Yahei';}
 .buy-content .t2 p a {display: block;}
 .buy-content .t2 p a:hover {background: #7daf0f; color: #fff;}
-.buy-content .t2 b,.buy-content .t4 b,.select-num .choose b,.visa-select .t4 b {position: absolute; z-index: 20; background-position: -11px -257px; top: 12px; right: 7px; width: 11px; height: 6px;/*background-position: 0 -257px; top: 11px; right: 7px; width: 8px; height: 8px;*/}
+.buy-content .t2 b,.buy-content .t4 b,.select-num .choose b,.visa-select .t4 b,.choose-data-box .t2 b {position: absolute; z-index: 20; background-position: -11px -257px; top: 12px; right: 7px; width: 11px; height: 6px;/*background-position: 0 -257px; top: 11px; right: 7px; width: 8px; height: 8px;*/}
 .buy-content .t3 {width: 56px;}
 .buy-content .t4,.select-num .choose,.visa-select .t4 {position: relative; padding-left: 7px; width: 37px; height: 28px; line-height: 30px; border: 1px solid #ccc; font-size: 16px; cursor: pointer;}
 .buy-content .t4 p,.visa-select .t4 p,.choose .show-num {display: none; position: absolute; left: -1px; top: 28px; z-index: 50; padding: 3px 0; width: 44px; border: 1px solid #ccc; background: #fff;}
@@ -727,6 +754,38 @@
 .pic-content .shore dl dd span:hover{ color:#5e74a6;}
 .pic-content .shore dl dd em{ color:#ff6600;}
 .pic-content .shore p{color:#666666; line-height:20px;}
+/*选择行程打印日期*/
+.choose-data-box {display: none; position: absolute; left: 50%; z-index: 10000; margin-left: -261px; margin-top: -39px; border: 5px solid #ddd; padding: 25px 20px; background: #fff;}
+.choose-data-box dl {position: relative;}
+.choose-data-box .t1 {font:16px/30px 'Microsoft Yahei'; float:left;}
+.choose-data-box .t2 {position: relative; float:left; margin-left: 8px; width: 282px; height: 30px; border: 1px solid #ccc; cursor: pointer;}
+.choose-data-box .t2 b {z-index: 50;}
+.choose-data-box .t2 p {display: none; position: absolute; top: -1px; left: -1px; z-index: 49; border: 1px solid #ccc; background: #fff; width: 282px; z-index: 20;}
+.choose-data-box .t2 p a,.choose-data-box .t2 span {display: block; padding-left: 16px; font: 14px/30px 'Microsoft Yahei'; color: #333;}
+.choose-data-box .t2 p a:hover {color: #fff; background: #7DAF0F;}
+.choose-data-box .sure {display: block; float: left; margin: 0 20px 0 20px; padding: 3px 20px; width: 36px; height: 26px; text-align: center; background: #f90; color: #fff; font: 16px/26px 'Microsoft Yahei';}
+.choose-data-box .off-data {width:20px; height:20px; position: absolute; right: -22px; top: -18px; font-weight: bold; cursor: pointer;}
+.op_mask{background: rgba(0,0,0, .5); position: absolute; left: 0; top: 0; z-index: 9999; width: 100%; height: 100%;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -24,7 +24,7 @@ namespace TravelOnline.WeChat
     {
         public static string TempOrder(string lineid, string planid, string begindate, string adults, string childs)
         {
-            Guid ucode = CombineKeys.NewComb(); 
+            Guid ucode = CombineKeys.NewComb();
             PlanSeats GetPlan = new PlanSeats();
             int allnums = Convert.ToInt32(adults) + Convert.ToInt32(childs);
 
@@ -173,7 +173,7 @@ namespace TravelOnline.WeChat
             int OrderNums, Adults, Childs;
             string Lineid, Planid, BeginDate;
             string PriceId = "0";
-
+            decimal groupDiscount = 0;
             SqlQueryText = string.Format("select * from OL_TempOrder where OrderFlag='0' and OrderId='{0}'", orderid);
             DataSet DS = new DataSet();
             DS.Clear();
@@ -186,6 +186,9 @@ namespace TravelOnline.WeChat
                 OrderNums = MyConvert.ConToInt(DS.Tables[0].Rows[0]["OrderNums"].ToString());
                 Adults = MyConvert.ConToInt(DS.Tables[0].Rows[0]["Adults"].ToString());
                 Childs = MyConvert.ConToInt(DS.Tables[0].Rows[0]["Childs"].ToString());
+
+                //取拼团信息
+                //groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}'", DS.Tables[0].Rows[0]["LineId"].ToString())));
 
                 string DefaultOption = string.Format("value=0 max={0} min=0", OrderNums);
                 string DefaultChildOption = string.Format("value=0 max={0} min=0", Childs);
@@ -254,13 +257,13 @@ namespace TravelOnline.WeChat
                             Strings.Append(string.Format("<div class=\"row sellprice\" id=\"S{0}\">", GetPlan.PlanStaPrice[i].PriceId));
 
                             Strings.Append("<div class=\"col-xs-7\">");
-                            Strings.Append(string.Format("<div><span class=\"pricename\">{0}</span><span class=\"sprice\"><i class=\"fa fa-cny\"></i> {1}</span></div>", GetPlan.PlanStaPrice[i].PriceType, GetPlan.PlanStaPrice[i].Price));
+                            Strings.Append(string.Format("<div><span class=\"pricename\">{0}</span><span class=\"sprice\"><i class=\"fa fa-cny\"></i> {1}</span></div>", GetPlan.PlanStaPrice[i].PriceType, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price) - groupDiscount));
                             Strings.Append(string.Format("<div class=\"pricememo\">{0}</div>", GetPlan.PlanStaPrice[i].PriceName));
                             Strings.Append("</div>");
 
                             Strings.Append("<div class=\"col-xs-5\">");
                             Strings.Append("<div style=\"width:100px\">");
-                            Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control touch\" readonly ", GetPlan.PlanStaPrice[i].PriceId, GetPlan.PlanStaPrice[i].Price));
+                            Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control touch\" readonly ", GetPlan.PlanStaPrice[i].PriceId, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price) - groupDiscount));
                             if (!lstPriceType.Contains("儿童价"))
                             {
                                 if (!lstPriceType.Contains("儿童价") && i > 0)
@@ -458,7 +461,7 @@ namespace TravelOnline.WeChat
                     //Strings.Append(string.Format("<input id=\"integral\" onblur=\"Validate()\" style=\"border-style:none;\" type=\"text\" placeholder=\"输入积分({0}积分=1元)\" />", ConfigurationManager.AppSettings["Integral_ratio"]));
                     Strings.Append(string.Format("<span class=\"pricename\"><input id=\"integral\" onblur=\"Validate()\" style=\"border-style:none; width:150px;\" type=\"text\" placeholder=\"可用积分{0}\" /></span>", Integral));
                     Strings.Append("</div>");
-                    Strings.Append("</div>"); 
+                    Strings.Append("</div>");
                     Strings.Append("</div></div>");
                 }
 
@@ -516,7 +519,7 @@ namespace TravelOnline.WeChat
                 dt.Rows[0]["Adults"] = Adults;
                 dt.Rows[0]["Childs"] = Childs;
                 dt.Rows[0]["data"] = string.Format("{0:yyyy-MM-dd}", dt.Rows[0]["BeginDate"]);
-                
+
                 string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
                 TravelOnlineService rsp = new TravelOnlineService();
                 rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
@@ -584,6 +587,7 @@ namespace TravelOnline.WeChat
                 StringBuilder Strings = new StringBuilder();
                 int wwwyh = MyConvert.ConToInt(DS.Tables[0].Rows[0]["wwwyh"].ToString());
                 int preferAmount = 0;
+                decimal groupDiscount = 0;
 
                 SqlQueryText = string.Format("select preferAmount from OL_Preferential where Lineid='{0}' and startDate<='{1}' and endDate>='{1}' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())", DS.Tables[0].Rows[0]["LineId"].ToString(), Convert.ToDateTime(DS.Tables[0].Rows[0]["BeginDate"].ToString()));
                 DataSet DS1 = new DataSet();
@@ -593,6 +597,7 @@ namespace TravelOnline.WeChat
                 {
                     preferAmount = MyConvert.ConToInt(DS1.Tables[0].Rows[0]["preferAmount"].ToString());
                 }
+                groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}'", DS.Tables[0].Rows[0]["LineId"].ToString())));
                 //string User_Name = "", User_Mobile = "", User_Tel = "", User_Email = "";
                 //if (Convert.ToString(HttpContext.Current.Session["Online_UserId"]) != "")
                 //{
@@ -622,6 +627,8 @@ namespace TravelOnline.WeChat
                 Strings.Append(string.Format("<input maxlength=\"100\" id=\"ordermemo\" type=\"text\" name=\"ordermemo\" class=\"form-control ordertext\" placeholder=\"订单特别说明\">", ""));
                 Strings.Append(string.Format("<input id=\"Preference\" type=\"hidden\" value=\"{0}\">", wwwyh));
                 Strings.Append(string.Format("<input id=\"preferAmount\" type=\"hidden\" value=\"{0}\">", preferAmount));
+                Strings.Append(string.Format("<input id=\"groupDiscount\" type=\"hidden\" value=\"{0}\">", groupDiscount));
+
                 Strings.Append("</form>");
                 Strings.Append("</div></div>");
                 //联系人 end
@@ -637,6 +644,7 @@ namespace TravelOnline.WeChat
                 Strings.Append("<div id=\"Pre1\">");
                 if (wwwyh > 0) Strings.Append(string.Format("<div class=\"pre\">在线支付每人立减 {0} 元</div>", wwwyh));
                 if (preferAmount > 0) Strings.Append(string.Format("<div class=\"pre\">早定早优惠每人立减 {0} 元</div>", preferAmount));
+                if (groupDiscount > 0) Strings.Append(string.Format("<div class=\"pre\">拼团优惠每人立减 {0} 元</div>", groupDiscount));
                 Strings.Append("<div>请于订单确认后24小时之内，通过网上支付方式付清全部费用！</div>");
                 Strings.Append("</div>");
 
@@ -659,7 +667,7 @@ namespace TravelOnline.WeChat
                     Strings.Append("<a class=\"yd cur\" href=\"javascript:;\" id=\"loginnow\"><i class=\"fa fa-user\"></i> 注册或登录</a>");
                 }
                 Strings.Append("</div>");
-                
+
                 Strings.Append("<div class=\"col-xs-4\" style=\"text-align:center\"><a class=\"yd cur\" href=\"javascript:;\" id=\"submitorder\"><i class=\"fa fa-chevron-circle-right\"></i> 下一步</a></div>");
                 Strings.Append("</div></div></div>");
 
@@ -671,7 +679,7 @@ namespace TravelOnline.WeChat
             {
                 return "<div class=\"sub_view info\" id=\"second_view\">订单不存在，不能继续预订！</div>";
             }
-            
+
         }
 
         #region OrderSecondStep_New
@@ -749,7 +757,7 @@ namespace TravelOnline.WeChat
 
                 if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "1") Strings.Append(string.Format("请您在<span class=\"orderid\">预订后{0}小时</span>以内付款（紧急情况或特殊情况除外）。<br/>", AdjustTime));
                 if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "0") Strings.Append(string.Format("请您在<span class=\"orderid\">订单确认以后{0}小时</span>以内付款（紧急情况或特殊情况除外）。<br/>", AdjustTime));
-                
+
                 Strings.Append("如果因特殊原因无法成行，我们也会及时通知您。");
                 Strings.Append("</div>");
                 Strings.Append("</div></div>");
@@ -784,9 +792,9 @@ namespace TravelOnline.WeChat
                 //Strings.Append("<li>传真：021-64742928(出境)&nbsp;&nbsp;021-64670982(国内)</li>");
                 Strings.Append("<li>上海中国青年旅行社有限公司</li>");
                 Strings.Append("<li>联系地址：上海市徐汇区衡山路2号（200031）</li>");
-                Strings.Append("<li>如对以上预订有任何疑问，请速给我们来电！谢谢您的预订！</li>");   
+                Strings.Append("<li>如对以上预订有任何疑问，请速给我们来电！谢谢您的预订！</li>");
                 Strings.Append("</ul>");
-                
+
                 Strings.Append("</div></div>");
                 //联系方式 end
 
@@ -924,7 +932,7 @@ namespace TravelOnline.WeChat
                     }
                     string sql = string.Format("select top 1 couponAmount from OL_Order where OrderId='{0}'", orderid);
                     DataTable dt = MyDataBaseComm.getDataSet(sql).Tables[0];
-                    if (dt.Rows.Count>0)
+                    if (dt.Rows.Count > 0)
                     {
                         string couponAmount = dt.Rows[0]["couponAmount"].ToString();
                         if (!string.IsNullOrEmpty(couponAmount) && Convert.ToDecimal(couponAmount) > 0)
@@ -1103,13 +1111,13 @@ namespace TravelOnline.WeChat
             {
                 liststring.Append(ListResult);
             }
-            
+
 
             Strings.Clear();
             Strings.Append("({");
             Strings.Append(string.Format("\"success\":0,\"pages\":{0},\"pagecount\":{1},\"content\":\"{2}\"", pages + 1, PageCount, liststring.ToString()));
             Strings.Append("})");
-            return Strings.ToString(); 
+            return Strings.ToString();
             //return "<div class=\"sub_view info\" id=\"orderlist_view\">功能开发中</div>";
         }
 
@@ -1404,8 +1412,8 @@ namespace TravelOnline.WeChat
                             break;
                         default:
                             break;
-                    }    
-                    
+                    }
+
                     Strings.Append("<div class=\\\"recommend_detail\\\">");
                     Strings.Append("<div class=\\\"recommend_txt\\\">");
                     Strings.Append(string.Format("<h3>{1}：{0}</h3>", DS.Tables[0].Rows[i]["uno"].ToString(), Pics));
@@ -1429,7 +1437,7 @@ namespace TravelOnline.WeChat
                 List<string> Sql = new List<string>();
                 Sql.Add(string.Format("delete from OL_OrderPrice where OrderId='{0}'", orderid));
                 Sql.Add(string.Format("UPDATE OL_TempOrder set Price='{0}',PayType='{1}',BranchId='{2}',rebate='{3}' where OrderId='{4}'", MyConvert.ConToDec(allprice), "1", "0", "0", orderid));
-            
+
 
                 string[] AllInfo = Regex.Split(PriceStrings.Trim(), @"\|\|", RegexOptions.IgnoreCase);
                 string PriceSql;
@@ -1481,7 +1489,7 @@ namespace TravelOnline.WeChat
             }
         }
 
-        public static string OrderSubmit(string orderid, string paytype, string integral, string oname,string ophone,string oemail,string omemo)
+        public static string OrderSubmit(string orderid, string paytype, string integral, string oname, string ophone, string oemail, string omemo)
         {
             string SqlQueryText = string.Format("select *,(select wwwyh from OL_Line where MisLineId=OL_TempOrder.lineid) as wwwyh from OL_TempOrder where OrderFlag='0' and OrderId='{0}'", orderid);
             DataSet DS = new DataSet();
@@ -1514,6 +1522,8 @@ namespace TravelOnline.WeChat
                 int SumPre_Price = 0;
                 int preferAmount = 0;
                 int SumPreferAmount = 0;
+                decimal groupDiscount = 0;
+                decimal SumGroupdiscount = 0;
 
                 SqlQueryText = string.Format("select preferAmount from OL_Preferential where Lineid='{0}' and startDate<='{1}' and endDate>='{1}' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())", DS.Tables[0].Rows[0]["LineId"].ToString(), Convert.ToDateTime(DS.Tables[0].Rows[0]["BeginDate"].ToString()));
                 SaveErrorToLog("OL_Preferential sql:", SqlQueryText);
@@ -1525,6 +1535,8 @@ namespace TravelOnline.WeChat
                     preferAmount = MyConvert.ConToInt(DS1.Tables[0].Rows[0]["preferAmount"].ToString());
                     SaveErrorToLog("OL_Preferential amount:", preferAmount.ToString());
                 }
+
+                groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}'", DS.Tables[0].Rows[0]["LineId"].ToString())));
 
                 string PayType, BranchId, Pre_Price;
                 PayType = "2";
@@ -1542,6 +1554,7 @@ namespace TravelOnline.WeChat
                     Pre_Price = PayInfo[1];
                     SumPre_Price = Nums * wwwyh;
                     SumPreferAmount = Nums * preferAmount;
+                    SumGroupdiscount = Nums * groupDiscount;
                 }
 
                 string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
@@ -1577,7 +1590,7 @@ namespace TravelOnline.WeChat
                 Sorder.CruisesFlag = "0";
                 Sorder.ccid = "0";
                 Decimal gathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
-                
+
                 if (SumPre_Price > 0)
                 {
                     Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
@@ -1611,13 +1624,30 @@ namespace TravelOnline.WeChat
 
                     gathering = gathering - MyConvert.ConToDec(SumPreferAmount.ToString());
                 }
+
+                if (SumGroupdiscount > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "拼团优惠",
+                            "每人立减" + groupDiscount + "元",
+                            groupDiscount,
+                            Nums,
+                            -SumGroupdiscount,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumGroupdiscount.ToString());
+                }
                 Sorder.gathering = Convert.ToString(gathering);
 
                 string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
                 try
                 {
-                    //OrderFlag = "1";
-                    OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                    OrderFlag = "1";
+                    //OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
                 }
                 catch
                 {
@@ -1669,7 +1699,9 @@ namespace TravelOnline.WeChat
                     }
                     Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您在微信提交了预订单"));
                     Sql.Add(string.Format("delete from OL_TempOrder where OrderId='{0}'", orderid));
-                    Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}' where OrderId='{0}'",
+                    if (SumGroupdiscount > 0)
+                    {
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
                         orderid,
                         SumPre_Price + SumPreferAmount,
                         PayType,
@@ -1682,8 +1714,27 @@ namespace TravelOnline.WeChat
                         User_Id,
                         DateTime.Now.ToString(),
                         OrderFlag
-                    ));
-                    
+                        ));
+                    }
+                    else
+                    {
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}' where OrderId='{0}'",
+                        orderid,
+                        SumPre_Price + SumPreferAmount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag
+                        ));
+                    }
+
+
                 }
 
                 #region 积分抵扣
@@ -1734,7 +1785,7 @@ namespace TravelOnline.WeChat
                     }
                     catch (Exception ex)
                     {
-                        SaveErrorToLog("订单：" + AutoId + "初始化点评失败！失败原因：" , ex.Message);
+                        SaveErrorToLog("订单：" + AutoId + "初始化点评失败！失败原因：", ex.Message);
                     }
                     if (OrderFlag == "9")
                     {
@@ -1822,7 +1873,7 @@ namespace TravelOnline.WeChat
             Strings.Append("({");
             Strings.Append(string.Format("\"success\":0,\"pages\":{0},\"pagecount\":{1},\"content\":\"{2}\"", pages + 1, PageCount, liststring.ToString()));
             Strings.Append("})");
-            return Strings.ToString(); 
+            return Strings.ToString();
         }
 
         #region FxOrderList_New

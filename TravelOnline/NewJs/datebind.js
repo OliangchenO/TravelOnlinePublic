@@ -6,6 +6,21 @@
             s = $.extend({}, $.fn.params, s);
             Date.dayNames = ['日', '一', '二', '三', '四', '五', '六'];
             Date.firstDayOfWeek = 0;
+            var newtemp = eval(json);
+            
+            var today = new Date();
+            //for (var n = 0; n < newtemp.length; n++) {
+            //    alert(JSON.stringify(newtemp));
+            //    var arr = newtemp[n].date.split("-");
+            //    var aDate = new Date(arr[0], arr[1] - 1, arr[2]);
+            //    if (aDate > today) {
+            //        if (newtemp[n].content != "已满" && newtemp[n].content != "报名截止") {
+            //            defaultStartDate = newtemp[n].date;
+            //            break;
+            //        }
+            //    }
+            //}
+
             var eventsDict = {};
             var arr = defaultStartDate.split("-");
             var endarr = defaultEndDate.split("-");
@@ -15,19 +30,22 @@
             if (defaultDate < today) {
                 defaultDate = new Date();
             }
-
             var month = s.month >= 0 ? s.month : defaultDate.getMonth();
             var year = s.year ? s.year : defaultDate.getFullYear();
             var day = s.day ? s.day : defaultDate.getDate();
             var lastday = 1;
-            var currentDate = new Date(year, month, day);
+            if (day == 31) {
+                var currentDate = new Date(year, month, day - 1);
+            } else {
+                var currentDate = new Date(year, month, day);
+            }
             if (s.events != null) {
 
                 for (var i = 0; i < s.events.length; i++) {
                     eventsDict[s.events[i].date] = { "planid": s.events[i].planid, "date": s.events[i].date, "price": s.events[i].price, "content": s.events[i].content, "route": s.events[i].route };
                 }
             }
-
+            
             var myranderCallback = function ($td, thisDate, month, year) {
                 if (thisDate.getMonth() != month) {
                     $td.html("&nbsp;");
@@ -52,7 +70,7 @@
 //                                else {
 //                                    hrefString += "<br><div class=pa><a onclick='showroute()' target=_blank href='/Purchase/ShowRoute.aspx?id=" + planDay.planid + "'></a></div>";
 //                                }
-//                            }
+                            //                            }
                             $td.attr({ "tag": planDay.planid });
                             $td.attr({ "date": thisDate.asString("yyyy-mm-dd") });
                             $td.attr({ "price": planDay.price });
@@ -67,11 +85,14 @@
                     $td.addClass(s.outClass);
                 }
             }
-
             $(currentCalenderPanel).empty();
-
             for (var i = 0; i < s.showNum; i++) {
-                var currentTitleDate = new Date(year, month, day).addMonths(i);
+                if (day == 31) {
+                    var currentTitleDate = new Date(year, month, day-1).addMonths(i);
+                } else {
+                    var currentTitleDate = new Date(year, month, day).addMonths(i);
+                }
+                
                 var lastTitleDate = new Date(year, month, lastday).addMonths(i+1);
                 //var currentTitleDate = new Date(year, month, day);
 
@@ -92,8 +113,7 @@
                 }
 
                 $(currentMonthTitle).append("<td class='monthTitle'>" + currentTitleDate.asString("yyyy年mm月") + "</td>");
-
-                if (lastTitleDate < PlanEndDate) {
+                if (lastTitleDate.getTime() <= PlanEndDate.getTime()) {
                     if (s.showNextMonthButton && i == s.showNum - 1 && !s.showNextMonthPanel) {
                         $(currentMonthTitle).append("<td id='nextMonth' class='nextMonth'><a href='javascript:void(0);' title='下一个月'><img src=\"../image/detail/mbi_005.png\"></a></td>");
                     }
@@ -106,6 +126,7 @@
                 //alert(currentTitleDate.asString("yyyy-mm-dd") + " / " + lastTitleDate.asString("yyyy-mm-dd") + " / " + PlanEndDate.asString("yyyy-mm-dd"))
 
                 $(currentPanel).append("<div id='showCalendarPanel" + i + "' class='showCalendarPanel' ></div>");
+                
                 $("#showCalendarPanel" + i).renderCalendar({ month: currentTitleDate.getMonth(), year: currentTitleDate.getFullYear(), renderCallback: myranderCallback });
             }
 
@@ -159,12 +180,11 @@ function PlanDropDownListBind() {
     var newtemp_ = ""; //"<option value=\"\">请选择出发日期</option>";
     var its = 0;
     var today = new Date();
-
     for (var n = 0; n < newtemp.length; n++) {
         var arr = newtemp[n].date.split("-");
         var defaultDate = new Date(arr[0], arr[1] - 1, arr[2]);
         if (defaultDate > today) {
-            if (newtemp[n].content != "已满") {
+            if (newtemp[n].content != "已满" && newtemp[n].content != "报名截止") {
                 newtemp_ += "<a tag=" + newtemp[n].planid + " date=" + newtemp[n].date + ">" + newtemp[n].date + "&nbsp;&nbsp;&nbsp;" + GetWeek(newtemp[n].date) + "&nbsp;&nbsp;&nbsp;¥" + newtemp[n].price + "元起</a>"
                 if (its == 0) {
                     $(".dynamic,#get-toggle").html(newtemp[n].date + "&nbsp;&nbsp;&nbsp;" + GetWeek(newtemp[n].date) + "&nbsp;&nbsp;&nbsp;¥" + newtemp[n].price + "元起");
@@ -175,9 +195,11 @@ function PlanDropDownListBind() {
                 }
             }
         }
-
     }
     $("#select_plandate,#inData").html(newtemp_);
+    if (newtemp_ == "") {
+        $("#TB_Sale").val(1);
+    }
 }
 
 function GetWeek(date) {
@@ -395,7 +417,7 @@ function delimiterConvert(val) {
                     };
                     break;
                 case "iframe":
-                    $("<iframe src='" + s.source + "' marginwidth='0' marginheight='0' frameborder='0' scrolling='no' style='width:540px;height:460px;border:0;'></iframe>").appendTo($(".thickcon"));
+                    $("<iframe src='" + s.source + "' marginwidth='0' marginheight='0' frameborder='0' scrolling='no' style='width:860px;height:460px;border:0;'></iframe>").appendTo($(".thickcon"));
                     $(".thickcon").removeClass(s._loading);
                     if (callback) {
                         callback()

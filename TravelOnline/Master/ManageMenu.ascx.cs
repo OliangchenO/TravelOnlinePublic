@@ -64,6 +64,7 @@ namespace TravelOnline.Master
                 if (Rights.IndexOf("@5@6") > 0) Strings.Append("<DIV class=item><A href=\"/Management/Recommend.aspx\">线路推荐</A></DIV>");
                 if (Rights.IndexOf("@5@7") > 0) Strings.Append("<DIV class=item><A href=\"/Management/SpecialTopic.aspx\">线路专题</A></DIV>");
                 if (Rights.IndexOf("@5@8") > 0) Strings.Append("<DIV class=item><A href=\"/Management/ManagePrefer.aspx\">线路优惠</A></DIV>");
+                if (Rights.IndexOf("@5@13") > 0) Strings.Append("<DIV class=item><A href=\"/Management/ManageGroup.aspx\">线路拼团</A></DIV>");
                 if (Rights.IndexOf("@5@11") > 0) Strings.Append("<DIV class=item><A href=\"/Management/ManageTradingArea.aspx\">商圈管理</A></DIV>");
                 if (Rights.IndexOf("@5@12") > 0) Strings.Append("<DIV class=item><A href=\"/Management/ManageComment.aspx\">点评管理</A></DIV>");
                 Strings.Append("<DIV class=item><A href=\"/Management/FavoriteLine.aspx\">线路收藏</A></DIV>");

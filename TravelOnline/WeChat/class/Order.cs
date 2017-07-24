@@ -257,13 +257,13 @@ namespace TravelOnline.WeChat
                             Strings.Append(string.Format("<div class=\"row sellprice\" id=\"S{0}\">", GetPlan.PlanStaPrice[i].PriceId));
 
                             Strings.Append("<div class=\"col-xs-7\">");
-                            Strings.Append(string.Format("<div><span class=\"pricename\">{0}</span><span class=\"sprice\"><i class=\"fa fa-cny\"></i> {1}</span></div>", GetPlan.PlanStaPrice[i].PriceType, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price) - groupDiscount));
+                            Strings.Append(string.Format("<div><span class=\"pricename\">{0}</span><span class=\"sprice\"><i class=\"fa fa-cny\"></i> {1}</span></div>", GetPlan.PlanStaPrice[i].PriceType, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price)- groupDiscount));
                             Strings.Append(string.Format("<div class=\"pricememo\">{0}</div>", GetPlan.PlanStaPrice[i].PriceName));
                             Strings.Append("</div>");
 
                             Strings.Append("<div class=\"col-xs-5\">");
                             Strings.Append("<div style=\"width:100px\">");
-                            Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control touch\" readonly ", GetPlan.PlanStaPrice[i].PriceId, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price) - groupDiscount));
+                            Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control touch\" readonly ", GetPlan.PlanStaPrice[i].PriceId, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price)-groupDiscount));
                             if (!lstPriceType.Contains("儿童价"))
                             {
                                 if (!lstPriceType.Contains("儿童价") && i > 0)
@@ -628,7 +628,7 @@ namespace TravelOnline.WeChat
                 Strings.Append(string.Format("<input id=\"Preference\" type=\"hidden\" value=\"{0}\">", wwwyh));
                 Strings.Append(string.Format("<input id=\"preferAmount\" type=\"hidden\" value=\"{0}\">", preferAmount));
                 Strings.Append(string.Format("<input id=\"groupDiscount\" type=\"hidden\" value=\"{0}\">", groupDiscount));
-
+                
                 Strings.Append("</form>");
                 Strings.Append("</div></div>");
                 //联系人 end
@@ -644,7 +644,7 @@ namespace TravelOnline.WeChat
                 Strings.Append("<div id=\"Pre1\">");
                 if (wwwyh > 0) Strings.Append(string.Format("<div class=\"pre\">在线支付每人立减 {0} 元</div>", wwwyh));
                 if (preferAmount > 0) Strings.Append(string.Format("<div class=\"pre\">早定早优惠每人立减 {0} 元</div>", preferAmount));
-                if (groupDiscount > 0) Strings.Append(string.Format("<div class=\"pre\">拼团优惠每人立减 {0} 元</div>", groupDiscount));
+                if (groupDiscount>0) Strings.Append(string.Format("<div class=\"pre\">拼团优惠每人立减 {0} 元</div>", groupDiscount));
                 Strings.Append("<div>请于订单确认后24小时之内，通过网上支付方式付清全部费用！</div>");
                 Strings.Append("</div>");
 
@@ -1646,8 +1646,8 @@ namespace TravelOnline.WeChat
                 string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
                 try
                 {
-                    OrderFlag = "1";
-                    //OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                    //OrderFlag = "1";
+                    OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
                 }
                 catch
                 {
@@ -1703,7 +1703,7 @@ namespace TravelOnline.WeChat
                     {
                         Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
                         orderid,
-                        SumPre_Price + SumPreferAmount,
+                        SumPre_Price + SumPreferAmount + SumGroupdiscount,
                         PayType,
                         BranchId,
                         oname,
@@ -1733,7 +1733,7 @@ namespace TravelOnline.WeChat
                         OrderFlag
                         ));
                     }
-
+                    
 
                 }
 

@@ -83,16 +83,24 @@ namespace TravelOnline.WeChat
                         string orderNums = MyDataBaseComm.getScalar(string.Format("select SUM(OrderNums) from ol_order where LineID='{0}' and PayFlag=1 and GroupOrder=1", lineid));
                         string groupNums = DS1.Tables[0].Rows[0]["Num"].ToString();
                         tuanDiscount = DS1.Tables[0].Rows[0]["discount"].ToString();
-                        int leaveNum = (MyConvert.ConToInt(groupNums) - MyConvert.ConToInt(orderNums)) % MyConvert.ConToInt(groupNums);
-                        if (leaveNum > 0)
+                        int leaveNum = (MyConvert.ConToInt(groupNums) - MyConvert.ConToInt(orderNums))% MyConvert.ConToInt(groupNums);
+                        if (leaveNum >= 0)
                         {
-                            Strings.Append(string.Format("<div id='g-local-groups'><div class='local-groups-title'>{0}人已参团<div class='see-more-button' style='display:block;'>查看更多</div></div>", orderNums));
+                            Strings.Append(string.Format("<div id='g-local-groups'><div class='local-groups-title'>{0}人已参团</div>", MyConvert.ConToInt(orderNums)));
                             Strings.Append(string.Format("<div class='local-group-item'><img class='local-group-img' src='/Images/headImage.jpg'/><div class='local-group-detial'><div class='local-group-detial-row1'>"));
-                            string orderName = MyDataBaseComm.getScalar(string.Format("select top 1 OrderName from ol_order where LineID='{0}' and PayFlag=1 order by OrderTime desc", lineid));
-                            Strings.Append(string.Format("<span class='local-group-name'>{0} 等已参团</span></div><div class='local-group-detial-row2'><span class='local-group-timer'>还差{1}人</span></div></div>", orderName, leaveNum));
+                            if (MyConvert.ConToInt(orderNums)==0)
+                            {
+                                Strings.Append(string.Format("<span class='local-group-name'>还未有人开团，开来加入</span></div><div class='local-group-detial-row2'><span class='local-group-timer'>还差{0}人</span></div></div>", groupNums));
+                            }
+                            else
+                            {
+                                string orderName = MyDataBaseComm.getScalar(string.Format("select top 1 OrderName from ol_order where LineID='{0}' and PayFlag=1 order by OrderTime desc", lineid));
+                                Strings.Append(string.Format("<span class='local-group-name'>{0} 等已参团</span></div><div class='local-group-detial-row2'><span class='local-group-timer'>还差{1}人</span></div></div>", orderName, leaveNum));
+                            }
+                            
                             Strings.Append(string.Format("<div class='local-group-btn-border BeginOrder'>去参团</div></div></div>"));
                         }
-
+                        
                     }
 
                     if (null != HttpContext.Current.Session["Fx_UserId"])
@@ -505,11 +513,11 @@ namespace TravelOnline.WeChat
                     if (isPintuan == true)
                     {
                         AllStrings.Append("<div class='goods-bottom-bar'><div class='goods-home-button'><a href='/app/main'><span>首页</span></a></div>");
-                        AllStrings.Append("<div class='goods-unlike-button'><span>收藏</span></div>");
+                        AllStrings.Append("<div class='goods-unlike-button' id='share'><span>分享</span></div>");
                         AllStrings.Append("<div class='goods-chat-button'><a href='tel:4006777666'><span>咨询</span></a></div>");
                         decimal tuanPrice = (MyConvert.ConToDec(linePrice) - MyConvert.ConToDec(tuanDiscount));
                         AllStrings.Append(string.Format("<div class='goods-direct-btn'><span class='goods-buy-price'><i>￥</i>{0}</span><span>单独购买</span></div>", linePrice));
-                        AllStrings.Append(string.Format("<div class='goods-group-btn BeginOrder'><span class='goods-buy-price'><i>￥</i>{0}</span><span>一键开团</span></div></div>", tuanPrice));
+                        AllStrings.Append(string.Format("<div class='goods-group-btn BeginOrder'><span class='goods-buy-price'><i>￥</i>{0}</span><span>一键参团</span></div></div>", tuanPrice));
                     }
                     else
                     {
@@ -2206,7 +2214,7 @@ namespace TravelOnline.WeChat
                     Strings.Append(string.Format("<a tag=\\\"{0}\\\" lineid=\\\"{2}\\\" linename=\\\"{3}\\\"><img src=\\\"{1}\\\" class=\\\"img-responsive\\\" alt=\\\"{3}\\\"></a>", url, Pics, DS.Tables[0].Rows[i]["MisLineId"].ToString(), DS.Tables[0].Rows[i]["LineName"].ToString()));
                     Strings.Append("</div>");
                     Strings.Append(string.Format("<h3><a tag=\\\"{0}\\\" lineid=\\\"{1}\\\" linename=\\\"{2}\\\">{2}</a></h3>", url, DS.Tables[0].Rows[i]["MisLineId"].ToString(), DS.Tables[0].Rows[i]["LineName"].ToString()));
-                    Strings.Append(string.Format("<div class=\\\"pi-price\\\">&#165;{0}起</div>", DS.Tables[0].Rows[i]["Price"].ToString().Replace(".00", "")));
+                    ; Strings.Append(string.Format("<div class=\\\"pi-price\\\">&#165;{0}起</div>", DS.Tables[0].Rows[i]["Price"].ToString().Replace(".00", "")));
                     Strings.Append(string.Format("<a tag=\\\"{0}\\\" class=\\\"btn btn-default add2cart\\\" lineid=\\\"{1}\\\" linename=\\\"{2}\\\">去看看</a>", url, DS.Tables[0].Rows[i]["MisLineId"].ToString(), DS.Tables[0].Rows[i]["LineName"].ToString()));
                     if (Convert.ToString(DS.Tables[0].Rows[i]["preferAmount"]).Length > 0 || (Convert.ToString(DS.Tables[0].Rows[i]["wwwyh"]).Length > 0 && !Convert.ToString(DS.Tables[0].Rows[i]["wwwyh"]).Equals("0")) || Convert.ToString(ConfigurationManager.AppSettings["showBanklj"]).Equals("Y"))
                     {

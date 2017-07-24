@@ -179,6 +179,7 @@
     <Content Include="AD\2017Young\js\jquery.min.js" />
     <Content Include="AD\2017Young\js\koala.min.1.5.js" />
     <Content Include="AD\2017Young\js\terminator2.2.min.js" />
+    <Content Include="app_css\pintuan.css" />
     <Content Include="app_js\order.js" />
     <Content Include="Common\GetAutoDropList.aspx" />
     <Content Include="Common\JournalList.aspx" />
@@ -259,6 +260,7 @@
     <Content Include="GoToPage\GoToOnlinePay.aspx" />
     <Content Include="GoToPage\huifeng.aspx" />
     <Content Include="GoToPage\PingAn.aspx" />
+    <Content Include="Images\headImage.jpg" />
     <Content Include="Images\Icon\add.png" />
     <Content Include="Images\Icon\airport.png" />
     <Content Include="Images\Icon\ark.png" />
@@ -439,6 +441,7 @@
     <Content Include="Management\FriendLink.aspx" />
     <Content Include="Management\FriendLinkInfo.aspx" />
     <Content Include="Management\FxOrderList.aspx" />
+    <Content Include="Management\GroupInfoAdd.aspx" />
     <Content Include="Management\HelpInfo.aspx" />
     <Content Include="Management\InitData.aspx" />
     <Content Include="Management\InitDataInfo.aspx" />
@@ -452,6 +455,7 @@
     <Content Include="Management\LoginUsersYoung.aspx" />
     <Content Include="Management\ManageComment.aspx" />
     <Content Include="Management\ManageDept.aspx" />
+    <Content Include="Management\ManageGroup.aspx" />
     <Content Include="Management\ManageHome.aspx" />
     <Content Include="Management\ManageLine.aspx" />
     <Content Include="Management\ManagePrefer.aspx" />
@@ -1718,6 +1722,13 @@
     <Compile Include="Management\FxOrderList.aspx.designer.cs">
       <DependentUpon>FxOrderList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Management\GroupInfoAdd.aspx.cs">
+      <DependentUpon>GroupInfoAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Management\GroupInfoAdd.aspx.designer.cs">
+      <DependentUpon>GroupInfoAdd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Management\HelpInfo.aspx.cs">
       <DependentUpon>HelpInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1808,6 +1819,13 @@
     </Compile>
     <Compile Include="Management\ManageDept.aspx.designer.cs">
       <DependentUpon>ManageDept.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Management\ManageGroup.aspx.cs">
+      <DependentUpon>ManageGroup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Management\ManageGroup.aspx.designer.cs">
+      <DependentUpon>ManageGroup.aspx</DependentUpon>
     </Compile>
     <Compile Include="Management\ManageHome.aspx.cs">
       <DependentUpon>ManageHome.aspx</DependentUpon>

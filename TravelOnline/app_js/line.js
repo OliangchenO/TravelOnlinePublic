@@ -322,7 +322,7 @@ $('.scroller a').live("click", function () {
     LoadList();
 });
 
-$(".showdate,#BeginOrder").live("click", function () {
+$(".showdate,.BeginOrder").live("click", function () {
     $.cookie("lineflag", $('#s_lineflag').val(), { expires: 7, path: '/WeChat' });
     switch ($("#s_lineflag").val()) {
         case "2":
@@ -476,6 +476,10 @@ $('#SelectPlanDate').click(function () {
     scroll(0, 0);
 });
 
+$('#share').click(function () {
+    showmessage("run");
+    WeixinJSBridge.invoke("onMenuShareAppMessage", data, callback)
+})
 
 $('#ordernow').click(function () {
     window.event.cancelBubble = true;

@@ -300,3 +300,24 @@ select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as
 2017/7/3 10:39:55:
 将字符串转换为 uniqueidentifier 时失败。
 select top 1 *,(select deptname from DeptInfo where id=OL_FXLoginUser.deptid) as thdeptname,(select companyname from Company where id=OL_FXLoginUser.companyid) as companyname,(select RebateFlag from Company where id=OL_FXLoginUser.companyid) as RebateFlag from OL_FXLoginUser where Id='favicon.ico'
+2017/7/21 15:18:44:
+OL_Preferential sql:
+select preferAmount from OL_Preferential where Lineid='24237' and startDate<='2017/8/31 0:00:00' and endDate>='2017/8/31 0:00:00' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())
+2017/7/21 15:18:45:
+列名 'Autoid' 无效。
+select count(id) from OL_Comment where Autoid='137415'
+2017/7/21 15:21:49:
+OL_Preferential sql:
+select preferAmount from OL_Preferential where Lineid='24237' and startDate<='2017/8/31 0:00:00' and endDate>='2017/8/31 0:00:00' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())
+2017/7/21 15:21:49:
+列名 'Autoid' 无效。
+select count(id) from OL_Comment where Autoid='137416'
+2017/7/21 15:27:03:
+OL_Preferential sql:
+select preferAmount from OL_Preferential where Lineid='24237' and startDate<='2017/8/31 0:00:00' and endDate>='2017/8/31 0:00:00' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())
+2017/7/21 15:27:03:
+列名 'Autoid' 无效。
+select count(id) from OL_Comment where Autoid='137417'
+2017/7/24 12:54:35:
+path:
+D:\System\TravelOnlinePublic\TravelOnline\XML\Route\24237.xml

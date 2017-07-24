@@ -197,6 +197,8 @@ namespace TravelOnline.Class.Manage
             CheckBoxString.Append("商圈管理</DIV>");
             CheckBoxString.Append(IsChecked("@5@12,", RightCode));
             CheckBoxString.Append("点评管理</DIV>");
+            CheckBoxString.Append(IsChecked("@5@13,", RightCode));
+            CheckBoxString.Append("线路拼团</DIV>");
             CheckBoxString.Append("</DD></DL>");
 
             CheckBoxString.Append("<DL><DT>邮轮包船：</DT><DD>");

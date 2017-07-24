@@ -24,6 +24,7 @@
 <link href="/assets/plugins/iCheck/skins/square/grey.css" rel="stylesheet" type="text/css">
 <!-- Theme styles END -->
 <link href="/app_css/custom.css" rel="stylesheet">
+<link href="/app_css/pintuan.css" rel="stylesheet">
 <link rel="shortcut icon" href="~/favicon.ico">
 <!--百度统计3.0 账号:shbvip-scyts，更新日期2016/1/27-->
         <script>
@@ -226,20 +227,6 @@ var _hmt = _hmt || [];
 	    </div>
     </div>
     
-    <div class="clearfix"></div>
-    <div class="pre-footer order-footer"  style="position: fixed; bottom: -1px; left: 0px;width:101%">
-        <div class="container">
-            <div class="row">
-                <%if (null != Session["Fx_Mobile"])
-                {%>
-                <div class="col-xs-6" style="text-align:center"><a class="yd cur" href="tel:<%=Session["Fx_Mobile"]%>"><i class="fa fa-phone-square"></i> 电话咨询</a></div>
-                <%} else {%>
-                <div class="col-xs-6" style="text-align:center"><a class="yd cur" href="tel:4006777666" ><i class="fa fa-phone-square"></i> 电话咨询</a></div>
-                <%} %>
-                <div class="col-xs-6" style="text-align:center"><a class="yd cur" href="javascript:;" id="BeginOrder"><i class="fa fa-shopping-cart"></i> 开始预订</a></div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div style="display:none;margin: 45px 0;" id="PlanDate_view">

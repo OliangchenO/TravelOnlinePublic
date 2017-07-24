@@ -245,6 +245,12 @@ namespace TravelOnline.Management
                 case "RecomJournals":
                     RecomJournals();
                     break;
+                case "SaveGroupInfo":
+                    SaveGroupInfo();
+                    break;
+                case "DeleteGroupInfo":
+                    DeleteSelectInfos("OL_GroupPlan");
+                    break;
                 default:
                     Response.Write("{\"success\":1}");
                     Response.End();
@@ -1489,7 +1495,7 @@ namespace TravelOnline.Management
             int price = 0;
             int nums = MyConvert.ConToInt(Request.QueryString["Nums"].Trim());
             int allprice = 0;
-
+            
             if (Request.QueryString["Flag"] == "1")
             {
                 price = MyConvert.ConToInt(Request.QueryString["Price"].Trim());
@@ -1519,7 +1525,7 @@ namespace TravelOnline.Management
             );
 
             Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", Request.QueryString["OrderId"].Trim(), DateTime.Now.ToString(), Session["Manager_UserName"] + " 调整订单费用项目"));
-
+            
             string[] SqlQuery = Sql.ToArray();
             if (MyDataBaseComm.Transaction(SqlQuery) == true)
             {
@@ -1548,7 +1554,7 @@ namespace TravelOnline.Management
 
         protected void ManageLine(string DoFlag)
         {
-            string SqlQueryText = "";
+            string SqlQueryText="";
             switch (DoFlag)
             {
                 case "Top":
@@ -1568,7 +1574,7 @@ namespace TravelOnline.Management
                     LineClass.ClearRecommendCache(Request.QueryString["LineClass"]);
                     SqlQueryText = string.Format("update OL_Line set Recommend='0' where MisLineId in ({1})", DateTime.Now.ToString(), Request.QueryString["Id"]);
                     break;
-
+                
                 case "CreatePreferencesJs":
                     LinePreferences.CreatePreferencesJs();
                     Response.Write("{\"success\":0}");
@@ -1594,12 +1600,12 @@ namespace TravelOnline.Management
                 HttpContext.Current.Cache.Insert("IndexVisa", "");
             }
             else
-            {
+            { 
                 LineClass.CreateLineList(Request.QueryString["LineType"], Request.QueryString["LineClass"]);
                 if (Request.QueryString["LineType"] == "Cruises") HttpContext.Current.Cache.Insert("IndexCruises", "");
-
+            
             }
-
+                
         }
 
         protected void SetTopAffiche()
@@ -1653,7 +1659,7 @@ namespace TravelOnline.Management
                         Parentid,
                         ParentInfo.ClassList,
                         MyConvert.GetTimeRandomCode(),
-                        ParentInfo.ClassLevel + 1,
+                        ParentInfo.ClassLevel+1,
                         Request.QueryString["ProductType"]
                     );
                 }
@@ -1672,7 +1678,7 @@ namespace TravelOnline.Management
 
             if (MyDataBaseComm.ExcuteSql(SqlQueryText) == true)
             {
-                LineClass.ClearCache(Request.QueryString["MisClassId"].Trim());
+                LineClass.ClearCache( Request.QueryString["MisClassId"].Trim());
                 Response.Write("{\"success\":0}");
             }
             else
@@ -1817,17 +1823,17 @@ namespace TravelOnline.Management
                     Request.QueryString["PicUrl1"].Trim(),
                     Request.QueryString["PicUrl2"].Trim(),
                     Request.QueryString["AdUrl"].Trim().Replace("@", "/"),
-                    Request.QueryString["AdFlag"].Trim(),
+                    Request.QueryString["AdFlag"].Trim(), 
                     DateTime.Now.ToString(),
                     Request.QueryString["MisClassId"].Trim(),
                     Request.QueryString["HideFlag"],
                     Request.QueryString["BackGround"]
-                );
+                ); 
             }
             else
             {
-                SqlQueryText = string.Format("update OL_FlashAD set AdName='{1}',AdPicUrl='{2}',AdSecPicUrl='{3}',AdPageUrl='{4}',EditTime='{5}',AdSort='{6}',MisClassId='{7}',HideFlag='{8}',BackGround='{9}' where id={0}",
-                    Request.QueryString["Id"],
+                SqlQueryText = string.Format("update OL_FlashAD set AdName='{1}',AdPicUrl='{2}',AdSecPicUrl='{3}',AdPageUrl='{4}',EditTime='{5}',AdSort='{6}',MisClassId='{7}',HideFlag='{8}',BackGround='{9}' where id={0}", 
+                    Request.QueryString["Id"], 
                     Request.QueryString["AdName"].Trim(),
                     Request.QueryString["PicUrl1"].Trim(),
                     Request.QueryString["PicUrl2"].Trim(),
@@ -1979,7 +1985,7 @@ namespace TravelOnline.Management
             {
                 RUser.Id = Request.QueryString["Id"];
             }
-            else
+            else 
             {
                 RUser.Id = Convert.ToString(CombineKeys.NewComb());
             }
@@ -2057,7 +2063,7 @@ namespace TravelOnline.Management
         {
             //校验线路编号是否正确
             string SqlQueryText = string.Format("select * from ol_line where misLineId = {0}", Request.Form["LineId"].Trim());
-            string lineName = "", lineType = "";
+            string lineName ="", lineType="";
             DateTime startDate = MyConvert.ConToDateTime(Request.Form["startDate"].Trim());
             DateTime endDate = MyConvert.ConToDateTime(Request.Form["endDate"].Trim());
 
@@ -2172,9 +2178,7 @@ namespace TravelOnline.Management
             if (Request.Form["Cid"] != "")
             {
                 result = TradingAreaService.updateTradingArea(tradingArea);
-            }
-            else
-            {
+            }else{
                 result = TradingAreaService.insertTradingArea(tradingArea);
             }
             if (result)
@@ -2191,7 +2195,7 @@ namespace TravelOnline.Management
         {
             Boolean result = false;
             TActivity activity = new TActivity();
-
+            
             activity.name = Convert.ToString(Request.Form["name"]);
             activity.context = Convert.ToString(Request.Form["context"]);
             activity.key = Convert.ToString(Request.Form["title"]);
@@ -2206,7 +2210,7 @@ namespace TravelOnline.Management
             {
                 result = TradingAreaService.insertTActivity(activity);
             }
-
+            
             if (result)
             {
                 Response.Write("({\"success\":\"OK\"})");
@@ -2235,7 +2239,7 @@ namespace TravelOnline.Management
             {
                 result = TradingAreaService.insertTCoupon(coupon);
             }
-
+            
             if (result)
             {
                 Response.Write("({\"success\":\"OK\"})");
@@ -2264,7 +2268,7 @@ namespace TravelOnline.Management
             {
                 result = TradingAreaService.insertTStore(store);
             }
-
+            
             if (result)
             {
                 Response.Write("({\"success\":\"OK\"})");
@@ -2308,5 +2312,54 @@ namespace TravelOnline.Management
             }
         }
 
+        protected void SaveGroupInfo()
+        {
+            //校验线路编号是否正确
+            string SqlQueryText = "";
+            string exist = MyDataBaseComm.getScalar(string.Format("select count(1) from ol_line where misLineId = {0}", Request.Form["MisLineId"].Trim()));
+
+            if (MyConvert.ConToInt(exist) == 0)
+            {
+                Response.Write("({\"error\":\"未找到线路编号对应的旅游线路\"})");
+                return;
+            }
+
+            int Cid = MyConvert.ConToInt(Request.Form["Cid"]);
+
+            if (MyConvert.ConToInt(Request.Form["Cid"]) == 0)
+            {
+                SqlQueryText = string.Format("insert into dbo.OL_GroupPlan (MisLineId,Discount,Num,GroupDate,EditTime,EditUserId,EditUserName) values ('{0}','{1}','{2}',{3},'{4}','{5}','{6}')",
+                    Request.Form["MisLineId"].Trim(),
+                    Request.Form["Discount"].Trim(),
+                    Request.Form["Num"].Trim(),
+                    MyConvert.ConToDate(Request.Form["GroupDate"].Trim()),
+                    DateTime.Now.ToString(),
+                    Session["Manager_UserId"],
+                    Session["Manager_UserName"]
+                );
+            }
+            else
+            {
+                SqlQueryText = string.Format("update dbo.OL_GroupPlan set MisLineId={1},Discount={2},Num={3},GroupDate={4},EditTime='{5}',EditUserId='{6}',EditUserName='{7}' where id={0}",
+                    Request.Form["Cid"],
+                    Request.Form["MisLineId"].Trim(),
+                    Request.Form["Discount"].Trim(),
+                    Request.Form["Num"].Trim(),
+                    MyConvert.ConToDate(Request.Form["GroupDate"].Trim()),
+                    DateTime.Now.ToString(),
+                    Session["Manager_UserId"],
+                    Session["Manager_UserName"]
+                );
+            }
+
+            if (MyDataBaseComm.ExcuteSql(SqlQueryText) == true)
+            {
+                Response.Write("({\"success\":\"OK\"})");
+            }
+            else
+            {
+                Response.Write("({\"error\":\"信息保存失败\"})");
+            }
+        }
     }
 }

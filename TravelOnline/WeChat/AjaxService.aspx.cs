@@ -160,12 +160,12 @@ namespace TravelOnline.WeChat
                     break;
                 case "FreetripSearchLineList":
                     LineSelecter select = new LineSelecter();
-                    if (Request.QueryString["dest"].Trim()!="")
+                    if (Request.QueryString["dest"].Trim() != "")
                     {
                         select.searchval = Request.QueryString["dest"].Trim();
                     }
                     string result = Regex.Unescape(LineInfoService.GetFreetripLineList(select));
-                    Response.Write(result.Replace(@"\n",""));
+                    Response.Write(result.Replace(@"\n", ""));
                     Response.End();
                     break;
                 case "queryCommentList":
@@ -407,7 +407,7 @@ namespace TravelOnline.WeChat
         }
 
         //检验用户身份
-        protected void CheckEmail(string loginname,string loginpwd)
+        protected void CheckEmail(string loginname, string loginpwd)
         {
             LoginUser.RegistUser RUser = new LoginUser.RegistUser();
             string SqlQueryText;
@@ -436,9 +436,9 @@ namespace TravelOnline.WeChat
             RUser = null;
         }
 
-        protected void CheckRegEmail(string regemail,string regphone)
+        protected void CheckRegEmail(string regemail, string regphone)
         {
-            string SqlQueryText ="";
+            string SqlQueryText = "";
             if (regemail != null && regemail != "")
             {
                 SqlQueryText = string.Format("select top 1 id from OL_LoginUser where (UserEmail='{0}' or Mobile='{1}')", regemail, regphone);
@@ -447,7 +447,7 @@ namespace TravelOnline.WeChat
             {
                 SqlQueryText = string.Format("select top 1 id from OL_LoginUser where Mobile='{0}'", regphone);
             }
-            
+
             if (MyDataBaseComm.getScalar(SqlQueryText) != null)
             {
                 Response.Write("{\"error\":\"手机或邮件已被注册\"}");
@@ -455,7 +455,7 @@ namespace TravelOnline.WeChat
             }
         }
 
-        protected void RegUser(string regname, string regemail, string regphone,string regpwd)
+        protected void RegUser(string regname, string regemail, string regphone, string regpwd)
         {
             String AutoId = Convert.ToString(CombineKeys.NewComb());
             LoginUser.RegistUser RUser = new LoginUser.RegistUser { Id = AutoId, UserName = regname, UserEmail = regemail, Mobile = regphone, LoginPassWord = SecurityCode.Md5_Encrypt(regpwd, 32) };
@@ -705,14 +705,15 @@ namespace TravelOnline.WeChat
                     string _fileNamePath = Request.Files[i].FileName;
                     //开始上传
                     string _savedFileResult = UpLoadImage(_fileNamePath, i);
-                    if(i == Request.Files.Count-1){
+                    if (i == Request.Files.Count - 1)
+                    {
                         picUrl = picUrl + _savedFileResult;
                     }
                     else
                     {
                         picUrl = picUrl + _savedFileResult + ",";
                     }
-                    
+
                 }
                 catch
                 {
@@ -753,7 +754,7 @@ namespace TravelOnline.WeChat
                     string fileName = PicUploadHander.GetImageName() + fileNameExt;
 
                     //获得要保存的文件路径
-                    string serverFileName = toFilePath +"/"+ fileName;
+                    string serverFileName = toFilePath + "/" + fileName;
                     //物理完整路径                    
                     string toFileFullPath = serverFileName; //HttpContext.Current.Server.MapPath(toFilePath);
 
@@ -792,7 +793,7 @@ namespace TravelOnline.WeChat
             string rank = Convert.ToString(Request.Form["rank"]);
             string title = Convert.ToString(Request.Form["title"]);
             Comment comment = new Comment();
-            comment.id = id; 
+            comment.id = id;
             comment.context = context;
             comment.pic = pic;
             comment.rank = rank;
@@ -810,6 +811,6 @@ namespace TravelOnline.WeChat
             }
 
         }
-        
+
     }
 }

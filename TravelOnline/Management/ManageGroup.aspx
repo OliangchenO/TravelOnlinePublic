@@ -96,6 +96,9 @@ href="/Management/ManageHome.aspx">管理中心首页</A>&nbsp;&gt;&nbsp;<span>�
                             </ItemTemplate>
                             <HeaderStyle Width="20%" />
                         </asp:TemplateField>
+                        <asp:BoundField DataField="pre_price" HeaderText="订金金额" SortExpression="pre_price">
+		                    <HeaderStyle Width="8%" />
+                        </asp:BoundField>
                         <asp:BoundField DataField="Discount" HeaderText="优惠金额" SortExpression="Discount">
 		                    <HeaderStyle Width="8%" />
                         </asp:BoundField>

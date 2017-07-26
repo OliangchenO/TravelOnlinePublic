@@ -80,9 +80,13 @@ namespace TravelOnline.WeChat
                     if (DS1.Tables[0].Rows.Count > 0)
                     {
                         isPintuan = true;
-                        string orderNums = MyDataBaseComm.getScalar(string.Format("select SUM(OrderNums) from ol_order where LineID='{0}' and PayFlag=1 and GroupOrder=1", lineid));
+                        
+                        string orderNums = MyDataBaseComm.getScalar(string.Format("select SUM(OrderNums) from ol_order where LineID='{0}' and PayFlag=1 and GroupOrder=1 and BeginDate='{1}'", lineid, DS1.Tables[0].Rows[0]["GroupDate"].ToString()));
                         string groupNums = DS1.Tables[0].Rows[0]["Num"].ToString();
                         tuanDiscount = DS1.Tables[0].Rows[0]["discount"].ToString();
+                        HttpContext.Current.Session["Group_Discount_" + lineid] = tuanDiscount;
+                        HttpContext.Current.Session["Group_Date_" + lineid] = string.Format("{0:yyyy-MM-dd}", DS1.Tables[0].Rows[0]["GroupDate"]);
+                        
                         int leaveNum = (MyConvert.ConToInt(groupNums) - MyConvert.ConToInt(orderNums))% MyConvert.ConToInt(groupNums);
                         if (leaveNum >= 0)
                         {
@@ -599,7 +603,7 @@ namespace TravelOnline.WeChat
                         ArrJson3 = Data.GetJsonList(dt3);
                         ObJson.Add("XmlRoute", ArrJson3);
                         //签证信息
-                        if (dt.Rows[0]["LineFlag"] == "3")
+                        if (dt.Rows[0]["LineFlag"].ToString() == "3")
                         {
                             XmlNodeList elemList = XmlDoc.GetElementsByTagName("RouteInfos");
                             DataTable dt2 = new DataTable();
@@ -789,6 +793,10 @@ namespace TravelOnline.WeChat
             {
                 string[] ListInfo = Regex.Split(rsp.WeChatPlanDateCreate(UpPassWord, lineid), @"\@\@", RegexOptions.IgnoreCase);
                 ss = ListInfo[0];
+                if(null!=HttpContext.Current.Session["Group_Date_"+ lineid])
+                {
+                    ss = ss + " var Group_Date ='" + HttpContext.Current.Session["Group_Date_" + lineid] + "'; var Group_Discount = " + HttpContext.Current.Session["Group_Discount_" + lineid] +";";　　　　　　　　　　　　　　　
+                }
             }
             catch
             {

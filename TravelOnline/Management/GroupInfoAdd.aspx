@@ -69,6 +69,11 @@
             <input value="<%=GroupDate %>" class="iconDate" type="text" name="GroupDate" id="GroupDate" maxlength="10" style="width: 110px;" readonly="readonly"/>&nbsp;
         </DD>
     </DL>
+    <DL><DT>订金金额：</DT>
+        <DD>
+            <input id="pre_price" name="pre_price" type="text" class="easyui-numberbox" precision="0" max="999999" size="10" maxlength="10" style="text-align:center;" value="<%=pre_price %>"/>&nbsp;&nbsp;
+        </DD>
+    </DL>
     <DL><DT>优惠金额：</DT>
         <DD>
             <input id="Discount" name="Discount" type="text" class="easyui-numberbox" precision="0" max="999999" size="10" maxlength="10" style="text-align:center;" value="<%=Discount %>"/>&nbsp;&nbsp;

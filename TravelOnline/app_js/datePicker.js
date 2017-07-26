@@ -524,14 +524,12 @@ Date.fullYearStart = '20';
             if (defaultDate < today) {
                 defaultDate = new Date();
             }
-
             var month = s.month >= 0 ? s.month : defaultDate.getMonth();
             var year = s.year ? s.year : defaultDate.getFullYear();
             var day = s.day ? s.day : defaultDate.getDate();
             var lastday = 1;
             var currentDate = new Date(year, month, day);
             if (s.events != null) {
-
                 for (var i = 0; i < s.events.length; i++) {
                     eventsDict[s.events[i].date] = { "planid": s.events[i].planid, "date": s.events[i].date, "price": s.events[i].price, "content": s.events[i].content, "route": s.events[i].route };
                 }
@@ -546,12 +544,22 @@ Date.fullYearStart = '20';
                     if (thisDate > today) {
                         if (thisDate.getMonth() == month) {
                             $td.addClass(s.hoverClass);
+                            var price = 0;
+                            var content = "";
                             var currentDay = $td.text();
                             if (planDay.content == "已满") {
                                 var hrefString = "<a href='javascript:void(0);'>" + currentDay + "</a><br/><span class='route_1'>￥" + planDay.price + "</span><br/><span class='route_5'>已满</span>"; //title='" + planDay.planid + "'
                             }
                             else {
-                                var hrefString = "<a href='javascript:void(0);'>" + currentDay + "</a><br/><span class='route_1'>￥" + planDay.price + "</span><br/><span class='route_2'>" + planDay.content + "</span>"; //title='" + planDay.planid + "'
+                                if (thisDate.asString("yyyy-mm-dd") == Group_Date) {
+                                    price = parseFloat(planDay.price) - parseFloat(Group_Discount);
+                                    content = "参团立减";
+                                } else {
+                                    price = planDay.price;
+                                    content = planDay.content;
+                                }
+                                var hrefString = "<a href='javascript:void(0);'>" + currentDay + "</a><br/><span class='route_1'>￥" + price + "</span><br/><span class='route_2'>" + content + "</span>"; //title='" + planDay.planid + "'
+                                
                             }
 //                            if (planDay.route != "-1") {
 //                                if (planDay.route == "0") {
@@ -563,7 +571,7 @@ Date.fullYearStart = '20';
 //                            }
                             $td.attr({ "tag": planDay.planid });
                             $td.attr({ "date": thisDate.asString("yyyy-mm-dd") });
-                            $td.attr({ "price": planDay.price });
+                            $td.attr({ "price": price });
                             $td.html(hrefString);
                         }
                         else {

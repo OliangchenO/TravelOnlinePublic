@@ -25,7 +25,7 @@ namespace TravelOnline.Management
 
         protected override void GridView_DataBind()
         {
-            string sqlstr = "select g.id,g.MisLineId,g.GroupDate,g.EditTime,g.EditUserId,g.EditUserName,g.Discount,g.Num,l.LineName from ol_line l,OL_GroupPlan g where g.MisLineId=l.MisLineId ";
+            string sqlstr = "select g.id,g.MisLineId,g.GroupDate,g.pre_price,g.EditTime,g.EditUserId,g.EditUserName,g.Discount,g.Num,l.LineName from ol_line l,OL_GroupPlan g where g.MisLineId=l.MisLineId ";
             if (tb_cid.Text.Trim().Length > 0) sqlstr = string.Format("{0} and MisLineId = '{1}' ", sqlstr, tb_cid.Text.Trim());
             DataSet DS = new DataSet();
             DS.Clear();
@@ -50,7 +50,7 @@ namespace TravelOnline.Management
             {
                 e.Row.Cells[3].Text = string.Format("<A href=\"/line/{0}.html\" target=_blank>{1}</A>", DataBinder.Eval(e.Row.DataItem, "MisLineId").ToString(), DataBinder.Eval(e.Row.DataItem, "LineName").ToString());
                 e.Row.Cells[4].Text = string.Format("{0:yyyy-MM-dd}", DataBinder.Eval(e.Row.DataItem, "GroupDate"));
-                e.Row.Cells[7].Text = string.Format(" <A class=order href=\"javascript:void(0)\" onclick=\"EditDes({0})\">修改</A> ", DataBinder.Eval(e.Row.DataItem, "id").ToString());
+                e.Row.Cells[8].Text = string.Format(" <A class=order href=\"javascript:void(0)\" onclick=\"EditDes({0})\">修改</A> ", DataBinder.Eval(e.Row.DataItem, "id").ToString());
 
             }
         }

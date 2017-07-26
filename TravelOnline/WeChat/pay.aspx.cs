@@ -26,7 +26,7 @@ namespace TravelOnline.WeChat
         public string LineUrl, Price, AutoId, Rebate, hide, hide1, hide_test;
         public string hideIcbc, hidePingAn, hideAliPay, hideWeiXinPay, hidePuFaPay, hideAliAll, hideCcbPay, hideSHRCBPay="hide", IcbcCheck, PingAnCheck, AliPayCheck, WeiXinPayCheck, PuFaPayCheck, CcbPayCheck; //checked="checked"
         decimal N_PayNow, N_Pay, N_Yfk, N_Yue;
-        public string aType, aPrice, hide6 = "hide";
+        public string aType, aPrice, hide6 = "hide",hide7 = "hide";
         public DateTime aBeginDate, aEndDate;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -163,7 +163,7 @@ namespace TravelOnline.WeChat
                 LineID = DS.Tables[0].Rows[0]["LineID"].ToString();
 
                 //<li><div class=tname>最低预付：</div><div class=tinfo><span class=\"base_price02\">&yen;</span><span class=\"base_price02\" id=\"span1\">" +  DS.Tables[0].Rows[0]["yfk"].ToString() + "</span> （每位客人）</div></li>
-
+                
                 //预付活动
                 string SqlText = string.Format("select * from OL_ActivityOrder where orderid = '{0}'", OrderId);
                 DataSet DS1 = new DataSet();
@@ -197,7 +197,16 @@ namespace TravelOnline.WeChat
                 }
                 else
                 {
-                    YeE = (MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString()) - MyConvert.ConToDec(DS.Tables[0].Rows[0]["pay"].ToString())).ToString();
+                    if (DS.Tables[0].Rows[0]["GroupOrder"].ToString() == "1")
+                    {
+                        hide7 = "";
+                        decimal pre_pay = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select pre_price from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
+                        YeE = (pre_pay - MyConvert.ConToDec(DS.Tables[0].Rows[0]["pay"].ToString())).ToString();
+                    }
+                    else
+                    {
+                        YeE = (MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString()) - MyConvert.ConToDec(DS.Tables[0].Rows[0]["pay"].ToString())).ToString();
+                    }
                 }
                 
                 if (MyConvert.ConToDec(Rebate) > 0)

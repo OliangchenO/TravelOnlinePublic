@@ -2328,19 +2328,20 @@ namespace TravelOnline.Management
 
             if (MyConvert.ConToInt(Request.Form["Cid"]) == 0)
             {
-                SqlQueryText = string.Format("insert into dbo.OL_GroupPlan (MisLineId,Discount,Num,GroupDate,EditTime,EditUserId,EditUserName) values ('{0}','{1}','{2}',{3},'{4}','{5}','{6}')",
+                SqlQueryText = string.Format("insert into dbo.OL_GroupPlan (MisLineId,Discount,Num,GroupDate,EditTime,EditUserId,EditUserName,pre_price) values ('{0}','{1}','{2}',{3},'{4}','{5}','{6}',{7})",
                     Request.Form["MisLineId"].Trim(),
                     Request.Form["Discount"].Trim(),
                     Request.Form["Num"].Trim(),
                     MyConvert.ConToDate(Request.Form["GroupDate"].Trim()),
                     DateTime.Now.ToString(),
                     Session["Manager_UserId"],
-                    Session["Manager_UserName"]
+                    Session["Manager_UserName"],
+                    Request.Form["pre_price"].Trim()
                 );
             }
             else
             {
-                SqlQueryText = string.Format("update dbo.OL_GroupPlan set MisLineId={1},Discount={2},Num={3},GroupDate={4},EditTime='{5}',EditUserId='{6}',EditUserName='{7}' where id={0}",
+                SqlQueryText = string.Format("update dbo.OL_GroupPlan set MisLineId={1},Discount={2},Num={3},GroupDate={4},EditTime='{5}',EditUserId='{6}',EditUserName='{7}',pre_price={8} where id={0}",
                     Request.Form["Cid"],
                     Request.Form["MisLineId"].Trim(),
                     Request.Form["Discount"].Trim(),
@@ -2348,7 +2349,8 @@ namespace TravelOnline.Management
                     MyConvert.ConToDate(Request.Form["GroupDate"].Trim()),
                     DateTime.Now.ToString(),
                     Session["Manager_UserId"],
-                    Session["Manager_UserName"]
+                    Session["Manager_UserName"],
+                    Request.Form["pre_price"].Trim()
                 );
             }
 

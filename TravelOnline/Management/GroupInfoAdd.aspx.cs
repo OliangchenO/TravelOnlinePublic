@@ -13,7 +13,7 @@ namespace TravelOnline.Management
 {
     public partial class GroupInfoAdd : System.Web.UI.Page
     {
-        public string id, MisLineId, GroupDate, Discount, Num, buttoninfo;
+        public string id, MisLineId, GroupDate, Discount, Num, pre_price, buttoninfo;
         protected void Page_Load(object sender, EventArgs e)
         {
             //强制刷新页面，不允许从缓存中读取
@@ -53,6 +53,7 @@ namespace TravelOnline.Management
                 Discount = DS.Tables[0].Rows[0]["Discount"].ToString();
                 GroupDate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["GroupDate"]);
                 Num = DS.Tables[0].Rows[0]["Num"].ToString();
+                pre_price = DS.Tables[0].Rows[0]["pre_price"].ToString();
             }
             else
             {

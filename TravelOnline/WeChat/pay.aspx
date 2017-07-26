@@ -140,6 +140,9 @@ var _hmt = _hmt || [];
                     </li>
                     <li><div class=tname>已付款：</div><div class=tinfo><span class="base_price02">&yen;</span><span class="base_price02" id="span2"><%=Pay%></span></div></li>
                     <li><div class=tname>本次付款：</div><div class=tinfo><span class="base_price02" style="FONT-SIZE: 20px;">&yen;</span><input id="P_PayNow" name="P_PayNow" readonly type="text" class="easyui-numberbox" precision="0" max="999999" size="7" maxlength="9" style="WIDTH: 100px;text-align:center;FONT-WEIGHT: bold; FONT-SIZE: 20px; color:#e56700;BORDER-BOTTOM: #196297 1px solid;BORDER-LEFT: #ffffff 1px solid;BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid;" value="<%=YeE %>"/></div></li>
+                    <li class="<%=hide7 %>">
+                        此产品为拼团产品，您现在需支付<%=YeE %>元将作为定金，拼团成功客服会通知您付清余款。
+                    </li>
                     </ul>
                     </div>
                 </div>

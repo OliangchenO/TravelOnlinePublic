@@ -188,7 +188,7 @@ namespace TravelOnline.WeChat
                 Childs = MyConvert.ConToInt(DS.Tables[0].Rows[0]["Childs"].ToString());
 
                 //取拼团信息
-                //groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}'", DS.Tables[0].Rows[0]["LineId"].ToString())));
+                groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
 
                 string DefaultOption = string.Format("value=0 max={0} min=0", OrderNums);
                 string DefaultChildOption = string.Format("value=0 max={0} min=0", Childs);
@@ -597,7 +597,7 @@ namespace TravelOnline.WeChat
                 {
                     preferAmount = MyConvert.ConToInt(DS1.Tables[0].Rows[0]["preferAmount"].ToString());
                 }
-                groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}'", DS.Tables[0].Rows[0]["LineId"].ToString())));
+                //groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
                 //string User_Name = "", User_Mobile = "", User_Tel = "", User_Email = "";
                 //if (Convert.ToString(HttpContext.Current.Session["Online_UserId"]) != "")
                 //{
@@ -1536,7 +1536,7 @@ namespace TravelOnline.WeChat
                     SaveErrorToLog("OL_Preferential amount:", preferAmount.ToString());
                 }
 
-                groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}'", DS.Tables[0].Rows[0]["LineId"].ToString())));
+                //groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
 
                 string PayType, BranchId, Pre_Price;
                 PayType = "2";
@@ -1699,7 +1699,8 @@ namespace TravelOnline.WeChat
                     }
                     Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您在微信提交了预订单"));
                     Sql.Add(string.Format("delete from OL_TempOrder where OrderId='{0}'", orderid));
-                    if (SumGroupdiscount > 0)
+                    int i = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
+                    if (i > 0)
                     {
                         Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
                         orderid,

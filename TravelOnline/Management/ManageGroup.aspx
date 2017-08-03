@@ -7,7 +7,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>旅游线路优惠管理</title>
+    <title>旅游线路拼团管理</title>
     <meta name="description" content="上海青旅商城，为您提供在线旅游服务" />
     <meta name="Keywords" content="网上旅游,青旅商城" />
     <link href="/Styles/MySite.css" rel="stylesheet" type="text/css" />
@@ -46,7 +46,7 @@ href="/Management/ManageHome.aspx">管理中心首页</A>&nbsp;&gt;&nbsp;<span>�
  <div class="m select">
     <form id="formlogin" runat="server">
     <div class=mt>
-        <H1></H1><strong>旅游线路优惠信息管理</strong>
+        <H1></H1><strong>旅游线路拼团信息管理</strong>
     </div>
     <div class="serchbar">
         &nbsp; 线路编号：<asp:TextBox ID="tb_cid" runat="server" Width="150"></asp:TextBox>&nbsp;

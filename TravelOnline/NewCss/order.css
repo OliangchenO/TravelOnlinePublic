@@ -1,6 +1,6 @@
 
 .orderbox ul li i b,.main-content-book .titbox .click-bnt i,.main-content-book .infobox p i,.side-content-book dl dd i,.side-content-book .bill-con i,.main-content-book .infobox .save-box dl .s2 i,.pay-finish .cgi,.pay-finish .sbi,.order-con i,.main-content-book .infobox .on {background: url('../image/detail/pro_ui.png') no-repeat;}
-.zfb b,.gshy b,.zshy b,.jshy b,.nyhy b,.zghy b,.jthy b,.yzhy b,.gdhy b,.pfhy b,.gfhy b,.zxhy b,.xyhy b,.szhy b,.mshy b,.bjhy b,.hzhy b,.shhy b,.jshy b.ico_fq, .nsyh b {background: url(../image/bank_card.png) no-repeat;}
+.zfb b,.gshy b,.zshy b,.jshy b,.nyhy b,.zghy b,.jthy b,.yzhy b,.gdhy b,.pfhy b,.gfhy b,.zxhy b,.xyhy b,.szhy b,.mshy b,.bjhy b,.hzhy b,.shhy b,.jshy b.ico_fq, .nsyh b, .chinapay b {background: url(../image/bank_card.png) no-repeat;}
 .order-header .header-top .sidebar .colorF60:hover,.main-content-book .infobox .save-box dl .s3:hover,.main-content-book .titbox .shrink h2 a:hover,.header-top-order .sidebar .colorF60:hover {text-decoration: underline;}
 /*头部*/
 .order-header{ padding:13px 0 15px;}
@@ -185,6 +185,7 @@
 .hzhy b{width:102px; height:30px;top:6px; background-position:-6px -1815px;}
 .shhy b{width:75px; height:25px;top:5px; background-position:-6px -571px;}
 .nsyh b{width:132px; height:30px;top:6px; background-position:-6px -905px;}
+.chinapay b{width:132px; height:30px;top:6px; background-position:-6px -1297px;}
 .payment-con .wenxin{ font:12px/22px "宋体"; color:#666666;margin-top:-7px; margin-bottom:20px;}
 .payment-con .wenxin span{ font-weight:bold;}
 .payment-con .pfcard{padding:28px 0 58px 0;}

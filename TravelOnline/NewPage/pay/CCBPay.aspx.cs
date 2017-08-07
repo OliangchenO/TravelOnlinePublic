@@ -69,6 +69,9 @@ namespace TravelOnline.NewPage.pay
                     case "SHRCB":
                         GoSHRCBPay();
                         break;
+                    case "CHINAPAY":
+                        GoChinaPay();
+                        break;
                 }
             }
             else
@@ -192,11 +195,35 @@ namespace TravelOnline.NewPage.pay
             Response.Write(url);
         }
 
+        public void GoChinaPay()
+        {
+            //支付接口---start
+            RequestWithoutCardInfoRq Rq = new RequestWithoutCardInfoRq();
+            Rq.amount = YeE;
+            Rq.orderId = MyConvert.GetTimeStamp() + AutoId;
+            Rq.channel = "ChinaPay";
+            Rq.gateway = "ChinaPay";
+            Rq.productInfo = LineName;
+            Rq.surferIp = getIp();
+            //Rq.surferIp = "180.168.167.214";
+            Rq.returnUrl = Convert.ToString(ConfigurationManager.AppSettings["CHINAPAYReturnUrl"]);
+            RequestHandlerFacadeImplService ToService = new RequestHandlerFacadeImplService();
+            RequestWithoutCardInfoRs Rs = ToService.requestWithoutCardInfo(Rq);
+            string url = Rs.requestUrl;
+            Response.Write(url);
+        }
+
 
         public bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {   // 总是接受    
             return true;
         }
-
+        private static string getIp()
+        {
+            if (System.Web.HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null)
+                return System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].Split(new char[] { ',' })[0];
+            else
+                return System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+        }
     }
 }

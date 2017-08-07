@@ -354,20 +354,27 @@
                     <form class="payform" action="#">
                         
                         <div class="clear"></div>
+                        <!--中国银联-->
+                        <label class="lab">
+                            <input name="banklist" type="radio" value="CHINAPAY"  checked="checked"/>
+                            <div class="bank chinapay fl">
+                                <b></b>
+                            </div>
+                        </label>
                         <!--建设银行-->
                         <label id="hide_fq" class="lab">
-                            <input name="banklist" type="radio" value="CCB" checked="checked"/>
+                            <input name="banklist" type="radio" value="CCB"/>
                             <div class="bank jshy fl">
                                 <b class="ico_fq" style="background-position: 0 -48px"></b>
                             </div>
-                        </label>
+                        </label></br>
                         
                         <label id="hide_fq" class="lab">
                             <input name="banklist" type="radio" value="SHBK"/>
                             <div class="bank shhy fl">
                                 <b></b>
                             </div>
-                        </label></br>
+                        </label>
                         <label class="lab">
                             <input name="banklist" type="radio" value="SHRCB"/>
                             <div class="bank nsyh fl">

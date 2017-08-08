@@ -551,7 +551,7 @@ Date.fullYearStart = '20';
                                 var hrefString = "<a href='javascript:void(0);'>" + currentDay + "</a><br/><span class='route_1'>￥" + planDay.price + "</span><br/><span class='route_5'>已满</span>"; //title='" + planDay.planid + "'
                             }
                             else {
-                                if (thisDate.asString("yyyy-mm-dd") == Group_Date) {
+                                if (typeof (Group_Date) != 'undefined' && thisDate.asString("yyyy-mm-dd") == Group_Date) {
                                     price = parseFloat(planDay.price) - parseFloat(Group_Discount);
                                     content = "参团立减";
                                 } else {

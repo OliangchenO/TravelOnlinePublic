@@ -282,14 +282,14 @@
                                     <dl class="clearfix">
                                         <dt>卡片有效期</dt>
                                         <dd class="d1">
-                                            <input id="expireDate" name="expireDate" value="" class="input-w" type="text" maxlength="4" value="" datatype="n4-4" placeholder="格式：yyMM 示例：3011" />
+                                            <input id="expireDate" name="expireDate" value="" class="input-w" type="text" maxlength="4" datatype="n4-4" placeholder="格式：yyMM 示例：3011" />
                                         </dd>
                                         <div class="card-yzm"><img src="../../image/cardb.png" width="229" height="97"></div>
                                     </dl>
                                     <dl class="clearfix">
                                         <dt>姓名</dt>
                                         <dd class="d1">
-                                            <input id="customerName" name="customerName" value="" class="input-w" type="text" value=""/>
+                                            <input id="customerName" name="customerName" value="" class="input-w" type="text" />
                                         </dd>
                                         <div class="card-yzm"><img src="../../image/cardb.png" width="229" height="97"></div>
                                     </dl>

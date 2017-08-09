@@ -321,3 +321,15 @@ select count(id) from OL_Comment where Autoid='137417'
 2017/7/24 12:54:35:
 path:
 D:\System\TravelOnlinePublic\TravelOnline\XML\Route\24237.xml
+2017/7/26 11:33:29:
+OL_Preferential sql:
+select preferAmount from OL_Preferential where Lineid='24237' and startDate<='2017/8/31 0:00:00' and endDate>='2017/8/31 0:00:00' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())
+2017/7/26 11:33:47:
+列名 'Autoid' 无效。
+select count(id) from OL_Comment where Autoid='137425'
+2017/7/26 12:57:25:
+OL_Preferential sql:
+select preferAmount from OL_Preferential where Lineid='24237' and startDate<='2017/8/31 0:00:00' and endDate>='2017/8/31 0:00:00' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())
+2017/7/26 12:57:27:
+列名 'Autoid' 无效。
+select count(id) from OL_Comment where Autoid='137430'

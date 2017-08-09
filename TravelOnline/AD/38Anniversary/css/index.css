@@ -17,14 +17,9 @@ a:hover {color: #fff;}
 .bg h3 {font: bold 16px/22px 'Microsoft Yahei'; height: 44px; overflow: hidden;margin-bottom: 48px;}
 .bg span {display: inline-block; line-height: 32px; width: 110px; color: #104eb4; font: bold 26px/26px 'arial'; overflow: hidden; white-space: nowrap;}
 .bg em {font-size: 20px;}
-.bg01 {display: block;width: 100%; height: 820px; background: url('../images/p_01.jpg') no-repeat;}
-.bg02 {display: block; width: 100%; height: 560px; float:left;background: url('../images/p_02.jpg') no-repeat;}
-.bg02 .first { display: block; width: 100%; height: 105px; }
-.bg02 .second { display: block; width: 100%; height: 110px; }
-.bg02 .third { display: block; width: 100%; height: 105px; }
-.bg02 .fourth { display: block; width: 100%; height: 110px; }
-.bg02 .fifth { display: block; width: 100%; height: 105px; }
-.bg03 {width: 100%; background: url('../images/p_03.jpg') no-repeat;}
+.bg01 {display: block;width: 100%; height: 795px; background: url('../images/p_01.jpg') no-repeat;}
+.bg02 {display: block; width: 100%; height: 934px; background: url('../images/p_02.jpg') no-repeat;}
+.bg02 a { display: block; width: 370px; height: 430px; margin-top:21px; margin-left:21px;float:left;}
 /*在线咨询*/
 .main-im{position:fixed;right:10px;top:300px;z-index:100;width:110px;height:272px;}
 .main-im .qq-a{display:block;width:106px;height:116px;font-size:14px;color:#0484cd;text-align:center;position:relative;}

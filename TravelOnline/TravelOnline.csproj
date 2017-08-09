@@ -133,6 +133,28 @@
     <Content Include="Activity\Act_Info.aspx" />
     <Content Include="Activity\AjaxService.aspx" />
     <Content Include="Activity\Print.aspx" />
+    <Content Include="AD\2017Shrcb\css\btt.css" />
+    <Content Include="AD\2017Shrcb\css\common.css" />
+    <Content Include="AD\2017Shrcb\css\demo.css" />
+    <Content Include="AD\2017Shrcb\css\headerTop.css" />
+    <Content Include="AD\2017Shrcb\css\index.css" />
+    <Content Include="AD\2017Shrcb\images\arrow-up.png" />
+    <Content Include="AD\2017Shrcb\images\bg.jpg" />
+    <Content Include="AD\2017Shrcb\images\icon.png" />
+    <Content Include="AD\2017Shrcb\images\line_bg.png" />
+    <Content Include="AD\2017Shrcb\images\logo5A.jpg" />
+    <Content Include="AD\2017Shrcb\images\p_01.jpg" />
+    <Content Include="AD\2017Shrcb\images\p_02.jpg" />
+    <Content Include="AD\2017Shrcb\images\p_03.jpg" />
+    <Content Include="AD\2017Shrcb\images\tel.gif" />
+    <Content Include="AD\2017Shrcb\index.html" />
+    <Content Include="AD\2017Shrcb\js\awardRotate.js" />
+    <Content Include="AD\2017Shrcb\js\backtotop.js" />
+    <Content Include="AD\2017Shrcb\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017Shrcb\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017Shrcb\js\jquery.min.js" />
+    <Content Include="AD\2017Shrcb\js\koala.min.1.5.js" />
+    <Content Include="AD\2017Shrcb\js\terminator2.2.min.js" />
     <Content Include="AD\2017Gift\css\btt.css" />
     <Content Include="AD\2017Gift\css\common.css" />
     <Content Include="AD\2017Gift\css\demo.css" />
@@ -179,8 +201,32 @@
     <Content Include="AD\2017Young\js\jquery.min.js" />
     <Content Include="AD\2017Young\js\koala.min.1.5.js" />
     <Content Include="AD\2017Young\js\terminator2.2.min.js" />
+    <Content Include="AD\38Anniversary\css\btt.css" />
+    <Content Include="AD\38Anniversary\css\common.css" />
+    <Content Include="AD\38Anniversary\css\demo.css" />
+    <Content Include="AD\38Anniversary\css\headerTop.css" />
+    <Content Include="AD\38Anniversary\css\index.css" />
+    <Content Include="AD\38Anniversary\images\arrow-up.png" />
+    <Content Include="AD\38Anniversary\images\bg.jpg" />
+    <Content Include="AD\38Anniversary\images\icon.png" />
+    <Content Include="AD\38Anniversary\images\line_bg.png" />
+    <Content Include="AD\38Anniversary\images\logo5A.jpg" />
+    <Content Include="AD\38Anniversary\images\p_01.jpg" />
+    <Content Include="AD\38Anniversary\images\p_02.jpg" />
+    <Content Include="AD\38Anniversary\images\p_03.jpg" />
+    <Content Include="AD\38Anniversary\images\tel.gif" />
+    <Content Include="AD\38Anniversary\index.html" />
+    <Content Include="AD\38Anniversary\js\awardRotate.js" />
+    <Content Include="AD\38Anniversary\js\backtotop.js" />
+    <Content Include="AD\38Anniversary\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\38Anniversary\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\38Anniversary\js\jquery.min.js" />
+    <Content Include="AD\38Anniversary\js\koala.min.1.5.js" />
+    <Content Include="AD\38Anniversary\js\terminator2.2.min.js" />
     <Content Include="app_css\pintuan.css" />
+    <Content Include="app_js\line.js" />
     <Content Include="app_js\order.js" />
+    <Content Include="ChinaPay\chinapayMer.pfx" />
     <Content Include="Common\GetAutoDropList.aspx" />
     <Content Include="Common\JournalList.aspx" />
     <Content Include="Common\NewsList.aspx" />
@@ -555,6 +601,7 @@
     <Content Include="NewPage\outbound\OutBound.aspx" />
     <Content Include="NewPage\pay\AliPay.aspx" />
     <Content Include="NewPage\pay\BOSHDebitPay.aspx" />
+    <Content Include="NewPage\pay\CCBPay.aspx" />
     <Content Include="NewPage\pay\MakeQRCode.aspx" />
     <Content Include="NewPage\pay\Pay.aspx" />
     <Content Include="NewPage\pay\PuFaPay.aspx" />
@@ -579,7 +626,9 @@
     <Content Include="PayMent\Return_ICBC.aspx" />
     <Content Include="PayMent\return_notifyalipay.aspx" />
     <Content Include="PayMent\Return_notifyBOSH.aspx" />
+    <Content Include="PayMent\Return_notifyChinaPay.aspx" />
     <Content Include="PayMent\Return_notifySHRCB.aspx" />
+    <Content Include="PayMent\Return_ChinaPay.aspx" />
     <Content Include="PayMent\Return_SHRCB.aspx" />
     <Content Include="PayMent\Return_WeiXinpay.aspx" />
     <Content Include="Purchase\AjaxService.aspx" />
@@ -712,6 +761,7 @@
     <Content Include="AD\2017Young\File\1c2dc2c2-39ba-49e6-b4df-a1bd00b8ba7d.xlsx" />
     <Content Include="AD\2017Young\File\desktop.ini" />
     <Content Include="OfficeFiles\CruisesOut\blank manifest format.xls" />
+    <Content Include="ChinaPay\cp.cer" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -2582,6 +2632,7 @@
     </Compile>
     <Compile Include="NewPage\pay\CCBPay.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>CCBPay.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewPage\pay\MakeQRCode.aspx.cs">
       <DependentUpon>MakeQRCode.aspx</DependentUpon>
@@ -2754,12 +2805,26 @@
     <Compile Include="PayMent\Return_notifyBOSH.aspx.designer.cs">
       <DependentUpon>Return_notifyBOSH.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PayMent\Return_notifyChinaPay.aspx.cs">
+      <DependentUpon>Return_notifyChinaPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PayMent\Return_notifyChinaPay.aspx.designer.cs">
+      <DependentUpon>Return_notifyChinaPay.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PayMent\Return_notifySHRCB.aspx.cs">
       <DependentUpon>Return_notifySHRCB.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="PayMent\Return_notifySHRCB.aspx.designer.cs">
       <DependentUpon>Return_notifySHRCB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PayMent\Return_ChinaPay.aspx.cs">
+      <DependentUpon>Return_ChinaPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PayMent\Return_ChinaPay.aspx.designer.cs">
+      <DependentUpon>Return_ChinaPay.aspx</DependentUpon>
     </Compile>
     <Compile Include="PayMent\Return_SHRCB.aspx.cs">
       <DependentUpon>Return_SHRCB.aspx</DependentUpon>
@@ -3644,6 +3709,7 @@
     <None Include="Web References\TravelMisWebService\TravelOnline.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="OfficeFiles\CruisesModel\Norvegian\" />
   </ItemGroup>
   <ItemGroup>
@@ -3656,6 +3722,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

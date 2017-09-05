@@ -251,6 +251,7 @@
     <Content Include="AD\38Anniversary\images\logo5A.jpg" />
     <Content Include="AD\38Anniversary\images\p_01.jpg" />
     <Content Include="AD\38Anniversary\images\p_02.jpg" />
+    <Content Include="AD\38Anniversary\images\p_03.jpg" />
     <Content Include="AD\38Anniversary\images\tel.gif" />
     <Content Include="AD\38Anniversary\index.html" />
     <Content Include="AD\38Anniversary\js\awardRotate.js" />

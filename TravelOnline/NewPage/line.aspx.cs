@@ -18,7 +18,7 @@ namespace TravelOnline.NewPage
     public partial class line : System.Web.UI.Page
     {
         public string BodyId = "outbound", tag = "tg", Pics, Tags, Preference;
-        public string LineId, BreadCrumb, linetype, LineName, LineFeature, Price, begindate, LineDays, PlanId, Sale, isPreBook, isSeckill="0", canSale="1";
+        public string LineId, BreadCrumb, linetype, LineName, LineFeature, Price="0", begindate, LineDays, PlanId, Sale, isPreBook, isSeckill="0", canSale="1";
         public string PlanDateJason="", RouteFeature, LineViews, ContractInfos;
         public int province, lineclass;
         public string[] ViewsArray;
@@ -37,6 +37,11 @@ namespace TravelOnline.NewPage
         protected void LoadLineInfo()
         {
             string SqlQueryText = string.Format("select top 1 *,(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = OL_Line.FirstDestination)) AS DestName from OL_Line where MisLineId='{0}'", LineId);
+            string notshow = ConfigurationManager.AppSettings["NotShow"];
+            if (notshow != null)
+            {
+                SqlQueryText = string.Format("select top 1 *,(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = OL_Line.FirstDestination)) AS DestName from OL_Line where MisLineId='{0}' and MisLineId !='{1}'", LineId, notshow);
+            }
             DataSet DS = new DataSet();
             DS.Clear();
             DS = MyDataBaseComm.getDataSet(SqlQueryText);

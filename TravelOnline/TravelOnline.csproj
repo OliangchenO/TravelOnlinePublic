@@ -71,10 +71,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Intelligencia.UrlRewriter.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.CMBCHINALib">
-      <HintPath>..\Interop.CMBCHINALib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="LitJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\LitJSON.dll</HintPath>
@@ -133,6 +129,28 @@
     <Content Include="Activity\Act_Info.aspx" />
     <Content Include="Activity\AjaxService.aspx" />
     <Content Include="Activity\Print.aspx" />
+    <Content Include="AD\2017AsiaGuoqing\css\btt.css" />
+    <Content Include="AD\2017AsiaGuoqing\css\common.css" />
+    <Content Include="AD\2017AsiaGuoqing\css\demo.css" />
+    <Content Include="AD\2017AsiaGuoqing\css\headerTop.css" />
+    <Content Include="AD\2017AsiaGuoqing\css\index.css" />
+    <Content Include="AD\2017AsiaGuoqing\images\arrow-up.png" />
+    <Content Include="AD\2017AsiaGuoqing\images\bg.jpg" />
+    <Content Include="AD\2017AsiaGuoqing\images\icon.png" />
+    <Content Include="AD\2017AsiaGuoqing\images\line_bg.png" />
+    <Content Include="AD\2017AsiaGuoqing\images\logo5A.jpg" />
+    <Content Include="AD\2017AsiaGuoqing\images\p_01.jpg" />
+    <Content Include="AD\2017AsiaGuoqing\images\p_02.jpg" />
+    <Content Include="AD\2017AsiaGuoqing\images\tel.gif" />
+    <Content Include="AD\2017AsiaGuoqing\index.html" />
+    <Content Include="AD\2017AsiaGuoqing\js\awardRotate.js" />
+    <Content Include="AD\2017AsiaGuoqing\js\backtotop.js" />
+    <Content Include="AD\2017AsiaGuoqing\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017AsiaGuoqing\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017AsiaGuoqing\js\jquery.min.js" />
+    <Content Include="AD\2017AsiaGuoqing\js\koala.min.1.5.js" />
+    <Content Include="AD\2017AsiaGuoqing\js\terminator2.2.min.js" />
+    <Content Include="AD\2017Guoqing\images\p_01.jpg" />
     <Content Include="AD\2017Shrcb\css\btt.css" />
     <Content Include="AD\2017Shrcb\css\common.css" />
     <Content Include="AD\2017Shrcb\css\demo.css" />
@@ -201,6 +219,26 @@
     <Content Include="AD\2017Young\js\jquery.min.js" />
     <Content Include="AD\2017Young\js\koala.min.1.5.js" />
     <Content Include="AD\2017Young\js\terminator2.2.min.js" />
+    <Content Include="AD\2017Guoqing\css\btt.css" />
+    <Content Include="AD\2017Guoqing\css\common.css" />
+    <Content Include="AD\2017Guoqing\css\demo.css" />
+    <Content Include="AD\2017Guoqing\css\headerTop.css" />
+    <Content Include="AD\2017Guoqing\css\index.css" />
+    <Content Include="AD\2017Guoqing\images\arrow-up.png" />
+    <Content Include="AD\2017Guoqing\images\bg.jpg" />
+    <Content Include="AD\2017Guoqing\images\icon.png" />
+    <Content Include="AD\2017Guoqing\images\line_bg.png" />
+    <Content Include="AD\2017Guoqing\images\logo5A.jpg" />
+    <Content Include="AD\2017Guoqing\images\p_02.jpg" />
+    <Content Include="AD\2017Guoqing\images\tel.gif" />
+    <Content Include="AD\2017Guoqing\index.html" />
+    <Content Include="AD\2017Guoqing\js\awardRotate.js" />
+    <Content Include="AD\2017Guoqing\js\backtotop.js" />
+    <Content Include="AD\2017Guoqing\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017Guoqing\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017Guoqing\js\jquery.min.js" />
+    <Content Include="AD\2017Guoqing\js\koala.min.1.5.js" />
+    <Content Include="AD\2017Guoqing\js\terminator2.2.min.js" />
     <Content Include="AD\38Anniversary\css\btt.css" />
     <Content Include="AD\38Anniversary\css\common.css" />
     <Content Include="AD\38Anniversary\css\demo.css" />
@@ -213,7 +251,6 @@
     <Content Include="AD\38Anniversary\images\logo5A.jpg" />
     <Content Include="AD\38Anniversary\images\p_01.jpg" />
     <Content Include="AD\38Anniversary\images\p_02.jpg" />
-    <Content Include="AD\38Anniversary\images\p_03.jpg" />
     <Content Include="AD\38Anniversary\images\tel.gif" />
     <Content Include="AD\38Anniversary\index.html" />
     <Content Include="AD\38Anniversary\js\awardRotate.js" />

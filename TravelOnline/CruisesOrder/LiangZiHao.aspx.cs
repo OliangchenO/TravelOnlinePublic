@@ -414,7 +414,7 @@ namespace TravelOnline.CruisesOrder
                             cel15.SetCellValue("CHN");
 
                             ICell cel16 = row1.CreateCell(16 + ii); //第一个客人的国籍
-                            cel16.SetCellValue(string.Format("{0:yyyy}", dr["BirthDay"]) + "/" + string.Format("{0:MM}", dr["BirthDay"]) + "/" + string.Format("{0:dd}", dr["BirthDay"]));
+                            cel16.SetCellValue(string.Format("{0:yyyy/MM/dd}", dr["BirthDay"]));
 
 
                             ICell cel17 = row1.CreateCell(17 + ii); //第一个客人的性别
@@ -443,7 +443,7 @@ namespace TravelOnline.CruisesOrder
                             {
                                 cel20.SetCellValue(dr["IdNumber"].ToString());
                             }
-                            if (MyConvert.ConToDateTime(dr["PassEnd"].ToString()) > DateTime.Today) cel21.SetCellValue(string.Format("{0:dd}", dr["PassEnd"]) + "/" + string.Format("{0:MM}", dr["PassEnd"]) + "/" + string.Format("{0:yyyy}", dr["PassEnd"]));
+                            if (MyConvert.ConToDateTime(dr["PassEnd"].ToString()) > DateTime.Today) cel21.SetCellValue(string.Format("{0:yyyy/MM/dd}", dr["PassEnd"]));
                             cel22.SetCellValue(dr["Mobile"].ToString());
 
                             //cells[2 + i, ii + 12].PutValue(dr["IdNumber"].ToString());

@@ -107,8 +107,6 @@ namespace TravelOnline.NewPage
                 HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri);
                 if (!string.IsNullOrEmpty(proxyServer))
                 {
-
-
                     req.Proxy = new WebProxy(proxyServer);
                 }
                 req.CookieContainer = this._cookieCon;

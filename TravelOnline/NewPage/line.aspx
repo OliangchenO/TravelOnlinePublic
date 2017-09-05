@@ -30,6 +30,12 @@
     <script type="text/javascript" src="/newjs/select2/select2_locale_zh-CN.js"></script>
     <script type="text/javascript" src="/newjs/jquery.cookie.js"></script>
     <script type="text/javascript" src="/newjs/setcookie.js"></script>
+
+
+      <link href="/newjs/galleria/galleria.classic.css" rel="stylesheet" type="text/css" />
+     <script type="text/javascript" src="/newjs/jquery.blockui.min.js"></script>
+       <script type="text/javascript" src="/newjs/galleria/galleria.js"></script>
+
 	<!--[IF IE 6]>
 		<script type="text/javascript" src="js/iepng.js"></script>
 		<script type="text/javascript">
@@ -159,10 +165,16 @@
 						
                         
                         <%if (Convert.ToString(ConfigurationManager.AppSettings["ZhongChouHuoDong"]).IndexOf("," + LineId + ",") > -1){%>
-                        <div style="float:right; font: 16px/34px 'Microsoft Yahei'; color: red; width: 104px;"><%=System.Int32.Parse(seckillNum)+236 %>人已抢购</div>
-                          <%} %>
+                        <%if (seckillNum != null && seckillNum != ""){ %>
+                            <div style="float:right; font: 14px/30px 'Microsoft Yahei'; color: red; width: 110px;">仅余<%=100-System.Int32.Parse(seckillNum)-4%>限额</div>
+                            <div style="float:right; font: 14px/30px 'Microsoft Yahei'; color: red; width: 104px;">已有<%=System.Int32.Parse(seckillNum)+4 %>抢购</div>
+                        <%}else{ %>
+                            <div style="float:right; font: 14px/30px 'Microsoft Yahei'; color: red; width: 110px;">仅余96限额</div>
+                            <div style="float:right; font: 14px/30px 'Microsoft Yahei'; color: red; width: 104px;">已有4人抢购</div>
+                        <%} %>
+                        <%} %>
 					</div>
-                    
+                    <!--
                     <div class="price-info" style="padding-top:0;">
                         <span>促销价：</span>
 						<div class="cost fl clearfix">
@@ -211,7 +223,6 @@
 							</div>
 						</div>
                         </br>
-                        <!--
                         <div id="fen" class="sp fl" style="color:#f00;" hidden>分期：￥<b style="font-size:18px;"><%=Math.Ceiling(System.Double.Parse(Price)/6) %></b> /期 起
                             <div class="show fen_box">
                                 <strong style="color:#659006;font-weight:bold;">支持以下分期方式</strong>
@@ -228,14 +239,24 @@
                                 <b></b>
                             </div>
                         </div>
-                        -->
                         <%} %>
                         
                         
-                        <%if (Convert.ToString(ConfigurationManager.AppSettings["ZhongChouHuoDong"]).IndexOf("," + LineId + ",") > -1){%>
-                        <div style="float:right; font: 16px/34px 'Microsoft Yahei'; color: red; width: 104px;"><%=System.Int32.Parse(seckillNum)+236 %>人已抢购</div>
-                          <%} %>
+                        <%if (Convert.ToString(ConfigurationManager.AppSettings["ZhongChouHuoDong"]).IndexOf("," + LineId + ",") > -1)
+                        {%>
+                        <%if (seckillNum != null && seckillNum != "")
+                        { %>
+                            <div style="float:right; font: 16px/30px 'Microsoft Yahei'; color: red; width: 104px;">已<%=System.Int32.Parse(seckillNum) %>抢购</div>
+                            <div style="float:right; font: 16px/30px 'Microsoft Yahei'; color: red; width: 104px;">仅剩余<%=100 - System.Int32.Parse(seckillNum)%>限额</div>  
+                        <%}
+                        else
+                        { %>
+                            <div style="float:right; font: 16px/30px 'Microsoft Yahei'; color: red; width: 104px;">已0人抢购</div>
+                            <div style="float:right; font: 16px/30px 'Microsoft Yahei'; color: red; width: 104px;">仅剩余100限额</div>  
+                        <%}
+                        }%>
                     </div>
+                    -->
 					<div class="line-info">
                         <img id="QRCode" style="position:absolute; right:15px; WIDTH: 80px; HEIGHT: 80px; CURSOR: pointer" src="/newpage/pay/MakeQRCode.aspx?data=http%3a%2f%2fwww.scyts.com%2fapp%2fline%3f<%=LineId%>" alt="" >
                         <div class="wx-text" style="position:absolute; right:15px; top:110px; width:80px; line-height: 16px; text-align:center;">扫描此二维码</br>手机查看线路</div>
@@ -519,6 +540,90 @@
 			</div>
 		</div>
 	</div>
+
+
+    <!-- wmc 经典效果 start-->
+     <style>
+        .extend_spot_title ,.extend_spot_content{
+        width:300px;
+        margin:0 auto;
+        text-align:left;
+        font-size:12px;
+        color:#666;
+        font-family:"Microsoft YaHei";
+        margin-left:35px;
+        padding-right:30px;
+      
+      
+      
+    
+        }
+
+        .extend_spot_title {
+        line-height:35px;
+        font-size:18px;
+        font-weight:bold;
+        margin-top:5px;
+        border-bottom:1px solid #EEE;
+        margin-bottom:5px;
+        padding-bottom:5px;
+          padding-top:30px;
+        }
+        .extend_spot_content {
+          line-height:18px;
+        margin-bottom:5px;
+        height:340px;
+        overflow-y:scroll;
+        line-height:20px;
+        word-break: break-all;
+        word-wrap: break-word;
+
+        text-align:justify;
+        }
+
+        .blockPage{
+        overflow:hidden;
+       border-radius:10px;
+        box-shadow: 0px 15px 15px #000;
+      
+        }
+
+         
+
+        .extend_spot_left {
+        float:left;
+        width:65%;
+        overflow:hidden;
+         background:#000;
+        }
+
+        .extend_spot_right {
+                overflow:hidden;
+              float:left;
+            width:35%;
+        }
+
+         .extend_spot_a {
+         cursor:pointer;
+         }
+    </style>
+      <div id="extend_spotview" style="display:none;width:1000px;overflow:hidden;">
+
+        <div class="extend_spot_left">
+            <div id="galleria" class="extend_spot_img">
+              
+
+            </div>
+        </div>
+        <div class="extend_spot_right">
+            <div class="extend_spot_title"></div>
+            <div class="extend_spot_content"></div>
+        </div>
+        </div>
+
+       <!-- wmc 经典效果 end-->
+
+
 	<!--正文内容End-->
 	<!--页尾Begin-->
     <uc2:Footer ID="Footer1" runat="server" />
@@ -665,5 +770,161 @@
             })
         }
 	</script>
+
+
+
+      <script>
+
+        var test_data = { viewname: "测试1", intro: "fdfasfsdafsafsafsfsafsdafsafsdafdsadfsdafsdafsdafsdafsadfsdafsafsdafsadfsad", pics:  "http://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Bowling_Balls_Beach_2_edit.jpg/800px-Bowling_Balls_Beach_2_edit.jpg,http://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Interior_convento_3.jpg/800px-Interior_convento_3.jpg" };
+
+
+
+        //替换所有
+        function extend_init_spot(element) {
+      
+            $("." + element).each(function (index, obj) {
+                var spot_arr = [];
+                var pattern = /\【(.+?)\】/g;
+
+                var spot_str_arr = $(obj).html().match(pattern);
+                if (spot_str_arr != null) {
+                    for (var i = 0; i < spot_str_arr.length; i++) {
+                 
+                        var param = (spot_str_arr[i].replace(/【/g, "").replace(/】/g, ""));
+                     
+                       
+                        $(obj).html($(obj).html().replace(spot_str_arr[i], "<a class='extend_spot_a' onclick='extend_spot(this)' spotname='" + param + "'>" + spot_str_arr[i] + "</a>"));
+                     //  $(obj).html().replace(pattern2, "<a onclick='extend_show_spot(this)' spotname='" + param + "'>" + spot_str_arr[i] + "</a>");
+                    }
+
+                }
+
+            });
+          
+
+        }
+
+        function extend_spot(obj) {
+            var spot_name = $(obj).attr("spotname");
+        
+            extend_load_spot(spot_name);
+            //初始化图片
+       
+        }
+
+        function extend_load_spot(name) {
+           
+            if (name == ""||name==null) {
+                return;
+            }
+            var url = "/newpage/AjaxService.aspx?action=showScenic&scenicName=" + name;
+            //提交
+            $.ajax({
+                url: url,
+                cache: true,
+                type: "get",
+               // data: JSON.stringify({ model: { LoginName: LoginName, PassWord: PassWord } }),
+                contentType: 'application/json; charset=utf-8',  //must
+                dataType: "text",
+                success: function (data) {
+                 
+                    if (data != "" && data != null) {
+                        var json_data = $.parseJSON(data);
+                        //初始化图片
+                        extend_set_spot(json_data);
+                      
+                    }
+                   
+                }
+            });
+
+        }
+
+
+
+        function extend_show_spot() {
+            var width = $("#extend_spotview").width();
+            var height = $("#extend_spotview").height();
+            $.blockUI({
+                message: $("#extend_spotview"),
+                css: {
+                    border: '1px solid black',
+                    width: width + 'px',
+                    height: height + 'px',
+                    left: ($(window).width() - width) / 2 + 'px',
+                    top: ($(window).height() - height) / 2 + 'px',
+                  
+                    cursor: "default"
+                },
+                baseZ:10000
+            });
+            $('.blockOverlay').click(extend_close_spot);
+        }
+
+
+        function extend_set_spot(data) {
+            $(".extend_spot_img").html("");
+
+            //标题
+            $(".extend_spot_title").html(data.viewname);
+            //名称
+            $(".extend_spot_content").html(data.intro);
+            if (data.pics != null && data.pics != "") {
+            var img_arr = data.pics.split(",");
+
+            var extend_spot_data = [];
+            //图片
+            $(img_arr).each(function (index, obj) {
+                if (obj != null && obj != "") {
+                 //   $(".extend_spot_img").append(extend_set_spotitem(index, obj));
+                    extend_spot_data.push(extend_set_spotitem(index,obj));
+                }
+            });
+            extend_event_spot(extend_spot_data);
+            }
+            extend_show_spot();
+        }
+
+        function extend_set_spotitem(index, obj) {
+            //var result = "";
+            //result += "<a href='" + obj + "'> <img src='" + obj + "'  data-big='" + obj + "'   >   </a>";
+            //return result;
+
+            return { image: obj, big: obj };
+        }
+
+      
+        function extend_event_spot(data) {
+         
+       
+            Galleria.loadTheme('/newjs/galleria/galleria.classic.js');
+            $("#galleria").height(500);
+            // $("#galleria").galleria();
+        
+          
+            Galleria.run('#galleria', { dataSource: data });
+
+             
+        }
+
+        function extend_close_spot() {
+          //  $("#extend_spotview").html("");
+            $.unblockUI();
+        }
+
+   
+
+        function changePage(url) {
+
+
+            $.mobile.changePage("test2", {
+                transition: "slide"
+
+            });
+
+        }
+        extend_init_spot("day-content");
+    </script>
+    
 </body>
 </html>

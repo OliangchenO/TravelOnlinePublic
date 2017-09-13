@@ -10,6 +10,7 @@ using TravelOnline.Class.Manage;
 using TravelOnline.Class.Travel;
 using System.Data;
 using TravelOnline.Class.Purchase;
+using System.Web.Services.Protocols;
 
 namespace TravelOnline.WebService
 {
@@ -19,6 +20,7 @@ namespace TravelOnline.WebService
     [WebService(Namespace = "http://travelmis.com/webservices/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
+    [SoapDocumentService(RoutingStyle = SoapServiceRoutingStyle.RequestElement)]
     // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消对下行的注释。
     // [System.Web.Script.Services.ScriptService]
     public class LineUpLoad : System.Web.Services.WebService

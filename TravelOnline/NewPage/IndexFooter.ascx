@@ -7,15 +7,33 @@
 		<div class="column">
 			<div class="column-l">
 				<h2>合作伙伴</h2>
-				<div class="partner clearfix">
-					<a class="friend01" href="http://gb.evaair.com/gate/gb/www.evaair.com/html/b2c/chinese/" title="台湾长荣航空" target="_blank" rel="nofollow"></a>
-					<a class="friend02" href="http://www.cytscargo.com/" title="上海青旅物流" target="_blank" rel="nofollow"></a>
-					<a class="friend03" href="http://www.scyts.com/outbound/1051-0-0.html" title="上海青旅欧洲火车游专家" target="_blank" rel="nofollow"></a>
-					<a class="friend04" href="http://www.scyts.com/ad/master2013/" title="万事达信用卡" target="_blank" rel="nofollow"></a>
-					<a class="friend05" href="http://www.scyts.com/ad/2014boccash/" title="中国银行" target="_blank" rel="nofollow"></a>
+				<div class="box">
+					<div class="picbox">
+						<ul class="piclist mainlist">
+							<!--旅游局-->
+							<li><a href="http://www.australia.cn/zh-cn" target="_blank"><img src="images/aus.jpg" /></a></li>
+							<li><a href="http://www.newzealand.com/cn/" target="_blank"><img src="images/nz.jpg" /></a></li>
+							<li><a href="http://www.visitcalifornia.com/cn" target="_blank"><img src="images/cal.jpg" /></a></li>
+							<li><a href="http://www.gousa.cn/" target="_blank"><img src="images/usa.jpg" /></a></li>
+							<!--银行-->
+							<li><a href="http://www.boc.cn/" target="_blank"><img src="images/zg.jpg" /></a></li>
+				            <li><a href="http://www.ccb.com/" target="_blank"><img src="images/jh.jpg" /></a></li>
+							<li><a href="http://www.bankofshanghai.com/" target="_blank"><img src="images/sh.jpg" /></a></li>
+							<li><a href="http://www.srcb.com/" target="_blank"><img src="images/ns.jpg" /></a></li>
+							<!--邮轮-->
+				            <li><a href="http://www.rcclchina.com.cn/" target="_blank"><img src="images/hj.jpg" /></a></li>
+							<li><a href="http://www.goncl.cn/" target="_blank"><img src="images/xyh.jpg" /></a></li>
+							<li style="padding:0;"><a href="javascript:void(0);" target="_blank"><img src="" /></a></li>
+							<li style="padding:0;"><a href="javascript:void(0);" target="_blank"><img src="" /></a></li>
+						</ul>
+				        <ul class="piclist swaplist"></ul>
+					</div>
+					<div class="og_prev"></div>
+					<div class="og_next"></div>
 				</div>
 			</div>
 		</div>
+		<!-- 关注我们
 		<div class="column">
 			<div class="column-l clearfix">
 				<h2>关注我们</h2>
@@ -31,6 +49,7 @@
 				</div>
 			</div>
 		</div>
+		-->
 		<div class="seo-wrap">
 			<div class="seo-hot">
 				<h4>旅游导航分类</h4>
@@ -100,7 +119,6 @@
 					<li><a href="http://you.ctrip.com" target=_blank>携程攻略</a></li>
                     <li><a href="http://www.hanyouwang.com/" target=_blank>韩国旅游攻略</a></li>
                     <li><a href="http://sh.uzai.com" target=_blank>上海旅游</a></li>
-                    <li><a href="http://www.icaile.com" target=_blank>11选5</a></li>
                     <li><a href="http://cn.konest.com" target=_blank>韩国旅游</a></li>
                     <li><a href="http://harbin.cncn.com" target=_blank>哈尔滨旅游</a></li>
                     <li><a href="http://www.52udl.com" target=_blank>大连旅行社</a></li>
@@ -133,48 +151,92 @@
 					<a rel="nofollow" href="/service/aboutus.html" target="_blank">关于我们</a>
 					<a rel="nofollow" href="/service/contactus.html" target="_blank">联系我们</a>
 					<a rel="nofollow" href="/service/joinus.html" target="_blank">人才招聘</a>
-					<a rel="nofollow" href="/service/partner.html" target="_blank">同行分销</a>
+					<a rel="nofollow" href="/service/partner.html" target="_blank">BD合作</a>
 					<a rel="nofollow" href="/service/advertising.html" target="_blank">广告服务</a>
+					<a rel="nofollow" href="http://www.scyts.com/showinfo/311.html" target="_blank">公司声明</a>
 				</div>
-				<p>沪ICP备案编号：05016600 Copyright©2006-2014 上海中国青年旅行社 版权所有</p>
+				<p>沪ICP备案编号：05016600 Copyright©2006-2016 上海中国青年旅行社有限公司 版权所有</p>
+				<p>本网站使用图片来源自全景网</p>
+				<!--可信网站
 				<div class="safety">
 					<a id="urlknet" tabindex="-1" href="https://kxlogo.knet.cn/verifyseal.dll?sn=2011042500100008043&amp;ct=df&amp;pa=340789" target="_blank">
                     	<img oncontextmenu="return false;" onclick="change('urlknet')" border="true" name="seal" alt="可信网站" src="/Images/112_40_EAWZul.jpg" width="112" height="40">
                     </a> 
                     <a href="http://www.51315.cn/company_details_2161" target="_blank"><img src="/Images/xinyong.png" alt="诚信在线" /></a> 
 				</div>
+				-->
 			</div>
 		</div>
 	</div>
 	<!--页尾End-->
-	<!--右侧工具栏-->
-	<div class="side-fixed">
-		<a id="goTop" class="top" href="javascript:;" title="返回顶部"><img src="image/fixed_top.png" alt=""></a>
-		<!--<a href="javascript:;">在线客服</a>
-		<a class="off" href="javascript:;">建议反馈</a>-->
+
+	<!-- 在线咨询 begin -->
+	<div class="main-im">
+		<div id="open_im" class="open-im">&nbsp;</div>  
+		<div class="im_main" id="im_main">
+			<div id="close_im" class="close-im"><a href="javascript:void(0);" title="点击关闭">&nbsp;</a></div>
+            <a href="http://www.scyts.com/showinfo/327.html" target="_blank" class="im-qq qq-a" title="喜报：我社荣获“2017上海市徐汇区旅游行业技能大赛”“四项大奖">●喜报：我社荣获“2017上海市徐汇区旅游行业技能大赛”“四项大奖</a>
+			<a href="http://www.scyts.com/showinfo/326.html" target="_blank" class="im-qq qq-a" title="人民广场营业部搬迁公告发布">●人民广场营业部搬迁公告发布</a>
+			<a href="http://www.scyts.com/showinfo/325.html" target="_blank" class="im-qq qq-a" title="离团不离心，满怀激情喜迎十九大">●离团不离心，满怀激情喜迎十九大</a>
+			<a href="http://www.scyts.com/showinfo/324.html" target="_blank" class="im-qq qq-a" title="热烈祝贺我社导游沈伟颖荣获第三届全国导游大赛铜奖">●热烈祝贺我社导游沈伟颖荣获第三届全国导游大赛铜奖</a>
+		</div>
 	</div>
-    <%--<script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?670e68bb0a5926537ba7c720575bc7eb";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-    <!-- WPA Button Begin --> 
-    <script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODA2MTc2OF8xOTE5NV80MDA2Nzc3NjY2Xw"></script> 
-    <!-- WPA Button End --> 
-        
-    <!-- WPA Button Begin --> 
-    <script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODA2MTc2OF8xMjIzXzQwMDY3Nzc2NjZf"></script> 
-    <!-- WPA Button End --> --%>
-    <script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?eca822017290a9945e6643915f0d8353";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
+	<script>
+		$(function(){
+			$('#close_im').bind('click',function(){
+				$('#main-im').css("height","0");
+				$('#im_main').hide();
+				$('#open_im').show();
+			});
+			$('#open_im').bind('click',function(e){
+				$('#main-im').css("height","272");
+				$('#im_main').show();
+				$(this).hide();
+			});
+			$('.go-top').bind('click',function(){
+				$(window).scrollTop(0);
+			});
+			$(".weixing-container").bind('mouseenter',function(){
+				$('.weixing-show').show();
+			})
+			$(".weixing-container").bind('mouseleave',function(){        
+				$('.weixing-show').hide();
+			});
+		});
+	</script>
+	<!-- 在线咨询 end-->
+
+    <!--百度统计3.0 账号:上海青旅seo，更新日期2015/12/9-->
+        <script>
+            var _hmt = _hmt || [];
+            (function () {
+                var hm = document.createElement("script");
+                hm.src = "//hm.baidu.com/hm.js?74555fb7e3a2ce7bf07fa207c470ba25";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+	<!--百度统计3.0 END-->
+
+    <!--Google Analytics 账号:ScytsSEO@gmail.com，更新日期2015/11/4-->
+		<script>
+		    (function (i, s, o, g, r, a, m) {
+		        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+		            (i[r].q = i[r].q || []).push(arguments)
+		        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+		  m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		    ga('create', 'UA-69620813-1', 'auto');
+		    ga('send', 'pageview');
+
+		</script>
+<!--Google Analytics END-->
+
+<!--cnzz统计 账号:ScytsSEO@gmail.com，更新日期2015/11/4-->
+		<script type="text/javascript">
+		    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+		    document.write(unescape("%3Cspan id='cnzz_stat_icon_1256932173'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol
+		+ "s4.cnzz.com/z_stat.php%3Fid%3D1256932173' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	<!--cnzz统计 END-->

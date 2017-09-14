@@ -68,7 +68,7 @@ namespace TravelOnline.Management
                     CString.Append("<option value=\"Service7\">关于我们</option>");
                     CString.Append("<option value=\"Service1\">联系我们</option>");
                     CString.Append("<option value=\"Service2\">人才招聘</option>");
-                    CString.Append("<option value=\"Service3\">同行分销</option>");
+                    CString.Append("<option value=\"Service3\">BD合作</option>");
                     CString.Append("<option value=\"Service4\">广告服务</option>");
                     CString.Append("<option value=\"Service5\">服务终端</option>");
                     CString.Append("<option value=\"Service6\">销售联盟</option>");

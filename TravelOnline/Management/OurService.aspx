@@ -48,7 +48,7 @@ href="/Management/ManageHome.aspx">管理中心首页</A>&nbsp;&gt;&nbsp;<SPAN>�
             <asp:ListItem Value="Service7">关于我们</asp:ListItem>
             <asp:ListItem Value="Service1">联系我们</asp:ListItem>
             <asp:ListItem Value="Service2">人才招聘</asp:ListItem>
-            <asp:ListItem Value="Service3">同行分销</asp:ListItem>
+            <asp:ListItem Value="Service3">BD合作</asp:ListItem>
             <asp:ListItem Value="Service4">广告服务</asp:ListItem>
             <asp:ListItem Value="Service5">服务终端</asp:ListItem>
             <asp:ListItem Value="Service6">销售联盟</asp:ListItem>            
@@ -192,7 +192,7 @@ href="/Management/ManageHome.aspx">管理中心首页</A>&nbsp;&gt;&nbsp;<SPAN>�
             }
             else
             { return false; }
-            $("input[name$='CheckBox']:checked").each(function () { arrChk += "'" + this.value + "',"; });
+            $("input[name$='CheckBox']:checked").each(function () { arrChk += "" + this.value + ","; });
             arrChk = arrChk.substr(0, arrChk.length - 1);
             var url = "AjaxService.aspx?action=DeleteAfficheInfos&AfficheFlag=" + $("#DropDownList1").val() + "&Id=" + arrChk + "&DbTableName=OL_Dept&r=" + Math.random();
             $.getJSON(url, function (date) {

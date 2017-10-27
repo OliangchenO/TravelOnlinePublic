@@ -1,5 +1,5 @@
 .wrap {width: 100%; position: relative;}
-.content {width: 100%; background: url('../images/bg.jpg') top center no-repeat; z-index: 0;}
+.content {width: 100%; background: url('../images/bg.jpg') top center no-repeat; z-index: 10;}
 .content-box {margin: 0 auto; line-height: 0;}
 @media screen and (min-width: 1201px) {
     .content-box {
@@ -17,9 +17,18 @@ a:hover {color: #fff;}
 .bg h3 {font: bold 16px/22px 'Microsoft Yahei'; height: 44px; overflow: hidden;margin-bottom: 48px;}
 .bg span {display: inline-block; line-height: 32px; width: 110px; color: #104eb4; font: bold 26px/26px 'arial'; overflow: hidden; white-space: nowrap;}
 .bg em {font-size: 20px;}
-.bg01 {display: block;width: 100%; height: 795px; background: url('../images/p_01.jpg') no-repeat;}
-.bg02 {display: block; width: 100%; height: 934px; background: url('../images/p_04.jpg') no-repeat;}
-.bg02 a { display: block; width: 370px; height: 430px; margin-top:21px; margin-left:21px;float:left;}
+.bg01 {display: block;width: 100%; height: 465px; background: url('../images/p_03.jpg') no-repeat;}
+.bg03 {display: block; width: 100%; height: 305px; background: url('../images/p_04.jpg') no-repeat;}
+.bg03 a { display: block; width: 975px; height: 280px; margin-left:115px;float:left;}
+.bg02 {display: block; width: 100%; height: 2073px; background: url('../images/p_02.jpg') no-repeat;}
+.bg02 .first { display: block; width: 280px; height: 223px; margin-top:15px; margin-left:20px;float:left;}
+.bg02 .second { display: block; width: 280px; height: 223px; margin-top:40px; margin-left:20px;float:left;}
+.bg02 .third { display: block; width: 280px; height: 223px; margin-top:100px; margin-left:20px;float:left;}
+.bg02 .up { display: block; width: 280px; height: 165px; float:left;}
+.bg02 .down { display: block; width: 280px; height: 55px; float:left;}
+.bg02 .fourth { display: block; width: 280px; height: 223px; margin-top:10px; margin-left:20px;float:left;}
+.bg02 .fifth { display: block; width: 225px; height: 220px; margin-top:98px; margin-left:250px;float:left;}
+.bg02 .fifth-left20 { margin-left:15px;}
 /*在线咨询*/
 .main-im{position:fixed;right:10px;top:300px;z-index:100;width:110px;height:272px;}
 .main-im .qq-a{display:block;width:106px;height:116px;font-size:14px;color:#0484cd;text-align:center;position:relative;}

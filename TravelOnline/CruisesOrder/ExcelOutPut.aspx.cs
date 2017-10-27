@@ -341,13 +341,18 @@ namespace TravelOnline.CruisesOrder
                             cells[4 + i, 2].PutValue(DS.Tables[0].Rows[i]["RoomNo"].ToString());
                             cells[4 + i, 3].PutValue(DS.Tables[0].Rows[i]["GuestEnName"].ToString());
                             cells[4 + i, 4].PutValue(DS.Tables[0].Rows[i]["GuestName"].ToString());
-                            cells[4 + i, 5].PutValue(DS.Tables[0].Rows[i]["IdNumber"].ToString());
-                            cells[4 + i, 6].PutValue(DS.Tables[0].Rows[i]["Sex"].ToString());
-                            cells[4 + i, 7].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["BirthDay"]));
-                            cells[4 + i, 8].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["PassEnd"]));
-                            cells[4 + i, 9].PutValue(DS.Tables[0].Rows[i]["Mobile"].ToString());
-                            cells[4 + i, 10].PutValue(DS.Tables[0].Rows[i]["AutoId"].ToString());
-                            cells[4 + i, 11].PutValue(DS.Tables[0].Rows[i]["BookingNo"].ToString());
+                            if (DS.Tables[0].Rows[i]["IdNumber"].ToString().Contains("/"))
+                            {
+                                string[] idNumbers = DS.Tables[0].Rows[i]["IdNumber"].ToString().Split('/');
+                                cells[4 + i, 5].PutValue(idNumbers[0]);
+                                cells[4 + i, 6].PutValue(idNumbers[1]);
+                            }
+                            cells[4 + i, 7].PutValue(DS.Tables[0].Rows[i]["Sex"].ToString());
+                            cells[4 + i, 8].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["BirthDay"]));
+                            cells[4 + i, 9].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["PassEnd"]));
+                            cells[4 + i, 10].PutValue(DS.Tables[0].Rows[i]["Mobile"].ToString());
+                            cells[4 + i, 11].PutValue(DS.Tables[0].Rows[i]["AutoId"].ToString());
+                            cells[4 + i, 12].PutValue(DS.Tables[0].Rows[i]["BookingNo"].ToString());
                         }
 
                         

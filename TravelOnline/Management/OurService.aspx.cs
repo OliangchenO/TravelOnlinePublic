@@ -64,7 +64,7 @@ namespace TravelOnline.Management
                         e.Row.Cells[2].Text = "人才招聘";
                         break;
                     case "Service3":
-                        e.Row.Cells[2].Text = "同行分销";
+                        e.Row.Cells[2].Text = "BD合作";
                         break;
                     case "Service4":
                         e.Row.Cells[2].Text = "广告服务";

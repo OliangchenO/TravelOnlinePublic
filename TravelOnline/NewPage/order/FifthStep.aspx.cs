@@ -49,7 +49,7 @@ namespace TravelOnline.NewPage.order
                         if (SendCount == null && pay != "")
                         {
                             //发送短信
-                            string smsMessage = "您已成功支付定金：" + pay + "元，请在活动当天付清余款！【上海青旅】";
+                            string smsMessage = "您已成功支付定金：" + pay + "元，请在活动期间付清余款！【上海青旅】";
                             string smsMessagesendresult = SendSms.SendSMS_ztsms(orderMobile, smsMessage);
                             string ip = GetClientIP();
                             if (smsMessagesendresult == "ok")

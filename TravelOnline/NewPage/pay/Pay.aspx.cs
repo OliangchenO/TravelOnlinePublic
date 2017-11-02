@@ -13,9 +13,9 @@ namespace TravelOnline.NewPage
 {
     public partial class Pay : System.Web.UI.Page
     {
-        public string LoginInfo = "", OrderId, linename, autoid, ordernums, orderdate, price, username, planid, pufaprice,lineId,boshprice,couponAmount;
+        public string LoginInfo = "", OrderId, linename, autoid, ordernums, orderdate, price, username, planid, pufaprice,lineId,boshprice,couponAmount, cmbprice;
         public string hide1 = "hide", hide2 = "hide", hide3 = "hide", hide4 = "hide", hide5 = "", hide1_1 = "hide";
-        public string payhide11 = "", payhide12 = "hide", payhide21 = "", payhide22 = "hide", payhide31 = "", payhide32 = "hide", payhide41 = "", payhide42 = "hide",payhide50="", payhide51 = "", payhide52 = "hide";
+        public string payhide11 = "", payhide12 = "hide", payhide21 = "", payhide22 = "hide", payhide31 = "", payhide32 = "hide", payhide41 = "", payhide42 = "hide",payhide50="", payhide51 = "", payhide52 = "hide", payhide61 = "去分期", payhide62 = "hide";
         decimal N_PayNow, N_Pay, N_Yfk, N_Yue, All_Yfk;
         public string yfk, Pays, YeE;
         public string aType, aPrice, hide6="hide";
@@ -104,6 +104,7 @@ namespace TravelOnline.NewPage
                 }
                 pufaprice = YeE;
                 boshprice = YeE;
+                cmbprice = YeE;
                 Pays = DS.Tables[0].Rows[0]["pay"].ToString();
                 yfk = MyConvert.ConToDec(DS.Tables[0].Rows[0]["yfk"].ToString()).ToString();
                 All_Yfk = MyConvert.ConToDec(DS.Tables[0].Rows[0]["OrderNums"].ToString()) * MyConvert.ConToDec(yfk);//最低预付总额
@@ -193,7 +194,23 @@ namespace TravelOnline.NewPage
                     payhide51 = "";
                     payhide52 = "hide";
                 }
-                
+
+                if (isCmb())
+                {
+                    payhide11 = "";
+                    payhide12 = "hide";
+                    payhide21 = "";
+                    payhide22 = "hide";
+                    payhide31 = "";
+                    payhide32 = "hide";
+                    payhide41 = "";
+                    payhide42 = "hide";
+                    payhide51 = "";
+                    payhide52 = "hide";
+                    payhide61 = "分期立减";
+                    payhide62 = "";
+                }
+
                 orderdate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
 
                 if (Convert.ToString(ConfigurationManager.AppSettings["pdyh2000"]).IndexOf(planid) > -1)
@@ -240,6 +257,48 @@ namespace TravelOnline.NewPage
                     {
                         boshprice = (pprice - lijian).ToString();
                         YeE = boshprice;
+                    }
+                }
+
+                if (isCmb500())
+                {
+                    decimal pprice = MyConvert.ConToDec(price);
+                    if (pprice >= 5000)
+                    {
+                        decimal lijian = 500;
+                        if (pprice > lijian)
+                        {
+                            cmbprice = (pprice - lijian).ToString();
+                            YeE = cmbprice;
+                        }
+                    }
+                }
+
+                if (isCmb600())
+                {
+                    decimal pprice = MyConvert.ConToDec(price);
+                    if (pprice >= 5000)
+                    {
+                        decimal lijian = 600;
+                        if (pprice > lijian)
+                        {
+                            cmbprice = (pprice - lijian).ToString();
+                            YeE = cmbprice;
+                        }
+                    }
+                }
+
+                if (isCmb1300())
+                {
+                    decimal pprice = MyConvert.ConToDec(price);
+                    if (pprice >= 5000)
+                    {
+                        decimal lijian = 1300;
+                        if (pprice > lijian)
+                        {
+                            cmbprice = (pprice - lijian).ToString();
+                            YeE = cmbprice;
+                        }
                     }
                 }
 
@@ -301,6 +360,24 @@ namespace TravelOnline.NewPage
             return Convert.ToString(ConfigurationManager.AppSettings["SHRCBLine"]).IndexOf(lineId) > -1;
         }
 
+        private Boolean isCmb()
+        {
+            return Convert.ToString(ConfigurationManager.AppSettings["cmbActivity"]).IndexOf(lineId) > -1;
+        }
 
+        private Boolean isCmb500()
+        {
+            return Convert.ToString(ConfigurationManager.AppSettings["cmb500"]).IndexOf(lineId) > -1;
+        }
+
+        private Boolean isCmb600()
+        {
+            return Convert.ToString(ConfigurationManager.AppSettings["cmb600"]).IndexOf(lineId) > -1;
+        }
+
+        private Boolean isCmb1300()
+        {
+            return Convert.ToString(ConfigurationManager.AppSettings["cmb1300"]).IndexOf(lineId) > -1;
+        }
     }
 }

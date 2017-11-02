@@ -18,7 +18,7 @@
 <!-- Theme styles START -->
 
 <link href="/assets/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
 <link href="/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/> 
 <link href="/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
 <link href="/assets/plugins/iCheck/skins/square/grey.css" rel="stylesheet" type="text/css"/>

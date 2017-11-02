@@ -136,7 +136,7 @@ var _hmt = _hmt || [];
                     <li><div class=tname>订单金额：</div><div class=tinfo><span class="base_price02">&yen;</span><span class="base_price02" id="spanAmount"><%=Price%></span> </div></li>
                     <%=FkInfo%>
                     <li class="<%=hide6 %>">
-                        此产品为预购产品，您现在需支付的99元将作为定金，2015年11月11日当天付清余款，取消定单，定金不予退还
+                        此产品为预购产品，您现在需支付的<%=Nums%>元将作为定金，2017年12月1日至2017年12月31日期间清余款，取消定单，定金不予退还
                     </li>
                     <li><div class=tname>已付款：</div><div class=tinfo><span class="base_price02">&yen;</span><span class="base_price02" id="span2"><%=Pay%></span></div></li>
                     <li><div class=tname>本次付款：</div><div class=tinfo><span class="base_price02" style="FONT-SIZE: 20px;">&yen;</span><input id="P_PayNow" name="P_PayNow" readonly type="text" class="easyui-numberbox" precision="0" max="999999" size="7" maxlength="9" style="WIDTH: 100px;text-align:center;FONT-WEIGHT: bold; FONT-SIZE: 20px; color:#e56700;BORDER-BOTTOM: #196297 1px solid;BORDER-LEFT: #ffffff 1px solid;BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid;" value="<%=YeE %>"/></div></li>

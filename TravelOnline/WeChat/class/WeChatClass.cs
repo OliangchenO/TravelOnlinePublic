@@ -539,7 +539,6 @@ namespace TravelOnline.WeChat
                 }
 
                 infos = AllStrings.ToString();
-                //infos = "aasfa";
                 AllStrings.Clear();
                 Pics.Clear();
                 Strings.Clear();

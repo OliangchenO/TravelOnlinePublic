@@ -80,7 +80,7 @@
             </div>
             <div class="con-info <%=hide6 %>">
             	<p>
-                此产品为预购产品，您现在需支付的99元将作为定金，2016年11月11日当天付清余款，取消定单，定金不予退还
+                此产品为预购产品，您现在需支付的<%=ordernums %>元将作为定金，2017年12月1日至2017年12月31日期间付清余款，取消定单，定金不予退还
                 </p>
             </div>
             <div class="con-info np <%=hide2 %>">
@@ -117,7 +117,7 @@
                 <%=payhide31 %>
                 <%=payhide41 %>
                 <%if(!(Convert.ToString(ConfigurationManager.AppSettings["SHRCBLine"]).IndexOf(lineId) > -1)){ %>
-                    <li id='qfqpay'>去分期<b class="ico_hui"></b></li>
+                    <li id='qfqpay'><%=payhide61 %><b class="ico_hui"></b></li>
                 <%} %>
                 <%=payhide51 %>
                 
@@ -402,7 +402,7 @@
                     </form>
                 </div>
                 <!--去分期-->
-                <div class="tabs bankpay hide">
+                <div class="tabs bankpay <%=payhide62 %>">
                     <form class="payform wx_pay01" action="#">
                         <div class="clear"></div>
                         <label id="show_fq" class="lab">
@@ -416,7 +416,6 @@
                                 <dd>选择分期数：
                                     <select class="staging" id="INS" style="margin: 0 0 60px 22px; display:none;">
                                         <option selected="selected" value="3">使用三个月建行分期付款</option>
-                                        <option value="6">使用六个月建行分期付款</option>
                                     </select>
                                 </dd>
                             </dl>

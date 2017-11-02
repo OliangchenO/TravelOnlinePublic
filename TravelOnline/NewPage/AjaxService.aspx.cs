@@ -960,14 +960,15 @@ namespace TravelOnline.NewPage
 
                 if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1)
                 {
+                    int aprice = 1 * MyConvert.ConToInt(ordernums);
                     TableName = "OL_ActivityOrder";
                     Fil = new string[5];
                     Val = new string[5];
                     Fil[0] = "OrderId"; Val[0] = orderid;
                     Fil[1] = "AType"; Val[1] = "1";//预付活动
-                    Fil[2] = "APrice"; Val[2] = "99";
-                    Fil[3] = "ABeginDate"; Val[3] = Convert.ToDateTime("2015-11-11 00:00:00").ToString();
-                    Fil[4] = "AEndDate"; Val[4] = Convert.ToDateTime("2015-11-11 23:59:59").ToString();
+                    Fil[2] = "APrice"; Val[2] = aprice.ToString();
+                    Fil[3] = "ABeginDate"; Val[3] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookbegin"].ToString()).ToString();
+                    Fil[4] = "AEndDate"; Val[4] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookend"].ToString()).ToString();
                     Sql.Add(MyDataBaseComm.InsertDataStr(TableName, Fil, Val, ""));
                 }
 

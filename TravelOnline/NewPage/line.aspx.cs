@@ -261,6 +261,24 @@ namespace TravelOnline.NewPage
             }
         }
 
+        private static void SaveInfoToLog(string Debuglog)
+        {
+            //string path = System.IO.Directory.GetCurrentDirectory(); //Application.StartupPath.StartupPath + @"\Errorlog.txt";
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\DebugLog.txt";
+
+            try
+            {
+                StreamWriter writer = new StreamWriter(path, true, Encoding.GetEncoding("UTF-8"));
+                writer.WriteLine(DateTime.Now.ToString() + ":");
+                writer.WriteLine(Debuglog);
+                writer.Close();
+            }
+            catch (Exception exception)
+            {
+                string message = exception.Message;
+            }
+        }
+
         protected void ReadRouteXML()
         {
             DataSet DS = new DataSet();

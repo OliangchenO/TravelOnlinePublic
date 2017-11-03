@@ -36,11 +36,11 @@ namespace TravelOnline.NewPage
 
         protected void LoadLineInfo()
         {
-            string SqlQueryText = string.Format("select top 1 *,(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = OL_Line.FirstDestination)) AS DestName from OL_Line where MisLineId='{0}'", LineId);
+            string SqlQueryText = string.Format("select top 1 *,(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = OL_Line.FirstDestination)) AS DestName from OL_Line where MisLineId={0}", LineId);
             string notshow = ConfigurationManager.AppSettings["NotShow"];
             if (notshow != null)
             {
-                SqlQueryText = string.Format("select top 1 *,(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = OL_Line.FirstDestination)) AS DestName from OL_Line where MisLineId='{0}' and MisLineId !='{1}'", LineId, notshow);
+                SqlQueryText = string.Format("select top 1 *,(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = OL_Line.FirstDestination)) AS DestName from OL_Line where MisLineId='{0}' and MisLineId not in ({1})", LineId, notshow);
             }
             DataSet DS = new DataSet();
             DS.Clear();

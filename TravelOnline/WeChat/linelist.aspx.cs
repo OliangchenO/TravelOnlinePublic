@@ -214,7 +214,7 @@ namespace TravelOnline.WeChat
                         ArrJson3 = Data.GetJsonList(dt3);
                         ObJson.Add("XmlRoute", ArrJson3);
                         //签证信息
-                        if (dt.Rows[0]["LineFlag"] == "3")
+                        if (dt.Rows[0]["LineFlag"].ToString() == "3")
                         {
                             XmlNodeList elemList = XmlDoc.GetElementsByTagName("RouteInfos");
                             DataTable dt2 = new DataTable();

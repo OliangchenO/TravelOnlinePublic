@@ -100,7 +100,7 @@
             <div class="<%=payhide12 %>">
                 <div class="sum">第三方支付，最低预付款金额为：<span><b>¥</b><%=yfk%><em>元</em></span></div>
                 <div class="sum write">请填写您要支付的金额：
-                    <span><b class="empty">¥</b></span><input name="money" id="money" type="text" value="<%=YeE%>" class="cost easyui-numberbox" precision="0" max="99999999" maxlength="8">
+                    <span><b class="empty">¥</b></span><input name="money" id="money" type="text" readonly value="<%=YeE%>" class="cost easyui-numberbox" precision="0" max="99999999" maxlength="8">
                 </div>
             </div>
         </div>

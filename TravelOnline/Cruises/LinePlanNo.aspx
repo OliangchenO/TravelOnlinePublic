@@ -83,6 +83,7 @@
                 <a id=A5 href="javascript:" class="easyui-linkbutton" plain="false" onclick="OutPut('AllChuJing')">出境名单选择导出</a>
                 <a id=A6 href="javascript:" class="easyui-linkbutton" plain="false" onclick="OutPut('liangzihao')">量子号选择导出</a>
                 <a id=A7 href="javascript:" class="easyui-linkbutton" plain="false" onclick="OutPut('nuoweizhen')">诺唯真号选择导出</a>
+                <a id=A8 href="javascript:" class="easyui-linkbutton" plain="false" onclick="OutPut('bianjianbiao')">边检表选择导出</a>
             </div>
             <DIV id="inputs" class=hide>
                 <asp:Button ID="GridView_Refresh_Button" runat="server" onclick="GridView_Refresh" Text="Button" />
@@ -245,6 +246,10 @@
                 doname = "导出诺唯真号总表";
                 action = "NVZCharterManifest"
             }
+            if (flag == "边检表") {
+                doname = "导出边检表表";
+                action = "bianjianbiao"
+            }
             var items = $("input[name='CheckBox']:checked");
             if (items.length == 0) {
                 jNotify('<strong>请选择要批量操作的数据!</strong>', { ShowOverlay: false, HorizontalPosition: 'center', VerticalPosition: 'center' });
@@ -269,6 +274,8 @@
             $("#A6").attr("href", "javascript:void(0);");
             $("#A7").attr("target", "");
             $("#A7").attr("href", "javascript:void(0);");
+            $("#A8").attr("target", "");
+            $("#A8").attr("href", "javascript:void(0);");
 
             $("input[name$='CheckBox']:checked").each(function () { arrChk += this.value + ","; });
             arrChk = arrChk.substr(0, arrChk.length - 1);
@@ -312,6 +319,12 @@
                 var url = "/CruisesOrder/NuoWeiZhenHao.aspx?flag=1&action=" + action + "&lineid=" + $("#Cid").val() + "&cid=" + arrChk;
                 $("#A7").attr("href", url);
                 $("#A7").attr("target", "_blank");
+                return false;
+            }
+            if (flag == "bianjianbiao") {
+                var url = "/CruisesOrder/Bianjianbiao.aspx?flag=1&action=" + action + "&lineid=" + $("#Cid").val() + "&cid=" + arrChk;
+                $("#A8").attr("href", url);
+                $("#A8").attr("target", "_blank");
                 return false;
             }
         }

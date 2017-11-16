@@ -839,7 +839,6 @@ namespace TravelOnline.Purchase
                 string IdType = "", IdentityCard = "";
                 for (int i = 0; i < AllInfo.Length; i++)
                 {
-                    
                     string[] PriceInfo = Regex.Split(AllInfo[i], @"\@\@", RegexOptions.IgnoreCase);
                     if (PriceInfo.Length > 0)
                     {

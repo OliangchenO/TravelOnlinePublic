@@ -1,6 +1,7 @@
 ﻿//if ($.cookie("loginstep") != "login") {
 //    if ($.cookie("orderuid") == null) top.location = "/app/main";
 //}
+
 var detailid = "";
 var pagehash = window.location.hash.replace("#", "").toLowerCase();
 var actions = window.location.hash.replace("#", "").toLowerCase();

@@ -50,6 +50,7 @@ namespace TravelOnline.WeChat
                 GetOpenID();
             }
             string state = Request.QueryString["state"];
+            
             if ("Fx_regedit".Equals(state))
             {
                 fxRegedit();
@@ -57,8 +58,9 @@ namespace TravelOnline.WeChat
             else if ("Wx_regedit".Equals(state))
             {
                 regedit();
+            }else {
+                regedit_ticket(state);
             }
-            
         }
 
         private void GetOpenID()
@@ -231,6 +233,92 @@ namespace TravelOnline.WeChat
                     Session["Online_UserName"] = userinfo.nickname;
                     int sex = 1;
                     if(userinfo.sex=="2"){
+                        sex = 0;
+                    }
+                    LoginUser.RegistUser RUser = new LoginUser.RegistUser
+                    {
+                        Id = Session["Online_UserId"].ToString(),
+                        UserName = userinfo.nickname,
+                        ThirdPartyType = "WeiXin",
+                        ThirdPartyID = userinfo.openid,
+                        Sex = sex
+                    };
+                    if (LoginUser.LoginUser_Sql(RUser, "Regist") != true)
+                    {
+                        Log.Debug("注册失败", "注册失败");
+                        Response.Write("({\"error\":\"<i></i>注册失败\"})");
+                        Response.End();
+                    }
+                    else
+                    {
+                        Log.Debug("注册成功", "注册成功，跳转");
+                        if (Convert.ToString(HttpContext.Current.Session["OrderUid"]).Length > 0)
+                        {
+                            Response.Redirect("/WeChat/order.aspx#first");
+                        }
+                        else
+                        {
+                            Response.Redirect("/WeChat/order.aspx#member");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Debug("EX:", ex.Message.ToString());
+                throw ex;
+            }
+        }
+
+        private void regedit_ticket(string flag)
+        {
+            Log.Debug("regedit()", "start!");
+            try
+            {
+                string SqlQueryText = string.Format("select top 1 ID,ThirdPartyID,UserName  from OL_LoginUser where ThirdPartyID='{0}'", Session["openid"]);
+                DataSet DS = new DataSet();
+                DS.Clear();
+                DS = MyDataBaseComm.getDataSet(SqlQueryText);
+                Log.Debug("SqlQueryText:", SqlQueryText);
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    Log.Debug("有", SqlQueryText);
+                    Session["Online_UserId"] = DS.Tables[0].Rows[0]["Id"].ToString();
+                    Session["Online_UserName"] = DS.Tables[0].Rows[0]["UserName"].ToString();
+                    Log.Debug("regedit_ticket(): if(SqlQueryText)", "有" + DS.Tables[0].Rows[0]["ThirdPartyID"].ToString());
+                    //string loginstep = Convert.ToString(Request.Cookies["loginstep"]);
+                    string url = Request.Url.ToString();
+                    if (flag == "Wx_regedit_ticket")
+                    {
+                        string lineid = Request.QueryString["LineId"];
+                        if (null != lineid && "" != lineid)
+                        {
+                            Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + lineid);
+                        }else
+                        {
+                            Response.Redirect("/WeChat/order_ticket.aspx?LineId=25039");
+                        }
+                    } else if (flag == "Wx_regedit_share")
+                    {
+                        Response.Redirect("/WeChat/Share/OrderShare.aspx?LineId=25039");
+                    } else if (flag == "Wx_qa") {
+                        Response.Redirect("/WeChat/Share/Wenda.aspx");
+                    } else
+                    {
+                        Response.Redirect("/WeChat/order_ticket.aspx?LineId=25039");
+                    }
+                    
+                }
+                else
+                {
+                    RefreshAccess_token();
+                    Userinfo userinfo = GetWeiXinUserInfo();
+                    Log.Debug("if(SqlQueryText)", "无");
+                    Session["Online_UserId"] = Convert.ToString(CombineKeys.NewComb());
+                    Session["Online_UserName"] = userinfo.nickname;
+                    int sex = 1;
+                    if (userinfo.sex == "2")
+                    {
                         sex = 0;
                     }
                     LoginUser.RegistUser RUser = new LoginUser.RegistUser

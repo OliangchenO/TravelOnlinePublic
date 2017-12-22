@@ -24,6 +24,8 @@ using TravelOnline.WeChat.freetrip.interfaces;
 using LitJson;
 using TestMvc.Utility;
 using System.Net;
+using TravelOnline.WeChat.Util;
+using Belinda.Jasp;
 
 namespace TravelOnline.WeChat
 {
@@ -85,7 +87,7 @@ namespace TravelOnline.WeChat
                     Response.End();
                     break;
                 case "OrderSubmit":
-                    Response.Write(WeChatOrder.OrderSubmit(Request.QueryString["uid"], Request.QueryString["paytype"], Request.QueryString["integral"], Request.Form["ordername"].Trim(), Request.Form["orderphone"].Trim(), Request.Form["orderemail"].Trim(), Request.Form["ordermemo"].Trim()));
+                    Response.Write(WeChatOrder.OrderSubmit(Request.QueryString["uid"], Request.QueryString["paytype"], Request.QueryString["integral"], Request.Form["ordername"].Trim(), Request.Form["orderphone"].Trim(), Request.Form["orderemail"].Trim(), Request.Form["ordermemo"].Trim(),""));
                     Response.End();
                     break;
                 case "OrderList":
@@ -187,6 +189,38 @@ namespace TravelOnline.WeChat
                     //Response.Write(WeChatOrder.IntegralDetail());
                     //Response.End();
                     Response.Write(WeChatOrder.IntegralDetail_New());
+                    Response.End();
+                    break;
+
+                //团市委开始
+                case "getEncryptDes":
+                    JSONObject ObJson = new JSONObject();
+                    ObJson.Add("phoneNumber", Request.QueryString["phoneNumber"]);
+                    Response.Write(Tuanshiwei.getEncryptDes(json.SerializeObject(ObJson)));
+                    Response.End();
+                    break;
+                    
+                case "orderTotsw":
+                    Response.Write(WeChatOrder.orderTotsw(Request.Form["activityId"], Request.Form["lineid"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"]));
+                    Response.End();
+                    break;
+                    //团市委结束
+
+                case "orderTicket":
+                    Response.Write(WeChatOrder.orderTicket(Request.Form["LineId"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"], Request.QueryString["preferCode"].Trim()));
+                    Response.End();
+                    break;
+
+                case "orderShare":
+                    Response.Write(WeChatOrder.orderShare(Request.Form["LineId"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"]));
+                    Response.End();
+                    break;
+                case "checkPrefer":
+                    Response.Write(WeChatOrder.checkPrefer(Request.QueryString["preferCode"], Request.QueryString["lineId"]));
+                    Response.End();
+                    break;
+                case "qa":
+                    Response.Write(Question(Request.Form["First"].Trim(), Request.Form["Second"].Trim(), Request.Form["Third"].Trim(), Request.Form["Fourth"].Trim(), Request.Form["Fifth"].Trim()));
                     Response.End();
                     break;
                 default:
@@ -553,7 +587,7 @@ namespace TravelOnline.WeChat
             if (ip != null)
             {
                 string SendNum = MyDataBaseComm.getScalar("select count(id) from OL_SmsSend where sendtime>GETDATE()-1 and flag='FxMobileLogin' and ip='" + ip + "'");
-                if (MyConvert.ConToInt(SendNum) > 30)
+                if (MyConvert.ConToInt(SendNum) > 500)
                 {
                     SaveErrorToLog("发送多次发送验证码ip：" + ip);
                     Response.Write("({\"error\":\"<i></i>此IP发送次数过多\"})");
@@ -809,7 +843,28 @@ namespace TravelOnline.WeChat
                 Response.Write("{\"isError\":0,\"msg\":\"点评发布失败，请稍后再试\"}");
                 Response.End();
             }
+        }
 
+        public string Question(string First, string Second, string Third, string Fourth, string Fifth)
+        {
+            string code = MyDataBaseComm.getScalar(string.Format("Select id from ol_question where userid='{0}'", Convert.ToString(Session["Online_UserId"]).Trim()));
+            if (code != null && !"".Equals(code))
+            {
+                Response.Redirect("/WeChat/Share/Wenda.aspx",true);
+            }
+            if (First.Equals("C") && Second.Equals("C") && Third.Equals("C") && Fourth.Equals("C") && Fifth.Equals("C"))
+            {
+                string SqlQueryText = string.Format("insert into OL_Question (userid) values ('{0}')", Convert.ToString(Session["Online_UserId"]));
+                if (MyDataBaseComm.ExcuteSql(SqlQueryText) == true)
+                {
+                    return "{\"success\":\"OK\"}";
+                }
+                else
+                {
+                    return "{\"error\":\"生成抽奖码失败，请稍后再试！\"}";
+                }
+            }
+            return "{\"error\":\"问题回答错误，请重新答题！\"}";
         }
 
     }

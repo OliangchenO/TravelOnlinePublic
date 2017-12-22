@@ -104,7 +104,9 @@ namespace TravelOnline.NewPage
             //查询条件生成
             CreateSort(s_sort);
             string notshow = ConfigurationManager.AppSettings["NotShow"];
+            string cannotsearch = ConfigurationManager.AppSettings["CannotSearch"]; 
             if (notshow!=null) sb.Append(string.Format("MisLineId not in ({0}) and ", notshow));
+            if(cannotsearch!=null) sb.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
             if (s_lineclass > 0) sb.Append(string.Format("LineClass='{0}' and ", s_lineclass));
             if (s_planflag > 0) sb.Append(string.Format("PlanType='{0}' and ", s_planflag));
             if (s_city > 0)

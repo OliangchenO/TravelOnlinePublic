@@ -55,9 +55,7 @@
     <input id="PriceStrings" name="PriceStrings" type="hidden" value=""/>
     <input id="allprice" name="allprice" type="hidden" value=""/>
     <input id="LineId" name="LineId" type="hidden" value="<%=LineId %>"/>
-    <input id="activityId" name="activityId" type="hidden" value="<%=activityId %>"/>
     <input id="adults" name="adults" type="hidden" value=""/>
-        
     <div class="recommend_wrap">  
     <%= PriceInfo %>
      <div class="recommend_detail">
@@ -65,7 +63,7 @@
          <h3>联系人信息</h3>
           <input maxlength="30" id="ordername" type="text" name="ordername" class="form-control ordertext" placeholder="联系人姓名" value="" />
           <input maxlength="11" id="orderphone" type="text" name="orderphone" class="form-control ordertext" readonly placeholder="手机号码" value=<%= Orderphone %> />
-          <input maxlength="100" id="ordermemo" type="text" name="ordermemo" class="form-control ordertext" placeholder="订单特别说明" />
+          <input maxlength="100" id="ordermemo" type="text" name="ordermemo" class="form-control ordertext" placeholder="邮寄地址" />
         </div>
      </div>
      

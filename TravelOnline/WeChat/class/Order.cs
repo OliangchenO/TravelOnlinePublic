@@ -17,6 +17,7 @@ using TravelOnline.GetCombineKeys;
 using TravelOnline.LoginUsers;
 using TravelOnline.WeChat.freetrip.interfaces;
 using Belinda.Jasp;
+using TravelOnline.WeChat.Util;
 
 namespace TravelOnline.WeChat
 {
@@ -133,16 +134,17 @@ namespace TravelOnline.WeChat
                 );
                 Sql.Add(SqlQueryText);
 
-                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1)
+                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1 && DateTime.Now < MyConvert.ConToDateTime(ConfigurationManager.AppSettings["prebookbegin"]))
                 {
                     string TableName = "OL_ActivityOrder";
                     string[] Fil = new string[5];
                     string[] Val = new string[5];
+                    int aprice = 1 * allnums;
                     Fil[0] = "OrderId"; Val[0] = ucode.ToString();
                     Fil[1] = "AType"; Val[1] = "1";//预付活动
-                    Fil[2] = "APrice"; Val[2] = "99";
-                    Fil[3] = "ABeginDate"; Val[3] = Convert.ToDateTime("2015-11-11 00:00:00").ToString();
-                    Fil[4] = "AEndDate"; Val[4] = Convert.ToDateTime("2015-11-11 23:59:59").ToString();
+                    Fil[2] = "APrice"; Val[2] = aprice.ToString();
+                    Fil[3] = "ABeginDate"; Val[3] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookbegin"].ToString()).ToString();
+                    Fil[4] = "AEndDate"; Val[4] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookend"].ToString()).ToString();
                     Sql.Add(MyDataBaseComm.InsertDataStr(TableName, Fil, Val, ""));
                 }
 
@@ -257,13 +259,13 @@ namespace TravelOnline.WeChat
                             Strings.Append(string.Format("<div class=\"row sellprice\" id=\"S{0}\">", GetPlan.PlanStaPrice[i].PriceId));
 
                             Strings.Append("<div class=\"col-xs-7\">");
-                            Strings.Append(string.Format("<div><span class=\"pricename\">{0}</span><span class=\"sprice\"><i class=\"fa fa-cny\"></i> {1}</span></div>", GetPlan.PlanStaPrice[i].PriceType, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price)- groupDiscount));
+                            Strings.Append(string.Format("<div><span class=\"pricename\">{0}</span><span class=\"sprice\"><i class=\"fa fa-cny\"></i> {1}</span></div>", GetPlan.PlanStaPrice[i].PriceType, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price) - groupDiscount));
                             Strings.Append(string.Format("<div class=\"pricememo\">{0}</div>", GetPlan.PlanStaPrice[i].PriceName));
                             Strings.Append("</div>");
 
                             Strings.Append("<div class=\"col-xs-5\">");
                             Strings.Append("<div style=\"width:100px\">");
-                            Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control touch\" readonly ", GetPlan.PlanStaPrice[i].PriceId, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price)-groupDiscount));
+                            Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control touch\" readonly ", GetPlan.PlanStaPrice[i].PriceId, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price) - groupDiscount));
                             if (!lstPriceType.Contains("儿童价"))
                             {
                                 if (!lstPriceType.Contains("儿童价") && i > 0)
@@ -628,7 +630,7 @@ namespace TravelOnline.WeChat
                 Strings.Append(string.Format("<input id=\"Preference\" type=\"hidden\" value=\"{0}\">", wwwyh));
                 Strings.Append(string.Format("<input id=\"preferAmount\" type=\"hidden\" value=\"{0}\">", preferAmount));
                 Strings.Append(string.Format("<input id=\"groupDiscount\" type=\"hidden\" value=\"{0}\">", groupDiscount));
-                
+
                 Strings.Append("</form>");
                 Strings.Append("</div></div>");
                 //联系人 end
@@ -644,7 +646,7 @@ namespace TravelOnline.WeChat
                 Strings.Append("<div id=\"Pre1\">");
                 if (wwwyh > 0) Strings.Append(string.Format("<div class=\"pre\">在线支付每人立减 {0} 元</div>", wwwyh));
                 if (preferAmount > 0) Strings.Append(string.Format("<div class=\"pre\">早定早优惠每人立减 {0} 元</div>", preferAmount));
-                if (groupDiscount>0) Strings.Append(string.Format("<div class=\"pre\">拼团优惠每人立减 {0} 元</div>", groupDiscount));
+                if (groupDiscount > 0) Strings.Append(string.Format("<div class=\"pre\">拼团优惠每人立减 {0} 元</div>", groupDiscount));
                 Strings.Append("<div>请于订单确认后24小时之内，通过网上支付方式付清全部费用！</div>");
                 Strings.Append("</div>");
 
@@ -908,7 +910,10 @@ namespace TravelOnline.WeChat
                 if (DS.Tables[0].Rows[0]["OrderMobile"].ToString().Length > 0) Strings.Append(string.Format("<h3>手机：{0}</h3>", DS.Tables[0].Rows[0]["OrderMobile"].ToString()));
                 if (DS.Tables[0].Rows[0]["OrderFax"].ToString().Length > 0) Strings.Append(string.Format("<h3>传真：{0}</h3>", DS.Tables[0].Rows[0]["OrderFax"].ToString()));
                 if (DS.Tables[0].Rows[0]["OrderEmail"].ToString().Length > 0) Strings.Append(string.Format("<h3>邮箱：{0}</h3>", DS.Tables[0].Rows[0]["OrderEmail"].ToString()));
-                Strings.Append(string.Format("<span style = \"color: #e84d1c\">客服会联系您确认游客信息</span>"));
+                if (!ConfigurationManager.AppSettings["Ticketlineid"].Contains(DS.Tables[0].Rows[0]["LineID"].ToString()))
+                {
+                    Strings.Append(string.Format("<span style = \"color: #e84d1c\">客服会联系您确认游客信息</span>"));
+                }
                 Strings.Append("</div></div>");
 
                 //费用清单 begin
@@ -1006,6 +1011,10 @@ namespace TravelOnline.WeChat
         public static object OrderDetail_New(string orderid)
         {
             JSONObject ObJson = new JSONObject();
+            string Tswlineid = ConfigurationManager.AppSettings["Tswlineid"];
+            string showKefu = "false";
+            string num = MyDataBaseComm.getScalar(string.Format("SELECT COUNT(1) from ol_order where LineID='{0}' and OrderUser='{1}' and PayFlag=1", Tswlineid, HttpContext.Current.Session["Online_UserId"]));
+            ObJson.Add("buytime", num);
             //(select yfk from ol_line where MisLineId=OL_Order.LineID) as yfk,
             string sql = string.Format("select *,(select ISNULL(sum(PayPrice),0) from OL_PayMent where OrderId=OL_Order.OrderId) as pay from OL_Order where OrderId='{0}'", orderid);
             DataTable dt = MyDataBaseComm.getDataSet(sql).Tables[0];
@@ -1022,6 +1031,10 @@ namespace TravelOnline.WeChat
                 else
                 {
                     dt.Rows[0]["nums"] = string.Format("{0}成人", dt.Rows[0]["Adults"].ToString());
+                }
+                if (!ConfigurationManager.AppSettings["Ticketlineid"].Contains(dt.Rows[0]["LineID"].ToString()))
+                {
+                    showKefu = "true";
                 }
                 switch (dt.Rows[0]["OrderFlag"].ToString())
                 {
@@ -1059,6 +1072,7 @@ namespace TravelOnline.WeChat
                 ArrJson = Data.GetJsonList(dt);
                 ObJson.Add("rows", ArrJson);
                 ObJson.Add("orderid", orderid);
+                ObJson.Add("showKefu", showKefu);
                 JSONArray ArrJson1 = new JSONArray();
                 sql = string.Format("select * from OL_OrderPrice where OrderId='{0}'", orderid);
                 DataTable dt1 = MyDataBaseComm.getDataSet(sql).Tables[0];
@@ -1489,7 +1503,7 @@ namespace TravelOnline.WeChat
             }
         }
 
-        public static string OrderSubmit(string orderid, string paytype, string integral, string oname, string ophone, string oemail, string omemo)
+        public static string OrderSubmit(string orderid, string paytype, string integral, string oname, string ophone, string oemail, string omemo, string preferCode)
         {
             string SqlQueryText = string.Format("select *,(select wwwyh from OL_Line where MisLineId=OL_TempOrder.lineid) as wwwyh from OL_TempOrder where OrderFlag='0' and OrderId='{0}'", orderid);
             DataSet DS = new DataSet();
@@ -1521,10 +1535,13 @@ namespace TravelOnline.WeChat
                 string AutoId = DS.Tables[0].Rows[0]["AutoId"].ToString();
                 int SumPre_Price = 0;
                 int preferAmount = 0;
+                int YCPrefer = 0;
                 int SumPreferAmount = 0;
+                decimal SumYCPrefer = 0;
                 decimal groupDiscount = 0;
                 decimal SumGroupdiscount = 0;
 
+                string Lineid = DS.Tables[0].Rows[0]["LineId"].ToString();
                 SqlQueryText = string.Format("select preferAmount from OL_Preferential where Lineid='{0}' and startDate<='{1}' and endDate>='{1}' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())", DS.Tables[0].Rows[0]["LineId"].ToString(), Convert.ToDateTime(DS.Tables[0].Rows[0]["BeginDate"].ToString()));
                 SaveErrorToLog("OL_Preferential sql:", SqlQueryText);
                 DataSet DS1 = new DataSet();
@@ -1534,6 +1551,11 @@ namespace TravelOnline.WeChat
                 {
                     preferAmount = MyConvert.ConToInt(DS1.Tables[0].Rows[0]["preferAmount"].ToString());
                     SaveErrorToLog("OL_Preferential amount:", preferAmount.ToString());
+                }
+
+                if (null != preferCode && preferCode != "")
+                {
+                    YCPrefer = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select preferAmount from ol_createprefer where code='{0}' and lineid='{1}' and flag=0", preferCode, Lineid)));
                 }
 
                 //groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
@@ -1555,6 +1577,7 @@ namespace TravelOnline.WeChat
                     SumPre_Price = Nums * wwwyh;
                     SumPreferAmount = Nums * preferAmount;
                     SumGroupdiscount = Nums * groupDiscount;
+                    SumYCPrefer = Nums * YCPrefer;
                 }
 
                 string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
@@ -1641,6 +1664,23 @@ namespace TravelOnline.WeChat
 
                     gathering = gathering - MyConvert.ConToDec(SumGroupdiscount.ToString());
                 }
+
+                if (SumYCPrefer > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "邮储银行优惠券优惠",
+                            "每人立减" + YCPrefer + "元",
+                            YCPrefer,
+                            Nums,
+                            -SumYCPrefer,
+                            DateTime.Now.ToString()
+                    ));
+                    Sql.Add(string.Format("update OL_CreatePrefer set flag=1 where code='{0}' and lineid='{1}' and flag=0", preferCode, Lineid));
+                    gathering = gathering - MyConvert.ConToDec(SumYCPrefer.ToString());
+                }
                 Sorder.gathering = Convert.ToString(gathering);
 
                 string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
@@ -1676,14 +1716,14 @@ namespace TravelOnline.WeChat
                 }
                 else
                 {
-                    Sql.Add(string.Format("INSERT INTO OL_Order (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT * FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
+                    Sql.Add(string.Format("INSERT INTO OL_Order (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
                     //分销订单插入
                     if (Convert.ToString(HttpContext.Current.Session["Fx_UserId"]).Length > 0)
                     {
                         Sql.Add(string.Format("INSERT INTO OL_FxOrder (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT * FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
                         Sql.Add(string.Format("UPDATE OL_FxOrder set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',FxUserId='{12}' where OrderId='{0}'",
                         orderid,
-                        SumPre_Price + SumPreferAmount,
+                        SumPre_Price + SumPreferAmount+ SumYCPrefer,
                         PayType,
                         BranchId,
                         oname,
@@ -1698,13 +1738,14 @@ namespace TravelOnline.WeChat
                         ));
                     }
                     Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您在微信提交了预订单"));
+
                     Sql.Add(string.Format("delete from OL_TempOrder where OrderId='{0}'", orderid));
                     int i = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
                     if (i > 0)
                     {
                         Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
                         orderid,
-                        SumPre_Price + SumPreferAmount + SumGroupdiscount,
+                        SumPre_Price + SumPreferAmount + SumGroupdiscount+ SumYCPrefer,
                         PayType,
                         BranchId,
                         oname,
@@ -1721,7 +1762,7 @@ namespace TravelOnline.WeChat
                     {
                         Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}' where OrderId='{0}'",
                         orderid,
-                        SumPre_Price + SumPreferAmount,
+                        SumPre_Price + SumPreferAmount + SumYCPrefer,
                         PayType,
                         BranchId,
                         oname,
@@ -1734,7 +1775,7 @@ namespace TravelOnline.WeChat
                         OrderFlag
                         ));
                     }
-                    
+
 
                 }
 
@@ -1794,7 +1835,7 @@ namespace TravelOnline.WeChat
                     }
                     else
                     {
-                        return "{\"success\":\"OK\"}";
+                        return "{\"success\":\"OK\",\"orderid\":\""+ orderid + "\"}";
                     }
                 }
                 else
@@ -2030,5 +2071,1147 @@ namespace TravelOnline.WeChat
             return json.SerializeObject(ObJson);
         }
         #endregion
+
+        public static string orderTotsw(string activeId, string lineid, string adults, string ordername, string orderphone, string orderemail, string ordermemo, string allprice, string PriceStrings)
+        {
+            string num = MyDataBaseComm.getScalar(string.Format("SELECT COUNT(1) from ol_order where LineID='{0}' and OrderMobile='{1}' and PayFlag=1", lineid, orderphone));
+            if (MyConvert.ConToInt(num) >= 1)
+            {
+                return "{\"error\":\"您已购买过该产品，该产品只可购买一次\"}";
+            }
+            if(!Tuanshiwei.RegUser(orderphone, ordername))
+            {
+                return "{\"error\":\"预定失败，请稍后再试\"}";
+            }
+            Guid ucode = CombineKeys.NewComb();
+            PlanSeats GetPlan = new PlanSeats();
+            string planid = ConfigurationManager.AppSettings["planid"];
+            string begindate = ConfigurationManager.AppSettings["begindate"];
+            int allnums = Convert.ToInt32(adults);
+
+            if (MyConvert.ConToInt(planid) == 0)
+            {
+                GetPlan.Seats = "99";
+                GetPlan.Route = "99";
+                GetPlan.StopDate = "";
+            }
+            else
+            {
+                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                TravelOnlineService rsp = new TravelOnlineService();
+                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                try
+                {
+                    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
+                }
+                catch
+                {
+                    GetPlan.Seats = "0";
+                    GetPlan.Route = "99";
+                    GetPlan.StopDate = "";
+                }
+            }
+
+            if (GetPlan.StopDate.Length > 0)
+            {
+                DateTime rp_times = DateTime.Now;
+                if (Convert.ToDateTime(GetPlan.StopDate) < DateTime.Today)
+                {
+
+                    return "{\"error\":\"已报名截止\"}";
+                }
+                if (Convert.ToDateTime(GetPlan.StopDate) == DateTime.Today)
+                {
+
+                    if (rp_times.Hour >= 17)
+                    {
+                        return "{\"error\":\"已报名截止\"}";
+                    }
+                }
+            }
+
+            if (MyConvert.ConToInt(GetPlan.Seats) < allnums)
+            {
+                return "{\"error\":\"余位不足，剩" + GetPlan.Seats + "人\"}";
+            }
+
+            string routeflag;
+            if (GetPlan.Route == "0")
+            {
+                routeflag = "0";
+            }
+            else
+            {
+                routeflag = "1";
+            }
+
+            PurchaseClass.LineClass LineInfos = new PurchaseClass.LineClass();
+            LineInfos = PurchaseClass.LineDetail(lineid);
+            if (LineInfos != null)
+            {
+                List<string> Sql = new List<string>();
+
+                string SqlQueryText;
+                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}')",
+                    ucode,
+                    LineInfos.LineType,
+                    LineInfos.LinesClass,
+                    LineInfos.LineId,
+                    planid,
+                    LineInfos.LineName,
+                    MyConvert.ConToDate(begindate),
+                    allnums,
+                    adults,
+                    0,
+                    DateTime.Now.ToString(),
+                    "0",
+                    LineInfos.Deptid,
+                    LineInfos.LineDays,
+                    routeflag,
+                    GetPlan.PlanNo,
+                    "",
+                    MyConvert.ConToDec(allprice),
+                    "1",
+                    "0",
+                    "0"
+                );
+                Sql.Add(SqlQueryText);
+                Sql.Add(string.Format("delete from OL_OrderPrice where OrderId='{0}'", ucode));
+                //插入订单价格
+                string[] AllInfo = Regex.Split(PriceStrings.Trim(), @"\|\|", RegexOptions.IgnoreCase);
+                string PriceSql;
+
+                if (AllInfo.Length > 0)
+                {
+                    for (int i = 0; i < AllInfo.Length; i++)
+                    {
+                        string[] PriceInfo = Regex.Split(AllInfo[i], @"\@\@", RegexOptions.IgnoreCase);  //AllInfo[i].Split("@@".ToArray());
+                        if (PriceInfo.Contains("undefined"))
+                        {
+                            continue;
+                        }
+                        if (PriceInfo.Length > 0)
+                        {
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                                    ucode,
+                                    PriceInfo[0],
+                                    PriceInfo[1],
+                                    PriceInfo[2],
+                                    PriceInfo[3],
+                                    PriceInfo[4],
+                                    PriceInfo[5],
+                                    PriceInfo[6],
+                                    DateTime.Now.ToString()
+                            );
+                            Sql.Add(PriceSql);
+                        }
+                    }
+                }
+
+                string[] SqlQuery = Sql.ToArray();
+                if (MyDataBaseComm.Transaction(SqlQuery) == true)
+                {
+                    HttpContext.Current.Session["OrderUid"] = ucode;
+                    string result = OrderSubmit_Tsw(ucode.ToString(), "1@0", "", ordername, orderphone, orderemail, ordermemo);
+                    return result;
+                }
+                else
+                {
+                    return "{\"error\":\"报名失败\"}";
+                }
+            }
+            else
+            {
+                return "{\"error\":\"报名失败\"}";
+            }
+        }
+
+        public static string orderTicket(string lineid, string adults, string ordername, string orderphone, string orderemail, string ordermemo, string allprice, string PriceStrings, string preferCode)
+        {
+            Guid ucode = CombineKeys.NewComb();
+            PlanSeats GetPlan = new PlanSeats();
+            string date = string.Format("{0:yyyy-MM}", DateTime.Now);
+
+            string planid = ConfigurationManager.AppSettings[date + "_" + lineid + "_planid"];
+            string begindate = ConfigurationManager.AppSettings[date + "_" + lineid + "_begindate"];
+            int allnums = Convert.ToInt32(adults);
+
+            if (MyConvert.ConToInt(planid) == 0)
+            {
+                GetPlan.Seats = "99";
+                GetPlan.Route = "99";
+                GetPlan.StopDate = "";
+            }
+            else
+            {
+                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                TravelOnlineService rsp = new TravelOnlineService();
+                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                try
+                {
+                    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
+                }
+                catch
+                {
+                    GetPlan.Seats = "0";
+                    GetPlan.Route = "99";
+                    GetPlan.StopDate = "";
+                }
+            }
+
+            if (GetPlan.StopDate.Length > 0)
+            {
+                DateTime rp_times = DateTime.Now;
+                if (Convert.ToDateTime(GetPlan.StopDate) < DateTime.Today)
+                {
+
+                    return "{\"error\":\"已报名截止\"}";
+                }
+                if (Convert.ToDateTime(GetPlan.StopDate) == DateTime.Today)
+                {
+
+                    if (rp_times.Hour >= 17 && !lineid.Equals("25039"))
+                    {
+                        return "{\"error\":\"已报名截止\"}";
+                    }
+                }
+            }
+
+            if (MyConvert.ConToInt(GetPlan.Seats) < allnums)
+            {
+                return "{\"error\":\"余位不足，剩" + GetPlan.Seats + "人\"}";
+            }
+
+            string routeflag;
+            if (GetPlan.Route == "0")
+            {
+                routeflag = "0";
+            }
+            else
+            {
+                routeflag = "1";
+            }
+
+            PurchaseClass.LineClass LineInfos = new PurchaseClass.LineClass();
+            LineInfos = PurchaseClass.LineDetail(lineid);
+            if (LineInfos != null)
+            {
+                List<string> Sql = new List<string>();
+
+                string SqlQueryText;
+                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}')",
+                    ucode,
+                    LineInfos.LineType,
+                    LineInfos.LinesClass,
+                    LineInfos.LineId,
+                    planid,
+                    LineInfos.LineName,
+                    MyConvert.ConToDate(begindate),
+                    allnums,
+                    adults,
+                    0,
+                    DateTime.Now.ToString(),
+                    "0",
+                    LineInfos.Deptid,
+                    LineInfos.LineDays,
+                    routeflag,
+                    GetPlan.PlanNo,
+                    "",
+                    MyConvert.ConToDec(allprice),
+                    "1",
+                    "0",
+                    "0"
+                );
+                Sql.Add(SqlQueryText);
+                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1 && DateTime.Now < MyConvert.ConToDateTime(ConfigurationManager.AppSettings["prebookbegin"]))
+                {
+                    string TableName = "OL_ActivityOrder";
+                    string[] Fil = new string[5];
+                    string[] Val = new string[5];
+                    int aprice = 1 * allnums;
+                    Fil[0] = "OrderId"; Val[0] = ucode.ToString();
+                    Fil[1] = "AType"; Val[1] = "1";//预付活动
+                    Fil[2] = "APrice"; Val[2] = aprice.ToString();
+                    Fil[3] = "ABeginDate"; Val[3] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookbegin"].ToString()).ToString();
+                    Fil[4] = "AEndDate"; Val[4] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookend"].ToString()).ToString();
+                    Sql.Add(MyDataBaseComm.InsertDataStr(TableName, Fil, Val, ""));
+                }
+                Sql.Add(string.Format("delete from OL_OrderPrice where OrderId='{0}'", ucode));
+                //插入订单价格
+                string[] AllInfo = Regex.Split(PriceStrings.Trim(), @"\|\|", RegexOptions.IgnoreCase);
+                string PriceSql;
+
+                if (AllInfo.Length > 0)
+                {
+                    for (int i = 0; i < AllInfo.Length; i++)
+                    {
+                        string[] PriceInfo = Regex.Split(AllInfo[i], @"\@\@", RegexOptions.IgnoreCase);  //AllInfo[i].Split("@@".ToArray());
+                        if (PriceInfo.Contains("undefined"))
+                        {
+                            continue;
+                        }
+                        if (PriceInfo.Length > 0)
+                        {
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                                    ucode,
+                                    PriceInfo[0],
+                                    PriceInfo[1],
+                                    PriceInfo[2],
+                                    PriceInfo[3],
+                                    PriceInfo[4],
+                                    PriceInfo[5],
+                                    PriceInfo[6],
+                                    DateTime.Now.ToString()
+                            );
+                            Sql.Add(PriceSql);
+                        }
+                    }
+                }
+
+                string[] SqlQuery = Sql.ToArray();
+                if (MyDataBaseComm.Transaction(SqlQuery) == true)
+                {
+                    HttpContext.Current.Session["OrderUid"] = ucode;
+                    string result = OrderSubmit(ucode.ToString(), "1@0", "", ordername, orderphone, orderemail, ordermemo, preferCode);
+                    return result;
+                }
+                else
+                {
+                    return "{\"error\":\"报名失败\"}";
+                }
+            }
+            else
+            {
+                return "{\"error\":\"报名失败\"}";
+            }
+        }
+
+        public static string orderShare(string lineid, string adults, string ordername, string orderphone, string orderemail, string ordermemo, string allprice, string PriceStrings)
+        {
+            Guid ucode = CombineKeys.NewComb();
+            PlanSeats GetPlan = new PlanSeats();
+            //string date = string.Format("{0:yyyy-MM}", DateTime.Now);
+
+            string planid = ConfigurationManager.AppSettings["2017-12_" + lineid + "_planid"];
+            string begindate = ConfigurationManager.AppSettings["2017-12_" + lineid + "_begindate"];
+            int allnums = Convert.ToInt32(adults);
+
+            if (MyConvert.ConToInt(planid) == 0)
+            {
+                GetPlan.Seats = "99";
+                GetPlan.Route = "99";
+                GetPlan.StopDate = "";
+            }
+            else
+            {
+                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                TravelOnlineService rsp = new TravelOnlineService();
+                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                try
+                {
+                    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
+                }
+                catch
+                {
+                    GetPlan.Seats = "0";
+                    GetPlan.Route = "99";
+                    GetPlan.StopDate = "";
+                }
+            }
+
+            if (GetPlan.StopDate.Length > 0)
+            {
+                DateTime rp_times = DateTime.Now;
+                if (Convert.ToDateTime(GetPlan.StopDate) < DateTime.Today)
+                {
+
+                    return "{\"error\":\"已报名截止\"}";
+                }
+                if (Convert.ToDateTime(GetPlan.StopDate) == DateTime.Today)
+                {
+
+                    if (rp_times.Hour >= 17 && !lineid.Equals("25039"))
+                    {
+                        return "{\"error\":\"已报名截止\"}";
+                    }
+                }
+            }
+
+            if (MyConvert.ConToInt(GetPlan.Seats) < allnums)
+            {
+                return "{\"error\":\"余位不足，剩" + GetPlan.Seats + "人\"}";
+            }
+
+            string routeflag;
+            if (GetPlan.Route == "0")
+            {
+                routeflag = "0";
+            }
+            else
+            {
+                routeflag = "1";
+            }
+
+            PurchaseClass.LineClass LineInfos = new PurchaseClass.LineClass();
+            LineInfos = PurchaseClass.LineDetail(lineid);
+            if (LineInfos != null)
+            {
+                List<string> Sql = new List<string>();
+
+                string SqlQueryText;
+                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}')",
+                    ucode,
+                    LineInfos.LineType,
+                    LineInfos.LinesClass,
+                    LineInfos.LineId,
+                    planid,
+                    LineInfos.LineName,
+                    MyConvert.ConToDate(begindate),
+                    allnums,
+                    adults,
+                    0,
+                    DateTime.Now.ToString(),
+                    "0",
+                    LineInfos.Deptid,
+                    LineInfos.LineDays,
+                    routeflag,
+                    GetPlan.PlanNo,
+                    "",
+                    MyConvert.ConToDec(allprice),
+                    "1",
+                    "0",
+                    "0"
+                );
+                Sql.Add(SqlQueryText);
+                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1 && DateTime.Now < MyConvert.ConToDateTime(ConfigurationManager.AppSettings["prebookbegin"]))
+                {
+                    string TableName = "OL_ActivityOrder";
+                    string[] Fil = new string[5];
+                    string[] Val = new string[5];
+                    int aprice = 1 * allnums;
+                    Fil[0] = "OrderId"; Val[0] = ucode.ToString();
+                    Fil[1] = "AType"; Val[1] = "1";//预付活动
+                    Fil[2] = "APrice"; Val[2] = aprice.ToString();
+                    Fil[3] = "ABeginDate"; Val[3] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookbegin"].ToString()).ToString();
+                    Fil[4] = "AEndDate"; Val[4] = Convert.ToDateTime(ConfigurationManager.AppSettings["prebookend"].ToString()).ToString();
+                    Sql.Add(MyDataBaseComm.InsertDataStr(TableName, Fil, Val, ""));
+                }
+                Sql.Add(string.Format("delete from OL_OrderPrice where OrderId='{0}'", ucode));
+                //插入订单价格
+                string[] AllInfo = Regex.Split(PriceStrings.Trim(), @"\|\|", RegexOptions.IgnoreCase);
+                string PriceSql;
+
+                if (AllInfo.Length > 0)
+                {
+                    for (int i = 0; i < AllInfo.Length; i++)
+                    {
+                        string[] PriceInfo = Regex.Split(AllInfo[i], @"\@\@", RegexOptions.IgnoreCase);  //AllInfo[i].Split("@@".ToArray());
+                        if (PriceInfo.Contains("undefined"))
+                        {
+                            continue;
+                        }
+                        if (PriceInfo.Length > 0)
+                        {
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                                    ucode,
+                                    PriceInfo[0],
+                                    PriceInfo[1],
+                                    PriceInfo[2],
+                                    PriceInfo[3],
+                                    PriceInfo[4],
+                                    PriceInfo[5],
+                                    PriceInfo[6],
+                                    DateTime.Now.ToString()
+                            );
+                            Sql.Add(PriceSql);
+                        }
+                    }
+                }
+
+                string[] SqlQuery = Sql.ToArray();
+                if (MyDataBaseComm.Transaction(SqlQuery) == true)
+                {
+                    HttpContext.Current.Session["OrderUid"] = ucode;
+                    string result = OrderSubmit_Share(ucode.ToString(), "1@0", "", ordername, orderphone, orderemail, ordermemo,"1");
+                    return result;
+                }
+                else
+                {
+                    return "{\"error\":\"报名失败\"}";
+                }
+            }
+            else
+            {
+                return "{\"error\":\"报名失败\"}";
+            }
+        }
+
+        public static string OrderSubmit_Tsw(string orderid, string paytype, string integral, string oname, string ophone, string oemail, string omemo)
+        {
+            //注册用户
+            string SqlQueryText = string.Format("select *,(select wwwyh from OL_Line where MisLineId=OL_TempOrder.lineid) as wwwyh from OL_TempOrder where OrderFlag='0' and OrderId='{0}'", orderid);
+            DataSet DS = new DataSet();
+            DS.Clear();
+            DS = MyDataBaseComm.getDataSet(SqlQueryText);
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+
+                List<string> Sql = new List<string>();
+                //载入用户
+                string User_Name = "临时用户", User_Id = "cc68b789-0d20-4ab5-a07b-9f4c002b7b96";
+                if (Convert.ToString(HttpContext.Current.Session["Online_UserId"]) != "")
+                {
+                    User_Id = Convert.ToString(HttpContext.Current.Session["Online_UserId"]);
+                    User_Name = Convert.ToString(HttpContext.Current.Session["Online_UserName"]);
+
+                    //新用户保存联系方式
+                    //Sql.Add(string.Format("UPDATE OL_LoginUser set UserName='{1}',Mobile='{2}',Tel='{3}' where id='{0}'",
+                    //    User_Id,
+                    //    oname,
+                    //    ophone,
+                    //    OrderInfo[2]
+                    //    )
+                    //);
+                }
+
+                int Nums = MyConvert.ConToInt(DS.Tables[0].Rows[0]["OrderNums"].ToString());
+                int wwwyh = MyConvert.ConToInt(DS.Tables[0].Rows[0]["wwwyh"].ToString());
+                string AutoId = DS.Tables[0].Rows[0]["AutoId"].ToString();
+                int SumPre_Price = 0;
+                int preferAmount = 0;
+                int SumPreferAmount = 0;
+                decimal groupDiscount = 0;
+                decimal SumGroupdiscount = 0;
+
+                SqlQueryText = string.Format("select preferAmount from OL_Preferential where Lineid='{0}' and startDate<='{1}' and endDate>='{1}' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())", DS.Tables[0].Rows[0]["LineId"].ToString(), Convert.ToDateTime(DS.Tables[0].Rows[0]["BeginDate"].ToString()));
+                SaveErrorToLog("OL_Preferential sql:", SqlQueryText);
+                DataSet DS1 = new DataSet();
+                DS1.Clear();
+                DS1 = MyDataBaseComm.getDataSet(SqlQueryText);
+                if (DS1.Tables[0].Rows.Count > 0)
+                {
+                    preferAmount = MyConvert.ConToInt(DS1.Tables[0].Rows[0]["preferAmount"].ToString());
+                    SaveErrorToLog("OL_Preferential amount:", preferAmount.ToString());
+                }
+
+                //groupDiscount = MyConvert.ConToDec(MyDataBaseComm.getScalar(string.Format("select discount from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
+
+                string PayType, BranchId, Pre_Price;
+                PayType = "2";
+                BranchId = "0";
+                Pre_Price = "0";
+
+                string[] PayInfo = Regex.Split(paytype, @"\@", RegexOptions.IgnoreCase);
+                PayType = PayInfo[0];
+                if (PayType == "2")
+                {
+                    BranchId = PayInfo[1];
+                }
+                else
+                {
+                    Pre_Price = PayInfo[1];
+                    SumPre_Price = Nums * wwwyh;
+                    SumPreferAmount = Nums * preferAmount;
+                    SumGroupdiscount = Nums * groupDiscount;
+                }
+
+                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                TravelOnlineService rsp = new TravelOnlineService();
+                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+
+                OrderInfos Sorder = new OrderInfos();
+                Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
+                Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
+                Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
+                Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
+                Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
+                Sorder.email = DS.Tables[0].Rows[0]["OrderEmail"].ToString();
+                Sorder.gathering = DS.Tables[0].Rows[0]["Price"].ToString();
+                Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
+                Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
+                Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
+                Sorder.mobile = ophone;
+                Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
+                Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
+                Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
+                Sorder.ordermemo = omemo;
+                Sorder.ordername = oname;
+                Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
+                Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
+                Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
+                Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
+                Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
+                Sorder.SellDept = BranchId;
+                Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
+
+                Sorder.CruisesFlag = "0";
+                Sorder.ccid = "0";
+                Decimal gathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
+
+                if (SumPre_Price > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "在线支付优惠",
+                            "每人立减" + Pre_Price + "元",
+                            Pre_Price,
+                            Nums,
+                            -SumPre_Price,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumPre_Price.ToString());
+                }
+
+                if (SumPreferAmount > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "早定早优惠",
+                            "每人立减" + preferAmount + "元",
+                            -preferAmount,
+                            Nums,
+                            -SumPreferAmount,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumPreferAmount.ToString());
+                }
+
+                if (SumGroupdiscount > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "拼团优惠",
+                            "每人立减" + groupDiscount + "元",
+                            groupDiscount,
+                            Nums,
+                            -SumGroupdiscount,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumGroupdiscount.ToString());
+                }
+                Sorder.gathering = Convert.ToString(gathering);
+
+                string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
+                try
+                {
+                    //OrderFlag = "1";
+                    OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                }
+                catch
+                {
+                    OrderFlag = "9";
+                }
+
+                //保存游客信息
+                string gueststring;
+                for (int i = 0; i < Nums; i++)
+                {
+                    gueststring = string.Format("insert into OL_GuestInfo (OrderId,GuestName,GuestEnName,Sex,IdType,rankno) values ('{0}','{1}','{2}','{3}','{4}','{5}')",
+                        orderid,
+                        oname,
+                        "",
+                        "M",
+                        "11",
+                        i + 1
+                    );
+                    Sql.Add(gueststring);
+                }
+
+                if (OrderFlag == "9")
+                {
+                    Sql.Add(string.Format("update OL_TempOrder set OrderFlag='9',PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4} where OrderId='{1}'", OrderFlag, orderid, DateTime.Now.ToString(), "0", SumPre_Price));
+                    Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您暂存了预订单"));
+                }
+                else
+                {
+                    Sql.Add(string.Format("INSERT INTO OL_Order (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
+                    //分销订单插入
+                    if (Convert.ToString(HttpContext.Current.Session["Fx_UserId"]).Length > 0)
+                    {
+                        Sql.Add(string.Format("INSERT INTO OL_FxOrder (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT * FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
+                        Sql.Add(string.Format("UPDATE OL_FxOrder set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',FxUserId='{12}' where OrderId='{0}'",
+                        orderid,
+                        SumPre_Price + SumPreferAmount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag,
+                        HttpContext.Current.Session["Fx_UserId"]
+                        ));
+                    }
+                    Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您在微信提交了预订单"));
+                    Sql.Add(string.Format("delete from OL_TempOrder where OrderId='{0}'", orderid));
+                    int i = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
+                    if (i > 0)
+                    {
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
+                        orderid,
+                        SumPre_Price + SumPreferAmount + SumGroupdiscount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag
+                        ));
+                    }
+                    else
+                    {
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}' where OrderId='{0}'",
+                        orderid,
+                        SumPre_Price + SumPreferAmount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag
+                        ));
+                    }
+
+
+                }
+
+                #region 积分抵扣
+                if (!string.IsNullOrEmpty(integral))
+                {
+                    int integralAmount = Convert.ToInt32(integral) / Convert.ToInt32(ConfigurationManager.AppSettings["Integral_ratio"]);
+                    string sql = string.Format("SELECT isnull(sum(integral),0) integral FROM [OL_Integral] where uid = '{0}'", Convert.ToString(HttpContext.Current.Session["Online_UserId"]));
+                    string sumIntegral = MyDataBaseComm.getScalar(sql);
+                    if (Convert.ToInt32(sumIntegral) < Convert.ToInt32(integral))
+                    {
+                        return "{\"error\":\"积分不足\"}";
+                    }
+                    Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您使用了" + Convert.ToInt32(integral) + "点积分"));
+                    //Sql.Add(string.Format("update OL_Order set couponAmount=isnull(couponAmount,0)+{0} where OrderId='{1}'", (Convert.ToInt32(integral) / 20), orderid));
+                    Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',couponAmount=isnull(couponAmount,0)+{1} where OrderId='{0}'",
+                        orderid,
+                        integralAmount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag
+                    ));
+                    Sql.Add(string.Format("INSERT INTO [dbo].[OL_Integral] ([uid],[orderid],[lineid],[integral],[getdate],[flag],[dept],[enddate]) " +
+                                                                            "VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')"
+                                    , User_Id
+                                    , orderid
+                                    , AutoId
+                                    , Convert.ToInt32(integral) * -1
+                                    , DateTime.Now.ToString()
+                                    , '1'
+                                    , '0'
+                                    , DateTime.Now.AddYears(2).ToString()));
+                }
+                #endregion
+
+                string[] SqlQuery = Sql.ToArray();
+                if (MyDataBaseComm.Transaction(SqlQuery) == true)
+                {
+                    try
+                    {
+                        CommentInfoService.insertOrderComment(AutoId.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        SaveErrorToLog("订单：" + AutoId + "初始化点评失败！失败原因：", ex.Message);
+                    }
+                    if (OrderFlag == "9")
+                    {
+                        return "{\"success\":\"Save\"}";
+                    }
+                    else
+                    {
+                        return "{\"success\":\"OK\",\"orderid\":\"" + orderid + "\"}";
+                    }
+                }
+                else
+                {
+                    return "{\"error\":\"报名失败\"}";
+                }
+            }
+            else
+            {
+                return "{\"error\":\"订单不存在\"}";
+            }
+        }
+
+        public static string OrderSubmit_Share(string orderid, string paytype, string integral, string oname, string ophone, string oemail, string omemo, string flag)
+        {
+            string SqlQueryText = string.Format("select *,(select wwwyh from OL_Line where MisLineId=OL_TempOrder.lineid) as wwwyh from OL_TempOrder where OrderFlag='0' and OrderId='{0}'", orderid);
+            DataSet DS = new DataSet();
+            DS.Clear();
+            DS = MyDataBaseComm.getDataSet(SqlQueryText);
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+
+                List<string> Sql = new List<string>();
+                //载入用户
+                string User_Name = "临时用户", User_Id = "cc68b789-0d20-4ab5-a07b-9f4c002b7b96";
+                if (Convert.ToString(HttpContext.Current.Session["Online_UserId"]) != "")
+                {
+                    User_Id = Convert.ToString(HttpContext.Current.Session["Online_UserId"]);
+                    User_Name = Convert.ToString(HttpContext.Current.Session["Online_UserName"]);
+                }
+
+                int Nums = MyConvert.ConToInt(DS.Tables[0].Rows[0]["OrderNums"].ToString());
+                int wwwyh = MyConvert.ConToInt(DS.Tables[0].Rows[0]["wwwyh"].ToString());
+                string AutoId = DS.Tables[0].Rows[0]["AutoId"].ToString();
+                int SumPre_Price = 0;
+                int preferAmount = 0;
+                int SumPreferAmount = 0;
+                decimal groupDiscount = 0;
+                decimal SumGroupdiscount = 0;
+                decimal shareDiscount = MyConvert.ConToDec(ConfigurationManager.AppSettings["ShareDiscount_" + DS.Tables[0].Rows[0]["LineId"].ToString()]);
+                decimal SumShareDiscount = 0;
+
+                SqlQueryText = string.Format("select preferAmount from OL_Preferential where Lineid='{0}' and startDate<='{1}' and endDate>='{1}' and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate())", DS.Tables[0].Rows[0]["LineId"].ToString(), Convert.ToDateTime(DS.Tables[0].Rows[0]["BeginDate"].ToString()));
+                SaveErrorToLog("OL_Preferential sql:", SqlQueryText);
+                DataSet DS1 = new DataSet();
+                DS1.Clear();
+                DS1 = MyDataBaseComm.getDataSet(SqlQueryText);
+                if (DS1.Tables[0].Rows.Count > 0)
+                {
+                    preferAmount = MyConvert.ConToInt(DS1.Tables[0].Rows[0]["preferAmount"].ToString());
+                    SaveErrorToLog("OL_Preferential amount:", preferAmount.ToString());
+                }
+                string PayType, BranchId, Pre_Price;
+                PayType = "2";
+                BranchId = "0";
+                Pre_Price = "0";
+
+                string[] PayInfo = Regex.Split(paytype, @"\@", RegexOptions.IgnoreCase);
+                PayType = PayInfo[0];
+                if (PayType == "2")
+                {
+                    BranchId = PayInfo[1];
+                }
+                else
+                {
+                    Pre_Price = PayInfo[1];
+                    SumPre_Price = Nums * wwwyh;
+                    SumPreferAmount = Nums * preferAmount;
+                    SumGroupdiscount = Nums * groupDiscount;
+                    if (flag == "1")
+                    {
+                        SumShareDiscount = Nums * shareDiscount;
+                    }
+                }
+
+                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                TravelOnlineService rsp = new TravelOnlineService();
+                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+
+                OrderInfos Sorder = new OrderInfos();
+                Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
+                Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
+                Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
+                Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
+                Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
+                Sorder.email = DS.Tables[0].Rows[0]["OrderEmail"].ToString();
+                Sorder.gathering = DS.Tables[0].Rows[0]["Price"].ToString();
+                Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
+                Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
+                Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
+                Sorder.mobile = ophone;
+                Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
+                Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
+                Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
+                Sorder.ordermemo = omemo;
+                Sorder.ordername = oname;
+                Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
+                Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
+                Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
+                Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
+                Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
+                Sorder.SellDept = BranchId;
+                Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
+
+                Sorder.CruisesFlag = "0";
+                Sorder.ccid = "0";
+                Decimal gathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
+
+                if (SumPre_Price > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "在线支付优惠",
+                            "每人立减" + Pre_Price + "元",
+                            Pre_Price,
+                            Nums,
+                            -SumPre_Price,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumPre_Price.ToString());
+                }
+
+                if (SumPreferAmount > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "早定早优惠",
+                            "每人立减" + preferAmount + "元",
+                            -preferAmount,
+                            Nums,
+                            -SumPreferAmount,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumPreferAmount.ToString());
+                }
+
+                if (SumGroupdiscount > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "拼团优惠",
+                            "每人立减" + groupDiscount + "元",
+                            groupDiscount,
+                            Nums,
+                            -SumGroupdiscount,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumGroupdiscount.ToString());
+                }
+
+                if (SumShareDiscount > 0)
+                {
+                    Sql.Add(string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            orderid,
+                            "Preference",
+                            "0",
+                            "分享优惠",
+                            "每人立减" + shareDiscount + "元",
+                            shareDiscount,
+                            Nums,
+                            -SumShareDiscount,
+                            DateTime.Now.ToString()
+                    ));
+
+                    gathering = gathering - MyConvert.ConToDec(SumShareDiscount.ToString());
+                }
+                Sorder.gathering = Convert.ToString(gathering);
+
+                string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
+                try
+                {
+                    //OrderFlag = "1";
+                    OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                }
+                catch
+                {
+                    OrderFlag = "9";
+                }
+
+                //保存游客信息
+                string gueststring;
+                for (int i = 0; i < Nums; i++)
+                {
+                    gueststring = string.Format("insert into OL_GuestInfo (OrderId,GuestName,GuestEnName,Sex,IdType,rankno) values ('{0}','{1}','{2}','{3}','{4}','{5}')",
+                        orderid,
+                        oname,
+                        "",
+                        "M",
+                        "11",
+                        i + 1
+                    );
+                    Sql.Add(gueststring);
+                }
+
+                if (OrderFlag == "9")
+                {
+                    Sql.Add(string.Format("update OL_TempOrder set OrderFlag='9',PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4} where OrderId='{1}'", OrderFlag, orderid, DateTime.Now.ToString(), "0", SumPre_Price));
+                    Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您暂存了预订单"));
+                }
+                else
+                {
+                    Sql.Add(string.Format("INSERT INTO OL_Order (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
+                    //分销订单插入
+                    if (Convert.ToString(HttpContext.Current.Session["Fx_UserId"]).Length > 0)
+                    {
+                        Sql.Add(string.Format("INSERT INTO OL_FxOrder (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT * FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
+                        Sql.Add(string.Format("UPDATE OL_FxOrder set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',FxUserId='{12}' where OrderId='{0}'",
+                        orderid,
+                        SumPre_Price + SumPreferAmount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag,
+                        HttpContext.Current.Session["Fx_UserId"]
+                        ));
+                    }
+                    Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您在微信提交了预订单"));
+                    Sql.Add(string.Format("delete from OL_TempOrder where OrderId='{0}'", orderid));
+                    int i = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
+                    if (i > 0)
+                    {
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
+                        orderid,
+                        SumPre_Price + SumPreferAmount + SumGroupdiscount+SumShareDiscount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag
+                        ));
+                    }
+                    else
+                    {
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}' where OrderId='{0}'",
+                        orderid,
+                        SumPre_Price + SumPreferAmount + SumShareDiscount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag
+                        ));
+                    }
+
+
+                }
+
+                #region 积分抵扣
+                if (!string.IsNullOrEmpty(integral))
+                {
+                    int integralAmount = Convert.ToInt32(integral) / Convert.ToInt32(ConfigurationManager.AppSettings["Integral_ratio"]);
+                    string sql = string.Format("SELECT isnull(sum(integral),0) integral FROM [OL_Integral] where uid = '{0}'", Convert.ToString(HttpContext.Current.Session["Online_UserId"]));
+                    string sumIntegral = MyDataBaseComm.getScalar(sql);
+                    if (Convert.ToInt32(sumIntegral) < Convert.ToInt32(integral))
+                    {
+                        return "{\"error\":\"积分不足\"}";
+                    }
+                    Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您使用了" + Convert.ToInt32(integral) + "点积分"));
+                    //Sql.Add(string.Format("update OL_Order set couponAmount=isnull(couponAmount,0)+{0} where OrderId='{1}'", (Convert.ToInt32(integral) / 20), orderid));
+                    Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',couponAmount=isnull(couponAmount,0)+{1} where OrderId='{0}'",
+                        orderid,
+                        integralAmount,
+                        PayType,
+                        BranchId,
+                        oname,
+                        ophone,
+                        oemail,
+                        omemo,
+                        User_Name,
+                        User_Id,
+                        DateTime.Now.ToString(),
+                        OrderFlag
+                    ));
+                    Sql.Add(string.Format("INSERT INTO [dbo].[OL_Integral] ([uid],[orderid],[lineid],[integral],[getdate],[flag],[dept],[enddate]) " +
+                                                                            "VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')"
+                                    , User_Id
+                                    , orderid
+                                    , AutoId
+                                    , Convert.ToInt32(integral) * -1
+                                    , DateTime.Now.ToString()
+                                    , '1'
+                                    , '0'
+                                    , DateTime.Now.AddYears(2).ToString()));
+                }
+                #endregion
+
+                string[] SqlQuery = Sql.ToArray();
+                if (MyDataBaseComm.Transaction(SqlQuery) == true)
+                {
+                    try
+                    {
+                        CommentInfoService.insertOrderComment(AutoId.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        SaveErrorToLog("订单：" + AutoId + "初始化点评失败！失败原因：", ex.Message);
+                    }
+                    if (OrderFlag == "9")
+                    {
+                        return "{\"success\":\"Save\"}";
+                    }
+                    else
+                    {
+                        return "{\"success\":\"OK\",\"orderid\":\"" + orderid + "\"}";
+                    }
+                }
+                else
+                {
+                    return "{\"error\":\"报名失败\"}";
+                }
+            }
+            else
+            {
+                return "{\"error\":\"订单不存在\"}";
+            }
+        }
+
+        public static string checkPrefer(string preferCode, string lineId)
+        {
+            string SqlQueryText = string.Format("select top 1 * from ol_createprefer where code='{0}' and lineid='{1}'", preferCode.Trim(), lineId);
+            DataSet DS = new DataSet();
+            DS.Clear();
+            DS = MyDataBaseComm.getDataSet(SqlQueryText);
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                string flag = DS.Tables[0].Rows[0]["flag"].ToString();
+                if (flag == "1")
+                {
+                    return "{\"error\":\"优惠券已使用！\"}";
+                }
+                return "{\"success\":\"ok\",\"prefer\":\""+ DS.Tables[0].Rows[0]["preferAmount"].ToString() + "\"}";
+            }
+            return "{\"error\":\"优惠卷码错误，请重新输入！\"}";
+        }
     }
 }

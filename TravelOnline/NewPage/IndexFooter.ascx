@@ -155,7 +155,10 @@
 					<a rel="nofollow" href="/service/advertising.html" target="_blank">广告服务</a>
 					<a rel="nofollow" href="http://www.scyts.com/showinfo/311.html" target="_blank">公司声明</a>
 				</div>
-				<p>沪ICP备案编号：05016600 Copyright©2006-2016 上海中国青年旅行社有限公司 版权所有</p>
+				<p>沪ICP备案编号：05016600 Copyright©2006-2017 上海中国青年旅行社有限公司 版权所有</p>
+                <a name="dac_index_wbtl11" href="http://218.242.124.22:8081/businessCheck/verifKey.do?showType=extShow&serial=9031000020171023200126000002127896-SAIC_SHOW_310000-gs20140504000002416070&signData=MEQCIBnma3TqE78d6Qv8LEFX796xNWoI5l72fuoIvjPlrKPJAiApUXsgPppgrYOHP22z3sfTYbPCgr+JzkElk/vEDRCSpw==" title="电子营业执照" target="_blank">
+                <img style="height:46px; width:40px;" src="../Images/lz2.jpg">
+                </a>
 				<p>本网站使用图片来源自全景网</p>
 				<!--可信网站
 				<div class="safety">
@@ -176,7 +179,7 @@
 		<div class="im_main" id="im_main">
 			<div id="close_im" class="close-im"><a href="javascript:void(0);" title="点击关闭">&nbsp;</a></div>
             <a href="http://www.scyts.com/showinfo/327.html" target="_blank" class="im-qq qq-a" title="喜报：我社荣获“2017上海市徐汇区旅游行业技能大赛”“四项大奖">●喜报：我社荣获“2017上海市徐汇区旅游行业技能大赛”“四项大奖</a>
-			<a href="http://www.scyts.com/showinfo/326.html" target="_blank" class="im-qq qq-a" title="人民广场营业部搬迁公告发布">●人民广场营业部搬迁公告发布</a>
+			<a href="http://www.scyts.com/showinfo/326.html" target="_blank" class="im-qq qq-a" title="律师声明">●律师声明</a>
 			<a href="http://www.scyts.com/showinfo/325.html" target="_blank" class="im-qq qq-a" title="离团不离心，满怀激情喜迎十九大">●离团不离心，满怀激情喜迎十九大</a>
 			<a href="http://www.scyts.com/showinfo/324.html" target="_blank" class="im-qq qq-a" title="热烈祝贺我社导游沈伟颖荣获第三届全国导游大赛铜奖">●热烈祝贺我社导游沈伟颖荣获第三届全国导游大赛铜奖</a>
 		</div>

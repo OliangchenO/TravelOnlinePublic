@@ -79,8 +79,13 @@
         <UL class=tab><LI class=curr>联系信息<SPAN></SPAN></LI></UL>
         <div class="mc tabcon borders01">
             <div id="checkinfo" class="mc tabcon"><%=User_Info %></div>
-            <ul class=checks>
-                <li class=memo><div class=oname>特别说明：</div><div class="oinfo"><%=User_Memo %></div></li>
+            <ul class="checks">
+                <li><div>特别说明：</div><div class="oinfo"><%=User_Memo %></div></li>
+                <li><div>用户类型：</div><div class="oinfo"><%=usertype %></div></li>
+                <li><div>注册手机：</div><div class="oinfo"><%=Rmobile %></div></li>
+                <%if (usertype == "NotMember") { %>
+                <li><div>动态验证码登录手机：</div><div class="oinfo"><%=ThirdPartyID %></div></li>
+                <%} %>
             </ul>
         </div>
     </div>

@@ -41,7 +41,7 @@ namespace TravelOnline.NewPage.order
                 Integral = (int)((MyConvert.ConToDec(pay) * MyConvert.ConToDec("0.01")) - MyConvert.ConToDec("0.5"));
                 string LineId = DS.Tables[0].Rows[0]["LineID"].ToString();
                 string orderMobile = DS.Tables[0].Rows[0]["ordermobile"].ToString();
-                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + LineId + ",") > -1)
+                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + LineId + ",") > -1 && DateTime.Now < MyConvert.ConToDateTime(ConfigurationManager.AppSettings["prebookbegin"]))
                 {
                     if (null != orderMobile && orderMobile != "")
                     {

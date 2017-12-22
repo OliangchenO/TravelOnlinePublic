@@ -139,7 +139,7 @@ var _hmt = _hmt || [];
                         此产品为预购产品，您现在需支付的<%=Nums%>元将作为定金，2017年12月1日至2017年12月31日期间付清余款，取消定单，定金不予退还
                     </li>
                     <li><div class=tname>已付款：</div><div class=tinfo><span class="base_price02">&yen;</span><span class="base_price02" id="span2"><%=Pay%></span></div></li>
-                    <li><div class=tname>本次付款：</div><div class=tinfo><span class="base_price02" style="FONT-SIZE: 20px;">&yen;</span><input id="P_PayNow" name="P_PayNow" readonly type="text" class="easyui-numberbox" precision="0" max="999999" size="7" maxlength="9" style="WIDTH: 100px;text-align:center;FONT-WEIGHT: bold; FONT-SIZE: 20px; color:#e56700;BORDER-BOTTOM: #196297 1px solid;BORDER-LEFT: #ffffff 1px solid;BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid;" value="<%=YeE %>"/></div></li>
+                    <li><div class=tname>本次付款：</div><div class=tinfo><span class="base_price02" style="FONT-SIZE: 20px;">&yen;</span><input id="P_PayNow" name="P_PayNow" type="text" class="easyui-numberbox" precision="0" max="999999" size="7" maxlength="9" style="WIDTH: 100px;text-align:center;FONT-WEIGHT: bold; FONT-SIZE: 20px; color:#e56700;BORDER-BOTTOM: #196297 1px solid;BORDER-LEFT: #ffffff 1px solid;BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid;" value="<%=YeE %>"/></div></li>
                     <li class="<%=hide7 %>">
                         此产品为拼团产品，您现在需支付<%=YeE %>元将作为定金，拼团成功客服会通知您付清余款。
                     </li>
@@ -155,7 +155,7 @@ var _hmt = _hmt || [];
                     <li class="<%=hideAliPay %>"><div class=tname></div><div class=banks><input id="Radio1" type="radio" name="paytype" value="AliPay" <%=AliPayCheck %> /><label for="Radio1" class=banklogo>&nbsp;<IMG for="Radio1" src="/Images/AliPay.jpg"></label>&nbsp;</div></li>
                     <li class="<%=hideSHRCBPay %>"><div class=tname></div><div class=banks><input type="radio" name="paytype" value="SHRCB" id="Radio26" checked="checked" /><label for="Radio25" class=banklogo>&nbsp;<IMG src="/Images/bank_ns.png"></label>&nbsp;</div></li>
                     <li  class="<%=hideWeiXinPay %>"><div class=tname></div><div class=banks><input id="Radio8" type="radio" name="paytype" value="WeiXinPay" <%=WeiXinPayCheck %> /><label for="Radio1" class=banklogo>&nbsp;<IMG for="Radio1" src="/Images/WeiXinPaylogo.jpg"></label>&nbsp;</div></li>
-                    <li class="<%=hidePuFaPay %>"><div class=tname></div><div class=banks><input id="Radio13" type="radio" name="paytype" value="PuFaPay" <%=PuFaPayCheck %> /><label for="Radio1" class=banklogo>&nbsp;<IMG for="Radio1" src="/image/spdcard.png"></label>&nbsp;</div></li>
+                    <li class="hide"><div class=tname></div><div class=banks><input id="Radio13" type="radio" name="paytype" value="PuFaPay" <%=PuFaPayCheck %> /><label for="Radio1" class=banklogo>&nbsp;<IMG for="Radio1" src="/image/spdcard.png"></label>&nbsp;</div></li>
                     <li id="JHPay" name="fq" class="hide"><div class=tname></div><div class=banks><input id="Radio15" type="radio" name="paytype" value="CCBINSPay" <%=CcbPayCheck %> /><label for="Radio1" class=banklogo>&nbsp;<IMG for="Radio1" src="/images/JH_PaymentPay.png"></label><span style="margin-left:10px;color:#2382d9;"></span>&nbsp;</div></br>
                     <dl style="display:none;">
                         <dd>选择分期数：

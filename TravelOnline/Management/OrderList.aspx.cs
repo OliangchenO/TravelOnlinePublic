@@ -13,12 +13,12 @@ namespace TravelOnline.Management
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Convert.ToString(Session["Manager_UserId"]).Length == 0) Response.Redirect("/manage/Login.aspx", true);
-            if (Convert.ToString(Session["Manager_UserRight"]).IndexOf("@6@2") == -1)
-            {
-                Response.Write("没有操作权限！");
-                Response.End();
-            }
+            //if (Convert.ToString(Session["Manager_UserId"]).Length == 0) Response.Redirect("/manage/Login.aspx", true);
+            //if (Convert.ToString(Session["Manager_UserRight"]).IndexOf("@6@2") == -1)
+            //{
+            //    Response.Write("没有操作权限！");
+            //    Response.End();
+            //}
             if (!IsPostBack)
             {
                 TB_Bdate.Text = string.Format("{0:yyyy-MM-dd}",DateTime.Today.AddMonths(-1));
@@ -32,6 +32,7 @@ namespace TravelOnline.Management
             string sqlstr = string.Format("SELECT *,(select ISNULL(sum(PayPrice),0) from OL_PayMent where OrderId=OL_Order.OrderId) as pay,(select count(1) from OL_OrderPrice where OrderId=OL_Order.OrderId and PriceType='Coupon') as Coupon from OL_Order where  OrderFlag<>'9' ", Convert.ToString(Session["Online_UserId"]));
             if (TB_Name.Text.Trim().Length > 0) sqlstr = string.Format("{0} and OrderName like '%{1}%' ", sqlstr, TB_Name.Text.Trim());
             if (TB_Line.Text.Trim().Length > 0) sqlstr = string.Format("{0} and LineName like '%{1}%' ", sqlstr, TB_Line.Text.Trim());
+            if (OrderMobile.Text.Trim().Length > 0) sqlstr = string.Format("{0} and OrderMobile like '%{1}%' ", sqlstr, OrderMobile.Text.Trim());
             if (TB_Bdate.Text.Length >8)
             {
                 try

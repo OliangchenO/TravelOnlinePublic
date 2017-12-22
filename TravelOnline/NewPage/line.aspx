@@ -163,7 +163,12 @@
                             </div>
                         </div>
 						
-                        
+                        <%if (Convert.ToString(ConfigurationManager.AppSettings["Ticketlineid"]).IndexOf("," + LineId + ",") > -1){ %>
+                            <input type="hidden" class="isTicket" value="1" />
+                        <%}else{ %>
+                            <input type="hidden" class="isTicket" value="0" />
+                        <%} %>
+
                         <%if (Convert.ToString(ConfigurationManager.AppSettings["ZhongChouHuoDong"]).IndexOf("," + LineId + ",") > -1){%>
                         <%if (seckillNum != null && seckillNum != ""){ %>
                             <div style="float:right; font: 14px/30px 'Microsoft Yahei'; color: red; width: 110px;">仅余<%=100-System.Int32.Parse(seckillNum)-4%>限额</div>
@@ -631,6 +636,7 @@
     <script type="text/javascript">
         <%=PlanDateJason%>
         var ShowMonthNum = 1;
+        var isTicket = 0;
         $(document).ready(function () {
             HistoryRecord();
             $('select').select2({ minimumResultsForSearch: -1 });
@@ -695,6 +701,12 @@
 
         function CountPrice() {
             var PriceCount = 0;
+            var isTicket = $(".isTicket").val();
+            if (isTicket == 1) {
+
+            } else {
+
+            }
             $("#price_list dl").each(function () {
                 var id = $(this).attr("tag");
                 var nums = Number($(this).find("#p9_" + id).val());

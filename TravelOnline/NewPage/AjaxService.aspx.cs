@@ -19,6 +19,7 @@ using LitJson;
 using TravelOnline.RequestHandlerFacade;
 using TravelOnline.NewPage.pay;
 using TravelOnline.NewPage.Class;
+using TravelOnline.WeChat.Util;
 
 namespace TravelOnline.NewPage
 {
@@ -162,9 +163,17 @@ namespace TravelOnline.NewPage
             DataSet DS = new DataSet();
             DS.Clear();
             DS = MyDataBaseComm.getDataSet(SqlQueryText);
+            string OrderID = "";
+            string OrderNums = "";
+            string OrderMobile = "";
+            string lineid = "";
             if (DS.Tables[0].Rows.Count > 0)
             {
                 AutoID = DS.Tables[0].Rows[0]["AutoID"].ToString();
+                OrderID = DS.Tables[0].Rows[0]["OrderID"].ToString();
+                OrderNums = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                OrderMobile = DS.Tables[0].Rows[0]["OrderMobile"].ToString();
+                lineid = DS.Tables[0].Rows[0]["lineid"].ToString();
                 if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "2")
                 {
                     return "({\"error\":\"订单状态异常！请确认订单状态！\"})";
@@ -199,6 +208,7 @@ namespace TravelOnline.NewPage
             try
             {
                 verifyCode = GetPageContent(url, "");
+                //verifyCode = "success";
                 //操作超时
                 if (verifyCode == "操作超时") verifyCode = "error";
             }
@@ -254,6 +264,16 @@ namespace TravelOnline.NewPage
                     }
                     catch
                     {
+                    }
+                    if (ConfigurationManager.AppSettings["Tswlineid"].Contains(lineid))
+                    {
+                        string activityid = ConfigurationManager.AppSettings["Tswactivityid"];
+                        bool result = Tuanshiwei.insertPurchaseRecord(OrderMobile, lineid, "1", OrderNums);
+                        if (!result)
+                        {
+                            string msg = "OrderID:" + OrderID + ", OrderMobile" + OrderMobile + ", activityid:" + activityid + ", PayFlag:1, OrderNums" + OrderNums;
+                            Tuanshiwei.SaveTswErrorToLog("调用团市委保存支付记录接口失败:", "orderid:" + OrderID + ", OrderMobile:" + OrderMobile + ", PayFlag");
+                        }
                     }
                 }
                 return "({\"success\":\"" + orderID + "\"})";
@@ -958,7 +978,7 @@ namespace TravelOnline.NewPage
                     }
                 }
 
-                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1)
+                if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1 && DateTime.Now < MyConvert.ConToDateTime(ConfigurationManager.AppSettings["prebookbegin"]))
                 {
                     int aprice = 1 * MyConvert.ConToInt(ordernums);
                     TableName = "OL_ActivityOrder";

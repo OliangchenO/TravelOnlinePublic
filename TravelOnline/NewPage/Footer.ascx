@@ -103,47 +103,112 @@
 					<a rel="nofollow" href="/service/aboutus.html" target="_blank">关于我们</a>
 					<a rel="nofollow" href="/service/contactus.html" target="_blank">联系我们</a>
 					<a rel="nofollow" href="/service/joinus.html" target="_blank">人才招聘</a>
-					<a rel="nofollow" href="/service/partner.html" target="_blank">同行分销</a>
+					<a rel="nofollow" href="/service/partner.html" target="_blank">BD合作</a>
 					<a rel="nofollow" href="/service/advertising.html" target="_blank">广告服务</a>
+					<a rel="nofollow" href="http://www.scyts.com/showinfo/311.html" target="_blank">公司声明</a>
 				</div>
-				<p>沪ICP备案编号：05016600 Copyright©2006-2014 上海中国青年旅行社 版权所有</p>
+				<p>沪ICP备案编号：05016600 Copyright©2006-2017 上海中国青年旅行社有限公司 版权所有</p>
+                <a name="dac_index_wbtl11" href="http://218.242.124.22:8081/businessCheck/verifKey.do?showType=extShow&serial=9031000020171023200126000002127896-SAIC_SHOW_310000-gs20140504000002416070&signData=MEQCIBnma3TqE78d6Qv8LEFX796xNWoI5l72fuoIvjPlrKPJAiApUXsgPppgrYOHP22z3sfTYbPCgr+JzkElk/vEDRCSpw==" title="电子营业执照" target="_blank">
+                <img style="height:46px; width:40px;" src="../Images/lz2.jpg">
+                </a>
+				<p>本网站使用图片来源自全景网</p>
+				<!--可信网站
 				<div class="safety">
 					<a id="urlknet" tabindex="-1" href="https://kxlogo.knet.cn/verifyseal.dll?sn=2011042500100008043&amp;ct=df&amp;pa=340789" target="_blank">
                     	<img oncontextmenu="return false;" onclick="change('urlknet')" border="true" name="seal" alt="可信网站" src="/Images/112_40_EAWZul.jpg" width="112" height="40">
                     </a> 
                     <a href="http://www.51315.cn/company_details_2161" target="_blank"><img src="/Images/xinyong.png" alt="诚信在线" /></a> 
 				</div>
+				-->
 			</div>
 		</div>
 	</div>
 	<!--页尾End-->
-	<!--右侧工具栏-->
-	<div class="side-fixed">
-		<a id="goTop" class="top" href="javascript:;" title="返回顶部"><img src="../image/fixed_top.png" alt="返回顶部"></a>
-		
+	
+	<!-- 在线咨询  
+	<div class="main-im">
+		<div id="open_im" class="open-im">&nbsp;</div>  
+		<div class="im_main" id="im_main">
+			<div id="close_im" class="close-im"><a href="javascript:void(0);" title="点击关闭">&nbsp;</a></div>
+			<a href="http://crm2.qq.com/page/portalpage/wpa.php?uin=4006777666&aty=0&a=0&curl=&ty=1" target="_blank" class="im-qq qq-a" title="在线QQ客服">
+				<div class="qq-container"></div>
+				<div class="qq-hover-c"><img class="img-qq" src="http://demo.lanrenzhijia.com/2015/service0119/images/qq.png"></div>
+				<span> QQ在线咨询</span>
+			</a>
+			<div class="im-tel">
+				<div>服务时间</div>
+				<div class="tel-num">09：00-17：30</div>
+			</div>
+			<div class="im-footer" style="position:relative">
+				<div class="weixing-container">
+					<div class="weixing-show">
+						<div class="weixing-txt">微信扫一扫<br>打开上海青旅</div>
+						<img class="weixing-ma" src="http://www.scyts.com/image/wx.png">
+						<div class="weixing-sanjiao"></div>
+						<div class="weixing-sanjiao-big"></div>
+					</div>
+				</div>
+				<div class="go-top"><a href="javascript:;" title="返回顶部"></a> </div>
+				<div style="clear:both"></div>
+			</div>
+		</div>
 	</div>
-    <%--<script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?670e68bb0a5926537ba7c720575bc7eb";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-    <!-- WPA Button Begin --> 
-    <script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODA2MTc2OF8xOTE5NV80MDA2Nzc3NjY2Xw"></script> 
-    <!-- WPA Button End --> 
-        
-    <!-- WPA Button Begin --> 
-    <script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODA2MTc2OF8xMjIzXzQwMDY3Nzc2NjZf"></script> 
-    <!-- WPA Button End --> --%>
-    <script>
+	<script>
+		$(function(){
+			$('#close_im').bind('click',function(){
+				$('#main-im').css("height","0");
+				$('#im_main').hide();
+				$('#open_im').show();
+			});
+			$('#open_im').bind('click',function(e){
+				$('#main-im').css("height","272");
+				$('#im_main').show();
+				$(this).hide();
+			});
+			$('.go-top').bind('click',function(){
+				$(window).scrollTop(0);
+			});
+			$(".weixing-container").bind('mouseenter',function(){
+				$('.weixing-show').show();
+			})
+			$(".weixing-container").bind('mouseleave',function(){        
+				$('.weixing-show').hide();
+			});
+		});
+	</script>
+	-->
+
+    <!--百度统计3.0 账号:上海青旅seo，更新日期2015/12/9-->
+        <script>
             var _hmt = _hmt || [];
             (function () {
                 var hm = document.createElement("script");
-                hm.src = "//hm.baidu.com/hm.js?eca822017290a9945e6643915f0d8353";
+                hm.src = "//hm.baidu.com/hm.js?74555fb7e3a2ce7bf07fa207c470ba25";
                 var s = document.getElementsByTagName("script")[0];
                 s.parentNode.insertBefore(hm, s);
             })();
-    </script>
+        </script>
+	<!--百度统计3.0 END-->
+
+    <!--Google Analytics 账号:ScytsSEO@gmail.com，更新日期2015/11/4-->
+		<script>
+		    (function (i, s, o, g, r, a, m) {
+		        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+		            (i[r].q = i[r].q || []).push(arguments)
+		        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+		  m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		    ga('create', 'UA-69620813-1', 'auto');
+		    ga('send', 'pageview');
+
+		</script>
+<!--Google Analytics END-->
+
+<!--cnzz统计 账号:ScytsSEO@gmail.com，更新日期2015/11/4-->
+		<script type="text/javascript">
+		    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+		    document.write(unescape("%3Cspan id='cnzz_stat_icon_1256932173'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol
+		+ "s4.cnzz.com/z_stat.php%3Fid%3D1256932173' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	<!--cnzz统计 END-->

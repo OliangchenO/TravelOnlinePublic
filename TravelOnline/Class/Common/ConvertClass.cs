@@ -156,6 +156,18 @@ public class MyConvert
     }
     #endregion
 
+    public static string CreateCode(int codeLen)
+    {
+
+        var result = new StringBuilder();
+        for (var i = 0; i < codeLen; i++)
+        {
+            var r = new Random(Guid.NewGuid().GetHashCode());
+            result.Append(r.Next(0, 10));
+        }
+        return result.ToString();
+    }
+
     //生成随机验证码
 
     #region

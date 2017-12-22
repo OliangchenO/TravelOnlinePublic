@@ -625,7 +625,9 @@ function ShowOrderDetail_New(data) {
         if (data.rows[0].OrderEmail > 0) {
             html += "<h3>邮箱：" + data.rows[0].OrderEmail + "</h3>";
         }
-        html += "<span style = 'color: #e84d1c'>客服会联系您确认游客信息</span>";
+        if (data.showKefu=="true") {
+            html += "<span style = 'color: #e84d1c'>客服会联系您确认游客信息</span>";
+        }
         html += "</div></div>";
         html += "<div class='recommend_detail'>";
         html += "<div class='recommend_txt'>";
@@ -648,7 +650,9 @@ function ShowOrderDetail_New(data) {
             html += "<div class='recommend_txt'>";
             html += "<h3>付款方式</h3>";
             html += "<div style='font-size: 14px;line-height:30px'>";
-            if (data.rows[0].PayType == "1" && data.rows[0].OrderFlag == "1" && data.rows[0].PayFlag == "0") {
+            
+            
+            if (data.rows[0].PayType == "1" && (data.rows[0].OrderFlag == "1" || data.rows[0].OrderFlag=="2")) {
                 html += "<A class='btn yellow' href='/wechat/pay.aspx?OrderId=" + data.orderid + "' target='_blank'>在线支付</A>";
             }
             if (data.row1[0].PayType == "2") {

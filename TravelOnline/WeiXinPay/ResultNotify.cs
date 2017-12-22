@@ -8,6 +8,7 @@ using TravelOnline.TravelMisWebService;
 using System.Data;
 using System.IO;
 using System.Text;
+using TravelOnline.WeChat.Util;
 
 namespace TravelOnline.WeiXinPay
 {
@@ -37,9 +38,17 @@ namespace TravelOnline.WeiXinPay
 
             string transaction_id = notifyData.GetValue("transaction_id").ToString();
             //更新订单库存支付金额
-            Log.Debug("start UpdateOrder()", "go");
-            UpdateOrder(notifyData);
-            Log.Debug("start UpdateOrder()", "OK");
+            string num = MyDataBaseComm.getScalar(string.Format("SELECT count(1) from OL_PayMent WHERE TradeNo='{0}'", transaction_id));
+            if (MyConvert.ConToInt(num) == 0)
+            {
+                Log.Debug("start UpdateOrder()", "go");
+                UpdateOrder(notifyData);
+                Log.Debug("start UpdateOrder()", "OK");
+            }else
+            {
+                Log.Debug("支付记录已存在", transaction_id);
+            }
+            
             //查询订单，判断订单真实性
             if (!QueryOrder(transaction_id))
             {
@@ -89,7 +98,7 @@ namespace TravelOnline.WeiXinPay
             string out_trade_no = info.GetValue("out_trade_no").ToString();
             out_trade_no = out_trade_no.Substring(0,out_trade_no.Length - 18);
             Log.Debug("out_trade_no:", out_trade_no);
-            string SqlQueryText = string.Format("select orderid from OL_Order where AutoID='{0}'", out_trade_no);
+            string SqlQueryText = string.Format("select * from OL_Order where AutoID='{0}'", out_trade_no);
             string attach = info.GetValue("attach").ToString();
             string payType = "微信支付";
             if (attach != null)
@@ -103,6 +112,7 @@ namespace TravelOnline.WeiXinPay
                     payType = "微信扫码支付";
                 }
             }
+            
             DataSet DS = new DataSet();
             DS.Clear();
             DS = MyDataBaseComm.getDataSet(SqlQueryText);
@@ -112,50 +122,77 @@ namespace TravelOnline.WeiXinPay
                 return;
             }
             string OrderID = DS.Tables[0].Rows[0]["OrderID"].ToString();
-
-
-            List<string> Sql = new List<string>();
-            Sql.Add(string.Format("UPDATE OL_Order set PayFlag='1' where AutoID='{0}'", out_trade_no));
-
-            Sql.Add(string.Format("insert into OL_PayMent (OrderId,TradeNo,Buyer,PayPrice,PayTime,PayContent,PayType) values ('{0}','{1}','{2}','{3}','{4}','{5}','WeiXinPay')",
-                OrderID,
-                info.GetValue("transaction_id").ToString(),
-                "",
-                total_fee,
-                DateTime.Now.ToString(),
-                payType
-                )
-            );
-            Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{4}，流水号：{3}，付款金额：{2}')",
-                OrderID,
-                DateTime.Now.ToString(),
-                total_fee,
-                info.GetValue("transaction_id").ToString(),
-                payType
-                )
-            );
-            string[] SqlQuery = Sql.ToArray();
-            if (MyDataBaseComm.Transaction(SqlQuery) == true)
+            string lineid = DS.Tables[0].Rows[0]["lineid"].ToString();
+            
+            int num = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from OL_PayMent where OrderId='{0}' and TradeNo='{1}'", OrderID, info.GetValue("transaction_id").ToString())));
+            string sql = string.Format("select count(1) from OL_PayMent where OrderId='{0}' and TradeNo='{1}'", OrderID, info.GetValue("transaction_id").ToString());
+            SaveErrorToLog("num:"+ num, sql);
+            if (num == 0)
             {
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
-                PayInfo Pays = new PayInfo();
-                Pays.OrderId = OrderID;
-                Pays.TradeNo = info.GetValue("transaction_id").ToString();
-                Pays.PayPrice = total_fee;
-                Pays.PayTime = DateTime.Now.ToString();
-                Pays.PayContent = payType;
+                List<string> Sql = new List<string>();
+                Sql.Add(string.Format("UPDATE OL_Order set PayFlag='1' where AutoID='{0}'", out_trade_no));
 
-                string Result;
-                try
+                Sql.Add(string.Format("insert into OL_PayMent (OrderId,TradeNo,Buyer,PayPrice,PayTime,PayContent,PayType) values ('{0}','{1}','{2}','{3}','{4}','{5}','WeiXinPay')",
+                    OrderID,
+                    info.GetValue("transaction_id").ToString(),
+                    "",
+                    total_fee,
+                    DateTime.Now.ToString(),
+                    payType
+                    )
+                );
+                Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{4}，流水号：{3}，付款金额：{2}')",
+                    OrderID,
+                    DateTime.Now.ToString(),
+                    total_fee,
+                    info.GetValue("transaction_id").ToString(),
+                    payType
+                    )
+                );
+                string[] SqlQuery = Sql.ToArray();
+                if (MyDataBaseComm.Transaction(SqlQuery) == true)
                 {
-                    Result = rsp.PayInfoSave(UpPassWord, Pays);
+                    string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                    TravelOnlineService rsp = new TravelOnlineService();
+                    rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                    PayInfo Pays = new PayInfo();
+                    Pays.OrderId = OrderID;
+                    Pays.TradeNo = info.GetValue("transaction_id").ToString();
+                    Pays.PayPrice = total_fee;
+                    Pays.PayTime = DateTime.Now.ToString();
+                    Pays.PayContent = payType;
+
+                    string Result;
+                    try
+                    {
+                        Result = rsp.PayInfoSave(UpPassWord, Pays);
+                    }
+                    catch
+                    {
+                    }
+
+                    if (ConfigurationManager.AppSettings["Tswlineid"].Contains(lineid))
+                    {
+                        string OrderNums = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                        string PayFlag = "1";
+                        string OrderMobile = DS.Tables[0].Rows[0]["OrderMobile"].ToString();
+                        bool result = Tuanshiwei.insertPurchaseRecord(OrderMobile, lineid, PayFlag, OrderNums);
+                        if (!result)
+                        {
+                            string msg = "OrderID:" + OrderID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
+                            Tuanshiwei.SaveTswErrorToLog("调用团市委保存支付记录接口失败:", msg);
+                        }else
+                        {
+                            string msg = "OrderID:" + OrderID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
+                            Tuanshiwei.SaveTswErrorToLog("调用团市委保存支付记录接口成功:", msg);
+                        }
+                    }
                 }
-                catch
-                {
-                }
+            }else
+            {
+                SaveErrorToLog("微信支付记录已存在", "trade_no=" + info.GetValue("transaction_id").ToString());
             }
+            
             
         }
 

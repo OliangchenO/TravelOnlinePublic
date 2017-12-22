@@ -67,6 +67,7 @@ href="/Management/ManageHome.aspx">管理中心首页</A>&nbsp;&gt;&nbsp;<SPAN>�
     </DIV>
     <div class="serchbar">
         联系人：<asp:TextBox ID="TB_Name" class="text" runat="server" Width="70"></asp:TextBox>&nbsp;
+        联系人手机：<asp:TextBox ID="OrderMobile" class="text" runat="server" Width="70"></asp:TextBox>&nbsp;
         线路：<asp:TextBox ID="TB_Line" class="text" runat="server" Width="100"></asp:TextBox>&nbsp;
         预订日期：<asp:TextBox ID="TB_Bdate" class="iconDate" runat="server" Width="85"></asp:TextBox>-
         <asp:TextBox ID="TB_Edate" class="iconDate" runat="server" Width="85"></asp:TextBox>

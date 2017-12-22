@@ -275,7 +275,7 @@ namespace TravelOnline.Member
 
             LoginUser.RegistUser RUser = new LoginUser.RegistUser();
 
-            SqlQueryText = string.Format("Mobile='{0}'", MyDataBaseComm.StripSQLInjection(Request.Form["mobilePhone"].Trim()));
+            SqlQueryText = string.Format("Mobile='{0}' or ThirdPartyID='{0}'", MyDataBaseComm.StripSQLInjection(Request.Form["mobilePhone"].Trim()));
             RUser = LoginUser.LoginUseDetail(SqlQueryText);
             string LoginIp = GetIpaddress();
 
@@ -426,7 +426,7 @@ namespace TravelOnline.Member
             if (ip != null)
             {
                 string SendNum = MyDataBaseComm.getScalar("select count(id) from OL_SmsSend where sendtime>GETDATE()-1 and flag='MobileLogin' and ip='" + ip + "'");
-                if (MyConvert.ConToInt(SendNum) > 30)
+                if (MyConvert.ConToInt(SendNum) > 500)
                 {
                     SaveErrorToLog("发送多次发送验证码ip：" + ip);
                     Response.Write("({\"error\":\"<i></i>此IP发送次数过多\"})");

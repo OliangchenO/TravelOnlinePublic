@@ -16,6 +16,7 @@ using Sunrise.Spell;
 using System.IO;
 using TravelOnline.WeChat.freetrip.interfaces;
 using TravelOnline.WeChat.freetrip.model;
+using TravelOnline.WeChat.Util;
 
 namespace TravelOnline.Management
 {
@@ -250,6 +251,12 @@ namespace TravelOnline.Management
                     break;
                 case "DeleteGroupInfo":
                     DeleteSelectInfos("OL_GroupPlan");
+                    break;
+                case "TruncateQuestion":
+                    TruncateQuestion();
+                    break;
+                case "ResendPayInfo":
+                    ResendPayInfo();
                     break;
                 default:
                     Response.Write("{\"success\":1}");
@@ -2361,6 +2368,53 @@ namespace TravelOnline.Management
             else
             {
                 Response.Write("({\"error\":\"信息保存失败\"})");
+            }
+        }
+
+        public void TruncateQuestion()
+        {
+            string SqlQueryText = "";
+            SqlQueryText = string.Format("delete from OL_Question");
+            if (MyDataBaseComm.ExcuteSql(SqlQueryText) == true)
+            {
+                Response.Write("{\"success\":0}");
+            }
+            else
+            {
+                Response.Write("{\"success\":1}");
+            }
+        }
+
+        public void ResendPayInfo()
+        {
+            string sqlstr = "select o.OrderId, o.OrderNums,o.OrderMobile, P.PayTime  from OL_Order o,OL_PayMent p where o.OrderId=p.OrderId and o.PayFlag=1 and o.LineID='25061' and CONVERT(VARCHAR(20),p.PayTime,120)>'2017-12-06 11:00:00' and CONVERT(VARCHAR(20),p.PayTime,120)<'2017-12-13 11:00:00' order by P.PayTime";
+            
+            DataSet DS = new DataSet();
+            DS.Clear();
+            DS = MyDataBaseComm.getDataSet(sqlstr);
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+                    string OrderID = DS.Tables[0].Rows[i]["OrderId"].ToString();
+                    string PayFlag = "1";
+                    string OrderMobile = DS.Tables[0].Rows[i]["OrderMobile"].ToString();
+                    string lineid = "25061";
+                    string OrderNums = DS.Tables[0].Rows[i]["OrderNums"].ToString();
+                    bool result = Tuanshiwei.insertPurchaseRecord(OrderMobile, lineid, PayFlag, OrderNums);
+                    if (!result)
+                    {
+                        string msg = "OrderID:" + OrderID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
+                        Tuanshiwei.SaveTswResendToLog("调用团市委保存支付记录接口失败:", msg);
+                    }
+                    else
+                    {
+                        string msg = "OrderID:" + OrderID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
+                        Tuanshiwei.SaveTswResendToLog("调用团市委保存支付记录接口成功:", msg);
+                    }
+                }
+
+                Response.Write("{\"success\":0}");
             }
         }
     }

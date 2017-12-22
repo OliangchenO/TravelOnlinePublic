@@ -18,7 +18,7 @@
 <!-- Theme styles START -->
 
 <link href="/assets/css/style.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
 <link href="/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/> 
 <link href="/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
 <link href="/assets/plugins/iCheck/skins/square/grey.css" rel="stylesheet" type="text/css"/>
@@ -142,7 +142,6 @@ var _hmt = _hmt || [];
                     <h3>联系方式</h3>
                     <ul>
                         <li>电话：<a class="margin-right-20" href="tel:02134014501">021-34014501</a></li>
-                        <li>传真：021-64742928(出境)&nbsp;&nbsp;021-64670982(国内)</li>
                         <li>上海中国青年旅行社有限公司</li>
                         <li>联系地址：上海市徐汇区衡山路2号（200031）</li>  
                         <li>如对以上预订有任何疑问，请速给我们来电！谢谢您的预订！</li>    
@@ -284,7 +283,7 @@ var _hmt = _hmt || [];
 <script src="/assets/plugins/iCheck/icheck.js"></script>
 <!-- END CORE PLUGINS -->
 <script src="/assets/scripts/app.js"></script>
-<script src="/app_js/order.js"></script>
+<script src="/app_js/order.js?v=20171201"></script>
 <script type="text/javascript">
     $('#myorder').live("click", function () {
         url = "../../WeChat/AjaxService.aspx?action=CheckOnline&r=" + Math.random();

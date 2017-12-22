@@ -367,6 +367,24 @@ $(".showdate,.BeginOrder").live("click", function () {
 
 });
 
+$(".OrderTicket").live("click", function () {
+    
+    url = "../../WeChat/AjaxService.aspx?action=CheckOnline&r=" + Math.random();
+    $.get(url, function (obj) {
+        if (obj.success) {
+            $.cookie("lineflag", $('#s_lineflag').val(), { expires: 7, path: '/WeChat' });
+            document.title = "立即预订";
+            $("#titlename").html("立即预订");
+            window.location.href = "/WeChat/order_ticket.aspx?LineId=" + $("#s_lineid").val();
+            scroll(0, 0);
+        } else {
+            state = { action: "login", url: "#login" };
+            history.pushState(state, "用户登录", "#login");
+            window.location.href = "/WeChat/order_ticket.aspx#login?" + $("#s_lineid").val();
+        }
+    }, 'json');
+});
+
 function LoadList() {
     var search = $("#search_hide").val();
     if ($("#search_hide").val() != "") {

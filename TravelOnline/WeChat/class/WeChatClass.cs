@@ -128,19 +128,25 @@ namespace TravelOnline.WeChat
                     switch (LineFlag)
                     {
                         case "2":
-                            if (pdates.Length > 24) pdates = pdates.Substring(0, 23) + "...";
-                            Strings.Append("<div class=\"corp_box\">");
-                            Strings.Append(string.Format("<a href=\"javascript:;\"><i class=\"fa fa-calendar\"></i> 出发日期: {0}</a>", pdates.Replace(",", "、")));
-                            Strings.Append("</div>");
+                            if (!ConfigurationManager.AppSettings["Ticketlineid"].Contains(lineid))
+                            {
+                                if (pdates.Length > 24) pdates = pdates.Substring(0, 23) + "...";
+                                Strings.Append("<div class=\"corp_box\">");
+                                Strings.Append(string.Format("<a href=\"javascript:;\"><i class=\"fa fa-calendar\"></i> 出发日期: {0}</a>", pdates.Replace(",", "、")));
+                                Strings.Append("</div>");
+                            }
                             break;
                         case "3":
 
                             break;
                         default:
-                            if (pdates.Length > 24) pdates = pdates.Substring(0, 23) + "...";
-                            Strings.Append("<div class=\"corp_box showdate\">");
-                            Strings.Append(string.Format("<a href=\"javascript:;\"><i class=\"fa fa-calendar\"></i> 出发日期: {0}<i style=\"font-size:16px\" class=\"fa fa-chevron-circle-right pull-right\"></i></a>", pdates.Replace(",", "、")));
-                            Strings.Append("</div>");
+                            if (!ConfigurationManager.AppSettings["Ticketlineid"].Contains(lineid))
+                            {
+                                if (pdates.Length > 24) pdates = pdates.Substring(0, 23) + "...";
+                                Strings.Append("<div class=\"corp_box showdate\">");
+                                Strings.Append(string.Format("<a href=\"javascript:;\"><i class=\"fa fa-calendar\"></i> 出发日期: {0}<i style=\"font-size:16px\" class=\"fa fa-chevron-circle-right pull-right\"></i></a>", pdates.Replace(",", "、")));
+                                Strings.Append("</div>");
+                            }
                             break;
                     }
 
@@ -525,16 +531,33 @@ namespace TravelOnline.WeChat
                     }
                     else
                     {
-                        AllStrings.Append("<div class='clearfix'></div><div class='pre-footer order-footer' style='position: fixed; bottom: -1px; left: 0px;width:101%'><div class='container'><div class='row'>");
-                        if (HttpContext.Current.Session["Fx_Storename"] != null)
+                        if (ConfigurationManager.AppSettings["Ticketlineid"].Contains(lineid))
                         {
-                            AllStrings.Append(string.Format("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:{0}'><i class='fa fa-phone-square'></i> 电话咨询</a></div>", HttpContext.Current.Session["Fx_Storename"].ToString()));
+                            AllStrings.Append("<div class='clearfix'></div><div class='pre-footer order-footer' style='position: fixed; bottom: -1px; left: 0px;width:101%'><div class='container'><div class='row'>");
+                            if (HttpContext.Current.Session["Fx_Storename"] != null)
+                            {
+                                AllStrings.Append(string.Format("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:{0}'><i class='fa fa-phone-square'></i> 电话咨询</a></div>", HttpContext.Current.Session["Fx_Storename"].ToString()));
+                            }
+                            else
+                            {
+                                AllStrings.Append("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:4006777666' ><i class='fa fa-phone-square'></i> 电话咨询</a></div>");
+                            }
+                            AllStrings.Append("<div class='col-xs-6 OrderTicket' style='text-align:center'><a class='yd cur' href='javascript:;'><i class='fa fa-shopping-cart'></i> 开始预订</a></div></div></div></div>");
                         }
                         else
                         {
-                            AllStrings.Append("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:4006777666' ><i class='fa fa-phone-square'></i> 电话咨询</a></div>");
+                            AllStrings.Append("<div class='clearfix'></div><div class='pre-footer order-footer' style='position: fixed; bottom: -1px; left: 0px;width:101%'><div class='container'><div class='row'>");
+                            if (HttpContext.Current.Session["Fx_Storename"] != null)
+                            {
+                                AllStrings.Append(string.Format("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:{0}'><i class='fa fa-phone-square'></i> 电话咨询</a></div>", HttpContext.Current.Session["Fx_Storename"].ToString()));
+                            }
+                            else
+                            {
+                                AllStrings.Append("<div class='col-xs-6' style='text-align:center'><a class='yd cur' href='tel:4006777666' ><i class='fa fa-phone-square'></i> 电话咨询</a></div>");
+                            }
+                            AllStrings.Append("<div class='col-xs-6 BeginOrder' style='text-align:center'><a class='yd cur' href='javascript:;'><i class='fa fa-shopping-cart'></i> 开始预订</a></div></div></div></div>");
                         }
-                        AllStrings.Append("<div class='col-xs-6 BeginOrder' style='text-align:center'><a class='yd cur' href='javascript:;'><i class='fa fa-shopping-cart'></i> 开始预订</a></div></div></div></div>");
+                        
                     }
                 }
 

@@ -99,8 +99,20 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Extensions.Design" />
     <Reference Include="System.Xml.Linq" />
@@ -129,6 +141,27 @@
     <Content Include="Activity\Act_Info.aspx" />
     <Content Include="Activity\AjaxService.aspx" />
     <Content Include="Activity\Print.aspx" />
+    <Content Include="AD\2017huaxue\css\btt.css" />
+    <Content Include="AD\2017huaxue\css\common.css" />
+    <Content Include="AD\2017huaxue\css\demo.css" />
+    <Content Include="AD\2017huaxue\css\headerTop.css" />
+    <Content Include="AD\2017huaxue\css\index.css" />
+    <Content Include="AD\2017huaxue\images\arrow-up.png" />
+    <Content Include="AD\2017huaxue\images\bg.jpg" />
+    <Content Include="AD\2017huaxue\images\icon.png" />
+    <Content Include="AD\2017huaxue\images\line_bg.png" />
+    <Content Include="AD\2017huaxue\images\logo5A.jpg" />
+    <Content Include="AD\2017huaxue\images\p_01.jpg" />
+    <Content Include="AD\2017huaxue\images\p_02.jpg" />
+    <Content Include="AD\2017huaxue\images\tel.gif" />
+    <Content Include="AD\2017huaxue\index.html" />
+    <Content Include="AD\2017huaxue\js\awardRotate.js" />
+    <Content Include="AD\2017huaxue\js\backtotop.js" />
+    <Content Include="AD\2017huaxue\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017huaxue\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017huaxue\js\jquery.min.js" />
+    <Content Include="AD\2017huaxue\js\koala.min.1.5.js" />
+    <Content Include="AD\2017huaxue\js\terminator2.2.min.js" />
     <Content Include="AD\2017AsiaGuoqing\css\btt.css" />
     <Content Include="AD\2017AsiaGuoqing\css\common.css" />
     <Content Include="AD\2017AsiaGuoqing\css\demo.css" />
@@ -151,6 +184,29 @@
     <Content Include="AD\2017AsiaGuoqing\js\koala.min.1.5.js" />
     <Content Include="AD\2017AsiaGuoqing\js\terminator2.2.min.js" />
     <Content Include="AD\2017Guoqing\images\p_01.jpg" />
+    <Content Include="AD\2017Ccb\css\btt.css" />
+    <Content Include="AD\2017Ccb\css\common.css" />
+    <Content Include="AD\2017Ccb\css\demo.css" />
+    <Content Include="AD\2017Ccb\css\headerTop.css" />
+    <Content Include="AD\2017Ccb\css\index.css" />
+    <Content Include="AD\2017Ccb\images\arrow-up.png" />
+    <Content Include="AD\2017Ccb\images\bg.jpg" />
+    <Content Include="AD\2017Ccb\images\icon.png" />
+    <Content Include="AD\2017Ccb\images\line_bg.png" />
+    <Content Include="AD\2017Ccb\images\logo5A.jpg" />
+    <Content Include="AD\2017Ccb\images\p_01.jpg" />
+    <Content Include="AD\2017Ccb\images\p_02.jpg" />
+    <Content Include="AD\2017Ccb\images\p_03.jpg" />
+    <Content Include="AD\2017Ccb\images\tel.gif" />
+    <Content Include="AD\2017Ccb\index.html" />
+    <Content Include="AD\2017Ccb\js\awardRotate.js" />
+    <Content Include="AD\2017Ccb\js\backtotop.js" />
+    <Content Include="AD\2017Ccb\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017Ccb\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017Ccb\js\jquery.min.js" />
+    <Content Include="AD\2017Ccb\js\koala.min.1.5.js" />
+    <Content Include="AD\2017Ccb\js\terminator2.2.min.js" />
+    <Content Include="AD\2017nianyefan\images\p_02.jpg" />
     <Content Include="AD\2017Shrcb\css\btt.css" />
     <Content Include="AD\2017Shrcb\css\common.css" />
     <Content Include="AD\2017Shrcb\css\demo.css" />
@@ -199,6 +255,47 @@
     <Content Include="AD\2017Gift\js\jquery.min.js" />
     <Content Include="AD\2017Gift\js\koala.min.1.5.js" />
     <Content Include="AD\2017Gift\js\terminator2.2.min.js" />
+    <Content Include="AD\2017nianyefan\css\btt.css" />
+    <Content Include="AD\2017nianyefan\css\common.css" />
+    <Content Include="AD\2017nianyefan\css\demo.css" />
+    <Content Include="AD\2017nianyefan\css\headerTop.css" />
+    <Content Include="AD\2017nianyefan\css\index.css" />
+    <Content Include="AD\2017nianyefan\images\arrow-up.png" />
+    <Content Include="AD\2017nianyefan\images\bg.jpg" />
+    <Content Include="AD\2017nianyefan\images\icon.png" />
+    <Content Include="AD\2017nianyefan\images\line_bg.png" />
+    <Content Include="AD\2017nianyefan\images\logo5A.jpg" />
+    <Content Include="AD\2017nianyefan\images\p_01.jpg" />
+    <Content Include="AD\2017nianyefan\images\tel.gif" />
+    <Content Include="AD\2017nianyefan\index.html" />
+    <Content Include="AD\2017nianyefan\js\awardRotate.js" />
+    <Content Include="AD\2017nianyefan\js\backtotop.js" />
+    <Content Include="AD\2017nianyefan\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017nianyefan\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017nianyefan\js\jquery.min.js" />
+    <Content Include="AD\2017nianyefan\js\koala.min.1.5.js" />
+    <Content Include="AD\2017nianyefan\js\terminator2.2.min.js" />
+    <Content Include="AD\Aibota\css\btt.css" />
+    <Content Include="AD\Aibota\css\common.css" />
+    <Content Include="AD\Aibota\css\demo.css" />
+    <Content Include="AD\Aibota\css\headerTop.css" />
+    <Content Include="AD\Aibota\css\index.css" />
+    <Content Include="AD\Aibota\images\arrow-up.png" />
+    <Content Include="AD\Aibota\images\bg.jpg" />
+    <Content Include="AD\Aibota\images\icon.png" />
+    <Content Include="AD\Aibota\images\line_bg.png" />
+    <Content Include="AD\Aibota\images\logo5A.jpg" />
+    <Content Include="AD\Aibota\images\p_01.jpg" />
+    <Content Include="AD\Aibota\images\p_02.jpg" />
+    <Content Include="AD\Aibota\images\tel.gif" />
+    <Content Include="AD\Aibota\index.html" />
+    <Content Include="AD\Aibota\js\awardRotate.js" />
+    <Content Include="AD\Aibota\js\backtotop.js" />
+    <Content Include="AD\Aibota\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\Aibota\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\Aibota\js\jquery.min.js" />
+    <Content Include="AD\Aibota\js\koala.min.1.5.js" />
+    <Content Include="AD\Aibota\js\terminator2.2.min.js" />
     <Content Include="AD\2017Young\css\btt.css" />
     <Content Include="AD\2017Young\css\common.css" />
     <Content Include="AD\2017Young\css\demo.css" />
@@ -239,6 +336,49 @@
     <Content Include="AD\2017Guoqing\js\jquery.min.js" />
     <Content Include="AD\2017Guoqing\js\koala.min.1.5.js" />
     <Content Include="AD\2017Guoqing\js\terminator2.2.min.js" />
+    <Content Include="AD\2017double11\css\btt.css" />
+    <Content Include="AD\2017double11\css\common.css" />
+    <Content Include="AD\2017double11\css\demo.css" />
+    <Content Include="AD\2017double11\css\headerTop.css" />
+    <Content Include="AD\2017double11\css\index.css" />
+    <Content Include="AD\2017double11\images\arrow-up.png" />
+    <Content Include="AD\2017double11\images\bg.jpg" />
+    <Content Include="AD\2017double11\images\icon.png" />
+    <Content Include="AD\2017double11\images\line_bg.png" />
+    <Content Include="AD\2017double11\images\logo5A.jpg" />
+    <Content Include="AD\2017double11\images\p_01.jpg" />
+    <Content Include="AD\2017double11\images\p_02.jpg" />
+    <Content Include="AD\2017double11\images\p_03.jpg" />
+    <Content Include="AD\2017double11\images\p_04.jpg" />
+    <Content Include="AD\2017double11\images\tel.gif" />
+    <Content Include="AD\2017double11\index.html" />
+    <Content Include="AD\2017double11\js\awardRotate.js" />
+    <Content Include="AD\2017double11\js\backtotop.js" />
+    <Content Include="AD\2017double11\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017double11\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017double11\js\jquery.min.js" />
+    <Content Include="AD\2017double11\js\koala.min.1.5.js" />
+    <Content Include="AD\2017double11\js\terminator2.2.min.js" />
+    <Content Include="AD\2017YoungTrip\css\btt.css" />
+    <Content Include="AD\2017YoungTrip\css\common.css" />
+    <Content Include="AD\2017YoungTrip\css\demo.css" />
+    <Content Include="AD\2017YoungTrip\css\headerTop.css" />
+    <Content Include="AD\2017YoungTrip\css\index.css" />
+    <Content Include="AD\2017YoungTrip\images\arrow-up.png" />
+    <Content Include="AD\2017YoungTrip\images\bg.jpg" />
+    <Content Include="AD\2017YoungTrip\images\icon.png" />
+    <Content Include="AD\2017YoungTrip\images\line_bg.png" />
+    <Content Include="AD\2017YoungTrip\images\logo5A.jpg" />
+    <Content Include="AD\2017YoungTrip\images\p_01.jpg" />
+    <Content Include="AD\2017YoungTrip\images\tel.gif" />
+    <Content Include="AD\2017YoungTrip\index.html" />
+    <Content Include="AD\2017YoungTrip\js\awardRotate.js" />
+    <Content Include="AD\2017YoungTrip\js\backtotop.js" />
+    <Content Include="AD\2017YoungTrip\js\jquery-1.7.2.min.js" />
+    <Content Include="AD\2017YoungTrip\js\jquery-1.8.3.min.js" />
+    <Content Include="AD\2017YoungTrip\js\jquery.min.js" />
+    <Content Include="AD\2017YoungTrip\js\koala.min.1.5.js" />
+    <Content Include="AD\2017YoungTrip\js\terminator2.2.min.js" />
     <Content Include="AD\38Anniversary\css\btt.css" />
     <Content Include="AD\38Anniversary\css\common.css" />
     <Content Include="AD\38Anniversary\css\demo.css" />
@@ -252,6 +392,7 @@
     <Content Include="AD\38Anniversary\images\p_01.jpg" />
     <Content Include="AD\38Anniversary\images\p_02.jpg" />
     <Content Include="AD\38Anniversary\images\p_03.jpg" />
+    <Content Include="AD\38Anniversary\images\p_04.jpg" />
     <Content Include="AD\38Anniversary\images\tel.gif" />
     <Content Include="AD\38Anniversary\index.html" />
     <Content Include="AD\38Anniversary\js\awardRotate.js" />
@@ -263,6 +404,10 @@
     <Content Include="AD\38Anniversary\js\terminator2.2.min.js" />
     <Content Include="app_css\pintuan.css" />
     <Content Include="app_js\line.js" />
+    <Content Include="app_js\order-list.js" />
+    <Content Include="app_js\order-share.js" />
+    <Content Include="app_js\order-ticket.js" />
+    <Content Include="app_js\order-tsw.js" />
     <Content Include="app_js\order.js" />
     <Content Include="ChinaPay\chinapayMer.pfx" />
     <Content Include="Common\GetAutoDropList.aspx" />
@@ -295,6 +440,7 @@
     <Content Include="CruisesOrder\FuJia.aspx" />
     <Content Include="CruisesOrder\LiangZiHao.aspx" />
     <Content Include="CruisesOrder\ManageCruisesOrder.aspx" />
+    <Content Include="CruisesOrder\Bianjianbiao.aspx" />
     <Content Include="CruisesOrder\NuoWeiZhenHao.aspx" />
     <Content Include="CruisesOrder\OrderPrint.aspx" />
     <Content Include="CruisesOrder\SecondStep.aspx" />
@@ -487,6 +633,10 @@
     <Content Include="Images\Icon\ViewDoc.png" />
     <Content Include="Images\Icon\Write.png" />
     <Content Include="Images\Icon\说明.htm" />
+    <Content Include="Images\lz2.jpg" />
+    <Content Include="Images\shareImg.jpg" />
+    <Content Include="Images\shareTicket.jpg" />
+    <Content Include="Images\tswTop.png" />
     <Content Include="index.aspx" />
     <Content Include="IndexNew.aspx" />
     <Content Include="IndexNew_test.aspx" />
@@ -515,6 +665,7 @@
     <Content Include="Management\AuditCommentInfo.aspx" />
     <Content Include="Management\BannerAd.aspx" />
     <Content Include="Management\BannerAdInfo.aspx" />
+    <Content Include="Management\CreatePrefer.aspx" />
     <Content Include="Management\Destination.aspx" />
     <Content Include="Management\DestinationInfo.aspx" />
     <Content Include="Management\EditPassWord.aspx" />
@@ -543,6 +694,8 @@
     <Content Include="Management\ManageHome.aspx" />
     <Content Include="Management\ManageLine.aspx" />
     <Content Include="Management\ManagePrefer.aspx" />
+    <Content Include="Management\ReSendPayInfo.aspx" />
+    <Content Include="Management\ManageQuestion.aspx" />
     <Content Include="Management\ManageTActivity.aspx" />
     <Content Include="Management\ManageTCoupon.aspx" />
     <Content Include="Management\ManageTradingArea.aspx" />
@@ -782,13 +935,20 @@
     <Content Include="WeChat\Fx_register.aspx" />
     <Content Include="WeChat\JsApiPayPage.aspx" />
     <Content Include="WeChat\linelist.aspx" />
+    <Content Include="WeChat\LineOrder.aspx" />
     <Content Include="WeChat\main.aspx" />
     <Content Include="WeChat\main_fx.aspx" />
     <Content Include="WeChat\main_m.aspx" />
     <Content Include="WeChat\Navmain.aspx" />
+    <Content Include="WeChat\order_ticket.aspx" />
+    <Content Include="WeChat\order_tsw.aspx" />
     <Content Include="WeChat\order.aspx" />
+    <Content Include="WeChat\pay_tsw.aspx" />
     <Content Include="WeChat\pay.aspx" />
     <Content Include="WeChat\PuFaPay.aspx" />
+    <Content Include="WeChat\Share\OrderShare.aspx" />
+    <Content Include="WeChat\Share\SharePage.aspx" />
+    <Content Include="WeChat\Share\Wenda.aspx" />
     <Content Include="WeChat\WeiXinGetOpenIdaspx.aspx" />
     <Content Include="WeChat\WeiXinLogin.aspx" />
     <Content Include="packages.config" />
@@ -800,6 +960,7 @@
     <Content Include="AD\2017Young\File\desktop.ini" />
     <Content Include="OfficeFiles\CruisesOut\blank manifest format.xls" />
     <Content Include="ChinaPay\cp.cer" />
+    <Content Include="OfficeFiles\CruisesOut\cruPassengerInfoOut.xls" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1187,6 +1348,13 @@
     </Compile>
     <Compile Include="CruisesOrder\ManageCruisesOrder.aspx.designer.cs">
       <DependentUpon>ManageCruisesOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CruisesOrder\Bianjianbiao.aspx.cs">
+      <DependentUpon>Bianjianbiao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CruisesOrder\Bianjianbiao.aspx.designer.cs">
+      <DependentUpon>Bianjianbiao.aspx</DependentUpon>
     </Compile>
     <Compile Include="CruisesOrder\NuoWeiZhenHao.aspx.cs">
       <DependentUpon>NuoWeiZhenHao.aspx</DependentUpon>
@@ -1740,6 +1908,13 @@
     <Compile Include="Management\BannerAdInfo.aspx.designer.cs">
       <DependentUpon>BannerAdInfo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Management\CreatePrefer.aspx.cs">
+      <DependentUpon>CreatePrefer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Management\CreatePrefer.aspx.designer.cs">
+      <DependentUpon>CreatePrefer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Management\Destination.aspx.cs">
       <DependentUpon>Destination.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1935,6 +2110,20 @@
     </Compile>
     <Compile Include="Management\ManagePrefer.aspx.designer.cs">
       <DependentUpon>ManagePrefer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Management\ReSendPayInfo.aspx.cs">
+      <DependentUpon>ReSendPayInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Management\ReSendPayInfo.aspx.designer.cs">
+      <DependentUpon>ReSendPayInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Management\ManageQuestion.aspx.cs">
+      <DependentUpon>ManageQuestion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Management\ManageQuestion.aspx.designer.cs">
+      <DependentUpon>ManageQuestion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Management\ManageTActivity.aspx.cs">
       <DependentUpon>ManageTActivity.aspx</DependentUpon>
@@ -3605,6 +3794,13 @@
     <Compile Include="WeChat\linelist.aspx.designer.cs">
       <DependentUpon>linelist.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WeChat\LineOrder.aspx.cs">
+      <DependentUpon>LineOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\LineOrder.aspx.designer.cs">
+      <DependentUpon>LineOrder.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WeChat\main.aspx.cs">
       <DependentUpon>main.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3633,6 +3829,20 @@
     <Compile Include="WeChat\Navmain.aspx.designer.cs">
       <DependentUpon>Navmain.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WeChat\order_ticket.aspx.cs">
+      <DependentUpon>order_ticket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\order_ticket.aspx.designer.cs">
+      <DependentUpon>order_ticket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeChat\order_tsw.aspx.cs">
+      <DependentUpon>order_tsw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\order_tsw.aspx.designer.cs">
+      <DependentUpon>order_tsw.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WeChat\order.aspx.cs">
       <DependentUpon>order.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3641,6 +3851,13 @@
       <DependentUpon>order.aspx</DependentUpon>
     </Compile>
     <Compile Include="WeChat\class\Order.cs" />
+    <Compile Include="WeChat\pay_tsw.aspx.cs">
+      <DependentUpon>pay_tsw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\pay_tsw.aspx.designer.cs">
+      <DependentUpon>pay_tsw.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WeChat\pay.aspx.cs">
       <DependentUpon>pay.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3656,6 +3873,29 @@
     <Compile Include="WeChat\PuFaPay.aspx.designer.cs">
       <DependentUpon>PuFaPay.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WeChat\Share\OrderShare.aspx.cs">
+      <DependentUpon>OrderShare.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\Share\OrderShare.aspx.designer.cs">
+      <DependentUpon>OrderShare.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeChat\Share\SharePage.aspx.cs">
+      <DependentUpon>SharePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\Share\SharePage.aspx.designer.cs">
+      <DependentUpon>SharePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeChat\Share\Wenda.aspx.cs">
+      <DependentUpon>Wenda.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\Share\Wenda.aspx.designer.cs">
+      <DependentUpon>Wenda.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeChat\Util\AESEncryptUtil.cs" />
+    <Compile Include="WeChat\Util\Tuanshiwei.cs" />
     <Compile Include="WeChat\WeiXinGetOpenIdaspx.aspx.cs">
       <DependentUpon>WeiXinGetOpenIdaspx.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3790,6 +4030,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

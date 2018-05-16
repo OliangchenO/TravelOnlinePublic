@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Text;
 using System.Data;
 using System.Xml;
+using TravelOnline.Utility;
 
 namespace TravelOnline.NewPage
 {
@@ -20,7 +21,7 @@ namespace TravelOnline.NewPage
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Cid = Request.QueryString["id"];
+            Cid = UrlUtils.GetNoHTMLString(Request.QueryString["id"]);
             LineRoute();
         }
 

@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using TravelOnline.BLL;
 using TravelOnline.Models;
 using TravelOnline.NewPage.Class;
+using TravelOnline.Utility;
 
 namespace TravelOnline
 {
@@ -85,7 +86,7 @@ namespace TravelOnline
                             //string sqlstr = "SELECT top 3 * FROM View_SpecialLineTemp_New where 1=1";
                             if (typeid.Length > 2)
                             {
-                                sqlstr += " and lineclass in (" + typeid + ")";
+                                sqlstr += " and lineclass in ('" + typeid + "')";
                                 //sqlstr += " and LineType in (" + typeid + ")";
                             }
                             if (destid.Length > 3)
@@ -107,8 +108,19 @@ namespace TravelOnline
                         Pics = "/images/none.gif";
                         //Pics==PhotoPath
                         //LineType==Types
-                        if (dt.Rows[i]["Pics"].ToString().Length == 24)
-                        { Pics = string.Format("/images/views/{0}/m_{1}", dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]); }
+                        if (dt.Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            if (dt.Rows[i]["LineType"].ToString() == "Cruises")
+                            {
+                                Pics = string.Format("/images/views/{0}/{1}", dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                            }
+                            else
+                            {
+                                string[] imgs = dt.Rows[i]["Pics"].ToString().Split(',');
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                            }
+                        }
+                        
                         if (dt.Rows[i]["LineType"].ToString() == "Visa")
                         { Pics = string.Format("/images/shadow/{0}", dt.Rows[i]["Pics"].ToString()); }
                         if (i == dt.Rows.Count - 1)
@@ -213,7 +225,7 @@ namespace TravelOnline
                             //string sqlstr = "SELECT top 12 * FROM View_SpecialLineTemp_New where 1=1";
                             if (typeid.Length > 2)
                             {
-                                sqlstr += " and lineclass in (" + typeid + ")";
+                                sqlstr += " and lineclass in ('" + typeid + "')";
                                 //sqlstr += " and LineType in (" + typeid + ")";
                             }
                             if (destid.Length > 3)
@@ -241,8 +253,11 @@ namespace TravelOnline
                         //Pics==PhotoPath
                         //LineType==Types
                         //PlanType==TravelType
-                        if (dt.Rows[i]["Pics"].ToString().Length == 24)
-                            Pics = string.Format("/images/views/{0}/m_{1}", dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (dt.Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            string[] imgs = dt.Rows[i]["Pics"].ToString().Split(',');
+                            Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                        }
                         if (dt.Rows[i]["LineType"].ToString() == "Visa")
                             Pics = string.Format("/images/shadow/{0}", dt.Rows[i]["Pics"].ToString());
                         if (j == 1) { styles = " class=\"mr\""; } else { styles = string.Empty; }
@@ -352,7 +367,7 @@ namespace TravelOnline
                                 //string sqlstr = "SELECT top 10 * FROM View_SpecialLineTemp_New where 1=1";
                                 if (typeid.Length > 2)
                                 {
-                                    sqlstr += " and lineclass in (" + typeid + ")";
+                                    sqlstr += " and lineclass in ('" + typeid + "')";
                                     //sqlstr += " and LineType in (" + typeid + ")";
                                 }
                                 if (destid.Length > 3)
@@ -403,8 +418,11 @@ namespace TravelOnline
                                 //Pics==PhotoPath
                                 //LineType==Types
                                 //PlanType==TravelType
-                                if (dt2.Rows[j]["Pics"].ToString().Length == 24)
-                                    Pics = string.Format("/images/views/{0}/m_{1}", dt2.Rows[j]["Pics"].ToString().Split("/".ToCharArray())[0], dt2.Rows[j]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                                if (dt2.Rows[j]["Pics"].ToString().Length > 10)
+                                {
+                                    string[] imgs = dt2.Rows[j]["Pics"].ToString().Split(',');
+                                    Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                                }
                                 if (dt2.Rows[j]["LineType"].ToString() == "Visa")
                                     Pics = string.Format("/images/shadow/{0}", dt2.Rows[j]["Pics"].ToString());
                             }
@@ -491,7 +509,7 @@ namespace TravelOnline
                                 //string sqlstr = "SELECT top 4 * FROM View_SpecialLineTemp_New where 1=1";
                                 if (typeid.Length > 2)
                                 {
-                                    sqlstr += " and lineclass in (" + typeid + ")";
+                                    sqlstr += " and lineclass in ('" + typeid + "')";
                                     //sqlstr += " and LineType in (" + typeid + ")";
                                 }
                                 if (destid.Length > 3)
@@ -510,6 +528,7 @@ namespace TravelOnline
                         string style1 = string.Empty;
                         dt2.Columns.Add(new DataColumn("style1", typeof(string)));
                         dt2.Columns.Add(new DataColumn("_parentId", typeof(int)));
+                        
                         for (int j = 0; j < dt2.Rows.Count; j++)
                         {
                             if (j == dt2.Rows.Count - 1)
@@ -519,10 +538,19 @@ namespace TravelOnline
                             Pics = "/images/none.gif";
                             //Pics==PhotoPath
                             //LineType==Types
-                            if (dt2.Rows[j]["Pics"].ToString().Length == 24)
-                                Pics = string.Format("/images/views/{0}/m_{1}", dt2.Rows[j]["Pics"].ToString().Split("/".ToCharArray())[0], dt2.Rows[j]["Pics"].ToString().Split("/".ToCharArray())[1]);
-                            if (dt2.Rows[j]["LineType"].ToString() == "Visa")
-                                Pics = string.Format("/images/shadow/{0}", dt2.Rows[j]["Pics"].ToString());
+                            if (dt2.Rows[j]["Pics"].ToString().Length > 10)
+                            {
+                                if (dt2.Rows[j]["LineType"].ToString() == "Cruises")
+                                {
+                                    Pics = string.Format("/images/views/{0}/{1}", dt2.Rows[j]["Pics"].ToString().Split("/".ToCharArray())[0], dt2.Rows[j]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                                }
+                                else
+                                {
+                                    string[] imgs = dt2.Rows[j]["Pics"].ToString().Split(',');
+                                    Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                                }  
+                            }
+                            if (dt2.Rows[j]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", dt2.Rows[j]["Pics"].ToString());
                             dt2.Rows[j]["style1"] = style1;
                             dt2.Rows[j]["Pics"] = Pics;
                             dt2.Rows[j]["_parentId"] = dt.Rows[i]["Id"];
@@ -567,7 +595,7 @@ namespace TravelOnline
                             //string sqlstr = "SELECT top 9 * FROM View_SpecialLineTemp_New where 1=1";
                             if (typeid.Length > 2)
                             {
-                                sqlstr += " and lineclass in (" + typeid + ")";
+                                sqlstr += " and lineclass in ('" + typeid + "')";
                                 //sqlstr += " and LineType in (" + typeid + ")";
                             }
                             if (destid.Length > 3)
@@ -589,8 +617,11 @@ namespace TravelOnline
                         Pics = "/images/none.gif";
                         //Pics==PhotoPath
                         //LineType==Types
-                        if (dt.Rows[i]["Pics"].ToString().Length == 24)
-                            Pics = string.Format("/images/views/{0}/m_{1}", dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], dt.Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (dt.Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            string[] imgs = dt.Rows[i]["Pics"].ToString().Split(',');
+                            Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                        }
                         if (dt.Rows[i]["LineType"].ToString() == "Visa")
                             Pics = string.Format("/images/shadow/{0}", dt.Rows[i]["Pics"].ToString());
                         styles = "";
@@ -621,9 +652,10 @@ namespace TravelOnline
                 List<OL_Line> request = DataClass.Famous(top);
                 foreach (OL_Line item in request)
                 {
-                    if (item.Pics.Length == 24)
+                    if (item.Pics.Length > 10)
                     {
-                        item.Pics = string.Format("/images/views/{0}/m_{1}", item.Pics.Split("/".ToCharArray())[0], item.Pics.Split("/".ToCharArray())[1]);
+                        string[] imgs = item.Pics.ToString().Split(',');
+                        item.Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
                     }
                     else
                     {

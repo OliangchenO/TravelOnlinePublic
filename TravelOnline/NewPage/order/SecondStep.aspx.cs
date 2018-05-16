@@ -10,6 +10,7 @@ using System.Data;
 using System.Configuration;
 using System.Xml;
 using TravelOnline.NewPage.Class;
+using TravelOnline.Utility;
 
 namespace TravelOnline.NewPage.order
 {
@@ -29,7 +30,7 @@ namespace TravelOnline.NewPage.order
             //Response.CacheControl = "no-cache";
             //Response.AppendHeader("Pragma", "No-Cache");
 
-            OrderId = Request.QueryString["orderid"];
+            OrderId = UrlUtils.GetNoHTMLString(Request.QueryString["orderid"]);
             username = Convert.ToString(Session["Online_UserName"]);
             ratio = Convert.ToString(ConfigurationManager.AppSettings["Integral_ratio"]);
             if (!IsPostBack)

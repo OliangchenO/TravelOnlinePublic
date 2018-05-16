@@ -72,7 +72,7 @@ var _hmt = _hmt || [];
 <div id="header" class="pre-header" style="position: fixed; top: 0px; left: 0px;width:101%">
     <div class="container">
         <div class="row">
-            <a class="icon_back" href="javascript:;" onclick="javascript:history.go(-4)"><i class="fa fa-reply"></i></a>
+            <a class="icon_back" href="javascript:;" onclick="historyback();"><i class="fa fa-reply"></i></a>
             <div class="tit" id="titlename"></div>
             <%if (null != Session["UserFrom"] && Session["UserFrom"].ToString().Equals("APP")) {%>
             <a class="icon_home" href="/app/Navmain"><i class="fa fa-home"></i></a>
@@ -283,7 +283,7 @@ var _hmt = _hmt || [];
 <script src="/assets/plugins/iCheck/icheck.js"></script>
 <!-- END CORE PLUGINS -->
 <script src="/assets/scripts/app.js"></script>
-<script src="/app_js/order.js?v=20171201"></script>
+<script src="/app_js/order.js?v=20180515"></script>
 <script type="text/javascript">
     $('#myorder').live("click", function () {
         url = "../../WeChat/AjaxService.aspx?action=CheckOnline&r=" + Math.random();

@@ -37,6 +37,39 @@ $(document).ready(function () {
     }
 });
 
+function historyback() {
+    switch ($.cookie("loginstep")) {
+        case "first":
+            window.location.href = "/WeChat/linelist.aspx?linetype=line?" + $.cookie("lineid");
+            break;
+        case "second":
+            $.cookie("loginstep", "first", { expires: 30, path: '/WeChat' });
+            LoadPage("first");
+            break;
+        case "third":
+            LoadPage("second");
+            break;
+        case "member":
+            window.location.href = "/app/main";
+            break;
+        case "orderlist":
+            LoadPage("member");
+            break;
+        case "coupon":
+            LoadPage("member");
+            break;
+        case "integral":
+            LoadPage("member");
+            break;
+        case "orderdetail":
+            LoadPage("orderlist");
+            break;
+        default:
+            history.go(-1);
+            break;
+    }
+}
+
 function LoadPage(flag) {
     $(".sub_view").hide();
     $(".icon_home").hide();
@@ -54,26 +87,31 @@ function LoadPage(flag) {
             document.title = "用户注册";
             break;
         case "member":
+            $.cookie("loginstep", "member", { expires: 30, path: '/WeChat' });
             $("#titlename").html("会员中心");
             document.title = "会员中心";
             $(".icon_home").show();
             break;
         case "orderlist":
+            $.cookie("loginstep", "orderlist", { expires: 30, path: '/WeChat' });
             $("#titlename").html("我的订单");
             document.title = "我的订单";
             $(".icon_home").show();
             break;
         case "fxorderlist":
+            $.cookie("loginstep", "fxorderlist", { expires: 30, path: '/WeChat' });
             $("#titlename").html("我的分销订单");
             document.title = "我的分销订单";
             $(".icon_home").show();
             break;
         case "coupon":
+            $.cookie("loginstep", "coupon", { expires: 30, path: '/WeChat' });
             $("#titlename").html("我的优惠券");
             document.title = "我的优惠券";
             $(".icon_home").show();
             break;
         case "integral":
+            $.cookie("loginstep", "integral", { expires: 30, path: '/WeChat' });
             $("#titlename").html("我的积分");
             document.title = "我的积分";
             $(".icon_home").show();
@@ -91,12 +129,15 @@ function LoadPage(flag) {
                 return;
                 break;
             case "first":
+                $.cookie("loginstep", "first", { expires: 30, path: '/WeChat' });
                 url = "../../WeChat/AjaxService.aspx?action=OrderFirstStep&uid=" + $.cookie("orderuid") + "&r=" + Math.random();
                 break;
             case "second":
+                $.cookie("loginstep", "second", { expires: 30, path: '/WeChat' });
                 url = "../../WeChat/AjaxService.aspx?action=OrderSecondStep&uid=" + $.cookie("orderuid") + "&r=" + Math.random();
                 break;
             case "third":
+                $.cookie("loginstep", "third", { expires: 30, path: '/WeChat' });
                 url = "../../WeChat/AjaxService.aspx?action=OrderThirdStep&uid=" + $.cookie("orderuid") + "&r=" + Math.random();
                 break;
             case "orderlist":
@@ -109,6 +150,7 @@ function LoadPage(flag) {
                 url = "../../WeChat/AjaxService.aspx?action=CouponList" + "&pages=1&r=" + Math.random();
                 break;
             case "orderdetail":
+                $.cookie("loginstep", "orderdetail", { expires: 30, path: '/WeChat' });
                 url = "../../WeChat/AjaxService.aspx?action=OrderDetail" + "&uid=" + detailid + "&r=" + Math.random();
                 break;
             case "integral":
@@ -123,15 +165,18 @@ function LoadPage(flag) {
                     $("#main_view").append(data);
                     break;
                 case "orderdetail":
+                    $.cookie("loginstep", "orderdetail", { expires: 30, path: '/WeChat' });
                     obj = eval("(" + data + ")");
                     $("#main_view").append(ShowOrderDetail_New(obj));
                     //$("#main_view").append(data);
                     break;
                 case "integral":
+                    $.cookie("loginstep", "integral", { expires: 30, path: '/WeChat' });
                     var obj = eval("(" + data + ")");
                     $("#main_view").append(ShowIntegralDetail(obj));
                     break;
                 case "first":
+                    $.cookie("loginstep", "first", { expires: 30, path: '/WeChat' });
                     $("#main_view").append(data);
                     //var obj = eval("(" + data + ")");
                     //$("#main_view").append(ShowOrderFirstStep_New(obj));
@@ -139,12 +184,14 @@ function LoadPage(flag) {
                     CountPrice();
                     break;
                 case "second":
+                    $.cookie("loginstep", "second", { expires: 30, path: '/WeChat' });
                     $("#main_view").append(data);
                     //$("#main_view").append(ShowOrderSecondStep_New(obj));
                     DoiCheck();
                     break;
                 case "orderlist":
                     //var obj = eval(data);
+                    $.cookie("loginstep", "orderlist", { expires: 30, path: '/WeChat' });
                     var obj = eval("(" + data + ")");
                     //$("#main_view").append(obj.content);
                     $("#main_view").append(ShowOrderList_New(obj));
@@ -156,6 +203,7 @@ function LoadPage(flag) {
                     $("#s_pages").val(obj.pages + 1);
                     break;
                 case "fxorderlist":
+                    $.cookie("loginstep", "fxorderlist", { expires: 30, path: '/WeChat' });
                     //var Obj = eval(data);
                     var obj = eval("(" + data + ")");
                     //$("#main_view").append(Obj.content);
@@ -168,6 +216,7 @@ function LoadPage(flag) {
                     $("#s_pages").val(obj.pages + 1);
                     break;
                 case "coupon":
+                    $.cookie("loginstep", "coupon", { expires: 30, path: '/WeChat' });
                     //var Obj = eval(data);
                     //$("#main_view").append(Obj.content);
                     var obj = eval("(" + data + ")");
@@ -625,9 +674,9 @@ function ShowOrderDetail_New(data) {
         if (data.rows[0].OrderEmail > 0) {
             html += "<h3>邮箱：" + data.rows[0].OrderEmail + "</h3>";
         }
-        if (data.showKefu=="true") {
-            html += "<span style = 'color: #e84d1c'>客服会联系您确认游客信息</span>";
-        }
+        //if (data.showKefu=="true") {
+        //    html += "<span style = 'color: #e84d1c'>客服会联系您确认游客信息</span>";
+        //}
         html += "</div></div>";
         html += "<div class='recommend_detail'>";
         html += "<div class='recommend_txt'>";
@@ -652,7 +701,7 @@ function ShowOrderDetail_New(data) {
             html += "<div style='font-size: 14px;line-height:30px'>";
             
             
-            if (data.rows[0].PayType == "1" && (data.rows[0].OrderFlag == "1" || data.rows[0].OrderFlag=="2")) {
+            if (data.rows[0].PayType == "1" && data.rows[0].OrderFlag == "30") {
                 html += "<A class='btn yellow' href='/wechat/pay.aspx?OrderId=" + data.orderid + "' target='_blank'>在线支付</A>";
             }
             if (data.row1[0].PayType == "2") {
@@ -777,7 +826,7 @@ $('#ordernow').live("click", function () {
         showmessage("基本费用人数不符");
         return false;
     }
-
+    $.cookie("loginstep", "second", { expires: 30, path: '/WeChat' });
     var Parms = "";
     $(".sellprice").each(function () {
         var pid = "#" + $(this).attr("id");

@@ -13,7 +13,7 @@ namespace TravelOnline.Purchase
 {
     public partial class OrderView : System.Web.UI.Page
     {
-        public string QueryId, OrderId, LineName, BeginDate, NumsInfo, Nums, Adults, Childs, PriceList, AllPrice, AvePrice, CuisesList,usertype,Rmobile, ThirdPartyID;
+        public string QueryId, OrderId, LineName, BeginDate, NumsInfo, Nums, Adults, Childs, PriceList, AllPrice, AvePrice, CuisesList,usertype,Rmobile, ThirdPartyID, UserName, UserEmail, Regtime;
         public string hide, hide1, User_Info, User_Memo, GuestList, Contract, Invoice, AutoId, JSONData, DinnerInfo,PayHide = "hide";
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,7 +44,7 @@ namespace TravelOnline.Purchase
             }
             else
             {
-                SqlQueryText = string.Format("select *,(select ISNULL(sum(PayPrice),0) from OL_PayMent where OrderId=OL_Order.OrderId) as pay,(select ThirdPartyType from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as UserType,(select mobile from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as Rmobile,(select ThirdPartyID from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as ThirdPartyID from OL_Order where OrderId='{0}'", QueryId);
+                SqlQueryText = string.Format("select *,(select ISNULL(sum(PayPrice),0) from OL_PayMent where OrderId=OL_Order.OrderId) as pay,(select ThirdPartyType from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as UserType,(select mobile from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as Rmobile,(select ThirdPartyID from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as ThirdPartyID,(select UserEmail from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as UserEmail,(select UserName from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as UserName,(select Regtime from OL_LoginUser where OL_LoginUser.Id=OL_Order.OrderUser) as Regtime from OL_Order where OrderId='{0}'", QueryId);
             }
             
             DataSet DS = new DataSet();
@@ -111,6 +111,9 @@ namespace TravelOnline.Purchase
                 usertype = DS.Tables[0].Rows[0]["UserType"].ToString();
                 Rmobile = DS.Tables[0].Rows[0]["Rmobile"].ToString();
                 ThirdPartyID = DS.Tables[0].Rows[0]["ThirdPartyID"].ToString();
+                UserEmail = DS.Tables[0].Rows[0]["UserEmail"].ToString();
+                UserName = DS.Tables[0].Rows[0]["UserName"].ToString();
+                Regtime = DS.Tables[0].Rows[0]["Regtime"].ToString();
                 if (DS.Tables[0].Rows[0]["PayType"].ToString() == "2") hide1 = "hide";
 
                 AutoId = "订单号：" + DS.Tables[0].Rows[0]["AutoId"].ToString();

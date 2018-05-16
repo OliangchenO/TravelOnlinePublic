@@ -17,6 +17,7 @@ using System.IO;
 using TravelOnline.TravelMisWebService;
 using System.Configuration;
 using TravelOnline.Class.Purchase;
+using TravelOnline.NewPage.erp;
 
 namespace TravelOnline.PayMent
 {
@@ -29,7 +30,7 @@ namespace TravelOnline.PayMent
             {
                 Notify aliNotify = new Notify();
                 bool verifyResult = aliNotify.Verify(sPara, Request.QueryString["notify_id"], Request.QueryString["sign"]);
-
+                string ErpId="", ShipId = "";
                 if (verifyResult)//验证成功
                 {
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +47,7 @@ namespace TravelOnline.PayMent
                     string trade_status = Request.QueryString["trade_status"];      //交易状态
 
                     string order_no = Request.QueryString["extra_common_param"];
+                    
                     
                     //SaveErrorToLog("同步参数传递", "order_no=" + order_no + " out_trade_no=" + order_no_old);
                     //string url1 = string.Format("/Pay/Success/{0}.html", order_no);
@@ -66,15 +68,20 @@ namespace TravelOnline.PayMent
                         if (DS.Tables[0].Rows.Count == 0)
                         {
 
-                            SqlQueryText = string.Format("select OrderId,ProductClass,OrderNums,OrderUser from OL_Order where ProductType='Coupon' and OrderId='{0}'", order_no);
+                            SqlQueryText = string.Format("select * from OL_Order where OrderId='{0}'", order_no);
                             DS = new DataSet();
                             DS.Clear();
                             DS = MyDataBaseComm.getDataSet(SqlQueryText);
                             if (DS.Tables[0].Rows.Count > 0)
                             {
-                                PurchaseClass.CouponGetAfterBuy(DS.Tables[0].Rows[0]["OrderUser"].ToString(), DS.Tables[0].Rows[0]["ProductClass"].ToString(), MyConvert.ConToInt(DS.Tables[0].Rows[0]["OrderNums"].ToString()));
+                                if (DS.Tables[0].Rows[0]["ProductType"].Equals("Coupon"))
+                                {
+                                    PurchaseClass.CouponGetAfterBuy(DS.Tables[0].Rows[0]["OrderUser"].ToString(), DS.Tables[0].Rows[0]["ProductClass"].ToString(), MyConvert.ConToInt(DS.Tables[0].Rows[0]["OrderNums"].ToString()));
+                                }
+                                ErpId = DS.Tables[0].Rows[0]["ErpID"].ToString();
+                                ShipId = DS.Tables[0].Rows[0]["Shipid"].ToString();
                             }
-
+                            
                             List<string> Sql = new List<string>();
                             Sql.Add(string.Format("UPDATE OL_Order set PayFlag='1' where OrderId='{0}'", order_no));
 
@@ -100,20 +107,26 @@ namespace TravelOnline.PayMent
                             string[] SqlQuery = Sql.ToArray();
                             if (MyDataBaseComm.Transaction(SqlQuery) == true)
                             {
-                                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                                TravelOnlineService rsp = new TravelOnlineService();
-                                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
-                                PayInfo Pays = new PayInfo();
-                                Pays.OrderId = order_no;
-                                Pays.TradeNo = trade_no;
-                                Pays.PayPrice = total_fee;
-                                Pays.PayTime = DateTime.Now.ToString();
-                                Pays.PayContent = Contents;
-
                                 string Result;
                                 try
                                 {
-                                    Result = rsp.PayInfoSave(UpPassWord, Pays);
+                                    if (MyConvert.ConToInt(ShipId) > 0)
+                                    {
+                                        string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                                        TravelOnlineService rsp = new TravelOnlineService();
+                                        rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                                        PayInfo Pays = new PayInfo();
+                                        Pays.OrderId = order_no;
+                                        Pays.TradeNo = trade_no;
+                                        Pays.PayPrice = total_fee;
+                                        Pays.PayTime = DateTime.Now.ToString();
+                                        Pays.PayContent = Contents;
+                                        Result = rsp.PayInfoSave(UpPassWord, Pays);
+                                    }
+                                    else
+                                    {
+                                        Result = ErpUtil.savePayInfo("支付宝", ErpId, total_fee, trade_no, trade_no, "支付宝", DateTime.Now.ToString());
+                                    }
                                 }
                                 catch
                                 {

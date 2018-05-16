@@ -606,34 +606,6 @@
 		</div>
          -->
         <!--当季推荐 End-->
-       
-        <!--玩转自由行-->
-		<div class="index-trip">
-			<div class="tab-wrap top-ziyou clearfix" id="Index_FreeTourToIndex_Line_Tab">
-				<%--<h2 class="relative-box fl">玩转自由行</h2>
-				<ul id="chujing_area" class="fl clearfix">
-					<%=TravelOnline.NewPage.Class.CacheClass.Index_Line_Tab("Index_FreeTour")%>
-                    <a href="/freetour.html" class="pro-all" target="_blank">更多自由行产品>></a>
-				</ul>--%>
-			</div>
-			<div class="product-wrap bottom-free clearfix">
-				<div class="theme-trip fl">
-					<h3 style="color:#49c184;">自驾旅游</h3>
-					<div class="plc auto">
-						<a href="search.html?key=%e6%9a%91%e6%9c%9f%e4%ba%b2%e5%ad%90" class="other" target="_blank">暑期亲子</a></br>
-						<a href="search.html?key=%e8%87%aa%e7%94%b1%e5%ae%b6" class="other" target="_blank">自由行套餐</a>
-					</div>
-					<div class="plc high1">
-						<a href="search.html?key=%e7%8e%b2%e7%8f%91%e6%b5%b7%e5%b2%9b"><img src="image/trip_free01.jpg" /></a>
-					</div>
-					<div class="plc high1">
-						<a href="search.html?key=%e5%90%8d%e5%8f%a4%e5%b1%8b"><img src="image/trip_free02.jpg" /></a>
-					</div>
-				</div>
-                <div id="Index_FreeTourToIndex_Line_List"></div>
-			</div>
-		</div>
-		<!--玩转自由行 End -->
 		
 		<!--出境旅游-->
 		<div class="index-trip">
@@ -712,6 +684,34 @@
 			</div>
 		</div>
         <!--国内旅游 End-->
+
+        <!--玩转自由行-->
+		<div class="index-trip">
+			<div class="tab-wrap top-ziyou clearfix" id="Index_FreeTourToIndex_Line_Tab">
+				<%--<h2 class="relative-box fl">玩转自由行</h2>
+				<ul id="chujing_area" class="fl clearfix">
+					<%=TravelOnline.NewPage.Class.CacheClass.Index_Line_Tab("Index_FreeTour")%>
+                    <a href="/freetour.html" class="pro-all" target="_blank">更多自由行产品>></a>
+				</ul>--%>
+			</div>
+			<div class="product-wrap bottom-free clearfix">
+				<div class="theme-trip fl">
+					<h3 style="color:#49c184;">自驾旅游</h3>
+					<div class="plc auto">
+						<a href="search.html?key=%e6%9a%91%e6%9c%9f%e4%ba%b2%e5%ad%90" class="other" target="_blank">暑期亲子</a></br>
+						<a href="search.html?key=%e8%87%aa%e7%94%b1%e5%ae%b6" class="other" target="_blank">自由行套餐</a>
+					</div>
+					<div class="plc high1">
+						<a href="search.html?key=%e7%8e%b2%e7%8f%91%e6%b5%b7%e5%b2%9b"><img src="image/trip_free01.jpg" /></a>
+					</div>
+					<div class="plc high1">
+						<a href="search.html?key=%e5%90%8d%e5%8f%a4%e5%b1%8b"><img src="image/trip_free02.jpg" /></a>
+					</div>
+				</div>
+                <div id="Index_FreeTourToIndex_Line_List"></div>
+			</div>
+		</div>
+		<!--玩转自由行 End -->
 
 		<!--自由行、邮轮、签证-->
 		<div class="index-trip">

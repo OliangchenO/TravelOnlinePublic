@@ -690,7 +690,7 @@ namespace TravelOnline.Class.Purchase
                 else
                 {
                     GetPlan = rsp.GetPlanPrices(UpPassWord, Lineid, Planid, PriceId);
-
+                    
                 }
             }
             catch

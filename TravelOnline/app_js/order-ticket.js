@@ -344,7 +344,7 @@ function ShowOrderDetail_New(data) {
             html += "<h3>付款方式</h3>";
             html += "<div style='font-size: 14px;line-height:30px'>";
             
-            if (data.rows[0].PayType == "1" && (data.rows[0].OrderFlag == "1" || data.rows[0].OrderFlag == "2")) {
+            if (data.rows[0].PayType == "1" && data.rows[0].OrderFlag == "30") {
                 html += "<A class='btn yellow' href='/wechat/pay.aspx?OrderId=" + data.orderid + "' target='_blank'>在线支付</A>";
             }
             if (data.row1[0].PayType == "2") {
@@ -476,13 +476,16 @@ function CountPrice() {
     });
     $("#adults").val(Number($("input[tps = 'SellPrice']").val()));
     $("#prePay").html(Number($("input[tps = 'SellPrice']").val()));
-    if (Number($("input[tps = 'SellPrice']").val()) >= 3) {
-        Number($("input[tps = 'ExtPrice']").val("0"));
-        PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
-    } else {
-        Number($("input[tps = 'ExtPrice']").val("1"));
-        PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
+    if (typeof ($("input[tps = 'ExtPrice']").val()) != "undefined") {
+        if (Number($("input[tps = 'SellPrice']").val()) >= 3 && Number(25498) != Number($.cookie("lineid"))) {
+            Number($("input[tps = 'ExtPrice']").val("0"));
+            PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
+        } else {
+            Number($("input[tps = 'ExtPrice']").val("1"));
+            PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
+        }
     }
+    
     var preferAll = 0;
     if (prefer != "0") {
         preferAll = Number($("#adults").val()) * Number(prefer);
@@ -534,7 +537,7 @@ function orderTicket() {
     } else {
         preferCode = $('#preferCode').val();
     }
-    url = "../../WeChat/AjaxService.aspx?action=orderTicket&LineId=" + $('#LineId').val() + "&preferCode=" + preferCode;
+    url = "../../WeChat/AjaxService.aspx?action=orderTicket&preferCode=" + preferCode;
     $.post(url, $("#form_data").serialize(), function (obj) {
         if (obj.success) {
             if (obj.success == "OK") {

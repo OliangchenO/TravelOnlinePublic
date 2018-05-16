@@ -294,9 +294,14 @@ namespace TravelOnline.WeChat
                         if (null != lineid && "" != lineid)
                         {
                             Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + lineid);
-                        }else
+                        }
+                        else
                         {
-                            Response.Redirect("/WeChat/order_ticket.aspx?LineId=25039");
+                            if (Convert.ToString(Session["Order_LineId"]).Length > 0)
+                            {
+                                Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + Convert.ToString(Session["Order_LineId"]));
+                            }
+                            Response.Redirect("/WeChat/order_ticket.aspx?LineId=600");
                         }
                     } else if (flag == "Wx_regedit_share")
                     {

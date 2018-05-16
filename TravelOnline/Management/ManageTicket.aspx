@@ -1,13 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SpecialLine.aspx.cs" Inherits="TravelOnline.Management.SpecialLine" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ManageTicket.aspx.cs" Inherits="TravelOnline.Management.ManageTicket" %>
 <%@ Register src="~/Master/ManagerHeader.ascx" tagname="ManagerHeader" tagprefix="uc1" %>
 <%@ Register src="~/Master/SortListNew.ascx" tagname="SortList" tagprefix="uc2" %>
 <%@ Register src="~/Master/ManagerFooter.ascx" tagname="ManagerFooter" tagprefix="uc3" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title><%=CruisesShip %> - 专题旅游线路</title>
-    <meta name="description" content=<% =TravelOnline.Class.Common.PublicPageKeyWords.PublicDescription %> />
-    <meta name="Keywords" content=<% =TravelOnline.Class.Common.PublicPageKeyWords.PublicKeywords %> />
+    <title>门票管理</title>
+    <meta name="description" content="<% =TravelOnline.Class.Common.PublicPageKeyWords.PublicDescription %>" />
+    <meta name="Keywords" content="<% =TravelOnline.Class.Common.PublicPageKeyWords.PublicKeywords %>" />
     <link href="/Styles/MySite.css" rel="stylesheet" type="text/css" />
     <link href="/Styles/user.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/Styles/jNotify.jquery.css" />
@@ -29,15 +29,15 @@
 <body id="none">
 <uc1:ManagerHeader ID="ManagerHeader1" runat="server" />
 <uc2:SortList ID="SortListNew1" runat="server" />
-<DIV class="w main">
+<div class="w main">
 <form id="form1" runat="server">
         <div class="main">
             <div id="order_title">
-            <h2 class="headline"><SPAN class=headstep><%=CruisesShip%> - 专题旅游线路</SPAN></h2>
+            <h2 class="headline"><span class="headstep">门票管理</span></h2>
             </div>
-            <DIV id="DIV1" style="DISPLAY:none">
+            <div id="DIV1" style="DISPLAY:none">
                 <input id="Cid" name="Cid" type="hidden" value="<%=Cid %>"/>
-            </DIV>
+            </div>
             <div class="serch">
                 线路id：<asp:TextBox ID="tb_Lineid" runat="server" Width="100px"></asp:TextBox>
                 &nbsp;&nbsp;
@@ -49,12 +49,12 @@
                 <a href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-reload" onclick="javascript:$('#GridView_Refresh_Button').click();">刷新</a>
                 
             </div>
-            <DIV id="inputs" class=hide>
+            <div id="inputs" class="hide">
                 <asp:Button ID="GridView_Refresh_Button" runat="server" onclick="GridView_Refresh" Text="Button" />
                 <asp:Button ID="GridView_Serch_Button" runat="server" onclick="GridView_Serch" Text="Button" />
-            </DIV>
+            </div>
             <div class="long">
-                <DIV id=explain class="datagrid2">
+                <div id="explain" class="datagrid2">
                     <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
                         CellPadding="5" CellSpacing="0" ForeColor="#333333" AllowSorting="True"  OnSorting="GridView_Sorting"
                         Width="100%" AllowPaging="True" PageSize="300"
@@ -110,12 +110,12 @@
 	                    <HeaderStyle BackColor="#4BA41B" Font-Bold="True" ForeColor="White" />
 	                    <AlternatingRowStyle BackColor="White" />
                     </asp:GridView>
-                </DIV>             
+                </div>             
             </div>          
         </div>
-        <SCRIPT language="javascript" src="/Scripts/NowrapSet.js"></SCRIPT>
+        <script type="text/javascript" src="/Scripts/NowrapSet.js"></script>
     </form>
-<DIV class=clr></DIV></DIV>
+<div class="clr"></div></div>
 <uc3:ManagerFooter ID="ManagerFooter1" runat="server" />
     <script type="text/javascript">
         function SaveData() {
@@ -177,4 +177,3 @@
 
     </script>
 </body>
-</html>

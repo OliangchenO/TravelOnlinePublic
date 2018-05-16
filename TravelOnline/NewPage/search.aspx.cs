@@ -9,6 +9,7 @@ using System.Text;
 using System.Data;
 using TravelOnline.tour;
 using System.Configuration;
+using TravelOnline.Utility;
 
 namespace TravelOnline.NewPage
 {
@@ -62,7 +63,6 @@ namespace TravelOnline.NewPage
             Query[5] = "0";
             Query[6] = "0";
             Query[7] = "0";
-
             try
             {
                 Query[0] = Request.QueryString["s"].Split("-".ToCharArray())[0];
@@ -92,8 +92,7 @@ namespace TravelOnline.NewPage
 
             s_plantype = Request.QueryString["c"];
             s_special = Request.QueryString["t"];
-            s_key = Request.QueryString["key"];
-            s_key = Server.UrlDecode(s_key);
+            s_key = UrlUtils.GetNoHTMLString(Request.QueryString["key"]);
             //Server.UrlEncode(Request.QueryString["key"]);
             s_d1 = Request.QueryString["d1"];
             s_d2 = Request.QueryString["d2"];
@@ -104,9 +103,9 @@ namespace TravelOnline.NewPage
             //查询条件生成
             CreateSort(s_sort);
             string notshow = ConfigurationManager.AppSettings["NotShow"];
-            string cannotsearch = ConfigurationManager.AppSettings["CannotSearch"]; 
             if (notshow!=null) sb.Append(string.Format("MisLineId not in ({0}) and ", notshow));
-            if(cannotsearch!=null) sb.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
+            string CannotSearch = ConfigurationManager.AppSettings["CannotSearch"];
+            if (CannotSearch != null) sb.Append(string.Format("MisLineId not in ({0}) and ", CannotSearch));
             if (s_lineclass > 0) sb.Append(string.Format("LineClass='{0}' and ", s_lineclass));
             if (s_planflag > 0) sb.Append(string.Format("PlanType='{0}' and ", s_planflag));
             if (s_city > 0)
@@ -178,7 +177,6 @@ namespace TravelOnline.NewPage
                     sb.Append(string.Format("MisLineId in (select lineid from ol_plan where begindate<='{0}') and ", s_d2));
                 }
             }
-
             if (MyConvert.ConToInt(s_special) > 0)
             {
                 string SqlQueryText = string.Format("select top 1 id from SpecialLine where Stid='{0}'", s_special);
@@ -330,7 +328,6 @@ namespace TravelOnline.NewPage
 
             //排序生成
             SortCss = CreateSortCss(s_sort);
-
             //天数及主题生成
             Tab_Days = CreateDaysTab();
             Tab_Topic = CreateTopicTab();
@@ -351,6 +348,9 @@ namespace TravelOnline.NewPage
             FieldList += ",(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = dbo.OL_Line.FirstDestination)) AS DestinationName";
             FieldList += ",(select max(preferAmount) from OL_Preferential where (Lineid=dbo.OL_Line.MisLineid and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate()))) AS preferAmount";
             DS = MyDataBaseComm.getDataSetFromProcedures("OL_Line", "id", FieldList, sb.ToString(), SortField, SortExtend, "2", iDisplayLength, s_page, Sort, out RecordCount);
+            SaveLogUtils.SaveInfoToLog("search: " + FieldList, "text.txt");
+            SaveLogUtils.SaveInfoToLog("search: " + sb.ToString(), "text.txt");
+            
             if (DS.Tables[0].Rows.Count > 0)
             {
                 Journal = TravelOnline.NewPage.Class.CacheClass.CreateLeftJournal(DS.Tables[0].Rows[0]["FirstDestination"].ToString(), 6);
@@ -399,7 +399,6 @@ namespace TravelOnline.NewPage
                 string pdates = "";
                 string Pics = "/Images/none.gif";
                 string styles = "", styles1 = "";
-                
                 if (s_page == 1 && s_sort == 0 && MyConvert.ConToInt(RecordCount) > 3)
                 {
                     
@@ -478,7 +477,16 @@ namespace TravelOnline.NewPage
                         if (pdates.Length > 50) pdates = pdates.Substring(0, 35);
 
                         Pics = "/images/none.gif";
-                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10) {
+                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Contains(","))
+                            {
+                                string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                            }else
+                            {
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
+                            }
+                        } 
                         if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                         Strings.Append(string.Format(@"
@@ -591,7 +599,18 @@ namespace TravelOnline.NewPage
                         }
 
                         Pics = "/images/none.gif";
-                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Contains(","))
+                            {
+                                string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                            }
+                            else
+                            {
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
+                            }
+                        }
                         if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                         Strings.Append(string.Format(@"
@@ -758,6 +777,16 @@ namespace TravelOnline.NewPage
             
         }
 
+        protected void Page_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            if (ex is HttpRequestValidationException)
+            {
+                Response.Write("请您输入合法字符串。");
+                Server.ClearError(); // 如果不ClearError()这个异常会继续传到Application_Error()。
+            }
+        }
+
         protected string CreateTopicTab()
         {
             StringBuilder Strings = new StringBuilder();
@@ -838,11 +867,15 @@ namespace TravelOnline.NewPage
 
                 db_info += "全部";
                 db_infoid += "0";
-                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                if (DS.Tables[0].Rows!=null)
                 {
-                    db_info += "," + DS.Tables[0].Rows[i]["DestinationName"].ToString();
-                    db_infoid += "," + DS.Tables[0].Rows[i]["id"].ToString();
+                    for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                    {
+                        db_info += "," + DS.Tables[0].Rows[i]["DestinationName"].ToString();
+                        db_infoid += "," + DS.Tables[0].Rows[i]["id"].ToString();
+                    }
                 }
+                
                 HttpContext.Current.Cache.Insert("NewSearch_Line_DestinationId_" + doflag, db_info);
                 HttpContext.Current.Cache.Insert("NewSearch_Line_DestinationName_" + doflag, db_infoid);
             }

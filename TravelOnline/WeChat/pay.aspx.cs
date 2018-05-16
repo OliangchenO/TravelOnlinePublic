@@ -56,8 +56,8 @@ namespace TravelOnline.WeChat
                 hideAliAll = "hide";
                 hideAliPay = "hide";
                 hideWeiXinPay = "";
-                hidePuFaPay = "";
-                hideCcbPay = "";
+                hidePuFaPay = "hide";
+                hideCcbPay = "hide";
             }
 
             //默认勾选的支付方式：微信
@@ -255,7 +255,7 @@ namespace TravelOnline.WeChat
 
                 if (DS.Tables[0].Rows[0]["PayFlag"].ToString() == "0")
                 {
-                    if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "1" || DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "2")
+                    if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "30")
                     {
                     }
                     else
@@ -290,7 +290,7 @@ namespace TravelOnline.WeChat
                 DS.Clear();
                 DS = MyDataBaseComm.getDataSet(SqlQueryText);
 
-                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "2")
+                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "30")
                 {
                     Response.Write("订单状态异常，无法支付！");
                     Response.Redirect(string.Format("http://www.scyts.com/OrderView/{0}.html", OrderId), true);
@@ -319,7 +319,7 @@ namespace TravelOnline.WeChat
                 {
                     List<string> Sql = new List<string>();
                     Sql.Add(string.Format("INSERT INTO OL_Order (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag) SELECT * FROM OL_TempOrder WHERE OrderId='{0}'", CouponId));
-                    Sql.Add(string.Format("update OL_Order set PayFlag='0',OrderFlag='2',OrderTime='{1}' where OrderId='{0}'", CouponId, DateTime.Now.ToString()));
+                    Sql.Add(string.Format("update OL_Order set PayFlag='0',OrderFlag='30',OrderTime='{1}' where OrderId='{0}'", CouponId, DateTime.Now.ToString()));
                     string[] SqlQuery = Sql.ToArray();
                     if (MyDataBaseComm.Transaction(SqlQuery) == true)
                     {

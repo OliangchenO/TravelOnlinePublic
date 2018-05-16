@@ -204,7 +204,18 @@ namespace TravelOnline.WeChat
                     Response.Write(WeChatOrder.orderTotsw(Request.Form["activityId"], Request.Form["lineid"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"]));
                     Response.End();
                     break;
-                    //团市委结束
+                //团市委结束
+
+                //志愿者开始
+                case "ValidPhone":
+                    Response.Write(VolunteerUtils.MobileValidate(Request.QueryString["phoneNumber"]));
+                    Response.End();
+                    break;
+                case "orderTovol":
+                    Response.Write(WeChatOrder.orderTovol(Request.Form["lineid"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"]));
+                    Response.End();
+                    break;
+                //志愿者结束
 
                 case "orderTicket":
                     Response.Write(WeChatOrder.orderTicket(Request.Form["LineId"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"], Request.QueryString["preferCode"].Trim()));

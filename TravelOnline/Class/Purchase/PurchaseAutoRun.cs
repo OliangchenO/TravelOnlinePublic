@@ -10,6 +10,7 @@ using System.Configuration;
 using TravelOnline.TravelMisWebService;
 using TravelOnline.Class.Travel;
 using System.Collections;
+using TravelOnline.NewPage.erp;
 
 namespace TravelOnline.Class.Purchase
 {
@@ -24,7 +25,7 @@ namespace TravelOnline.Class.Purchase
 
             DateTime date = DateTime.Today;
             date = date.AddDays(-3);
-            string SqlQueryText = string.Format("select * from OL_Order where OrderFlag='1' and PayFlag='0' and shipid='0' and OrderTime >= '{0}'", date);
+            string SqlQueryText = string.Format("select * from OL_Order where OrderFlag='10' and PayFlag='0' and shipid='0' and OrderTime >= '{0}'", date);
             DataSet DS = new DataSet();
             DS.Clear();
             DS = MyDataBaseComm.getDataSet(SqlQueryText);
@@ -42,13 +43,13 @@ namespace TravelOnline.Class.Purchase
                 {
                     if (Convert.ToDateTime(DS.Tables[0].Rows[i]["OrderTime"]) <= gn_times)
                     {
-                        string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                        TravelOnlineService rsp = new TravelOnlineService();
-                        rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                        //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                        //TravelOnlineService rsp = new TravelOnlineService();
+                        //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
                         try
                         {
-                            string Result = rsp.OnlineOrderAdjust(UpPassWord, DS.Tables[0].Rows[i]["OrderId"].ToString());
-                            if (Result == "OK")
+                            string Result = ErpUtil.cancelOrder(DS.Tables[0].Rows[0]["ErpId"].ToString(), "");
+                            if (Result == "0")
                             {
                                 List<string> Sql = new List<string>();
                                 Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", DS.Tables[0].Rows[i]["OrderId"].ToString(), DateTime.Now.ToString(), "您的订单超过了在线支付时限，已自动变更为需确认状态！"));

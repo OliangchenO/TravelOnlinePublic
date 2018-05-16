@@ -10,7 +10,7 @@
 namespace TravelOnline.Management {
     
     
-    public partial class SpecialLine {
+    public partial class ManageTicket {
         
         /// <summary>
         /// Head1 控件。

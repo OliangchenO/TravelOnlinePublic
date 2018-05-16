@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using Belinda.Jasp;
 using TravelOnline.BLL;
 using TravelOnline.Models;
+using TravelOnline.NewPage.erp;
 
 namespace TravelOnline.WeChat
 {
@@ -43,7 +44,11 @@ namespace TravelOnline.WeChat
                 if (DS.Tables[0].Rows.Count > 0)
                 {
                     string FirstPic = "/images/none.gif";
-                    if (DS.Tables[0].Rows[0]["Pics"].ToString().Length == 24) FirstPic = string.Format("/Images/Views/{0}/S_{1}", DS.Tables[0].Rows[0]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[0]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                    if (DS.Tables[0].Rows[0]["Pics"].ToString().Length > 10)
+                    {
+                        string[] imgs = DS.Tables[0].Rows[0]["Pics"].ToString().Split(',');
+                        FirstPic = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                    }
                     Days = DS.Tables[0].Rows[0]["LineDays"].ToString();
 
                     decimal lijian;
@@ -277,14 +282,11 @@ namespace TravelOnline.WeChat
 
                                 //展示图片
                                 Pics.Append("<div class=\"addWrap\" style=\"height:240px;\">");
-                                string FirstImg = "";
-                                if (DS.Tables[0].Rows[0]["Pics"].ToString().Length > 5)
+                                string FirstImg = "/images/none.gif";
+                                if (DS.Tables[0].Rows[0]["Pics"].ToString().Length > 10)
                                 {
-                                    FirstImg = "/images/shadow/" + DS.Tables[0].Rows[0]["Pics"].ToString();
-                                }
-                                else
-                                {
-                                    FirstImg = "/Images/none.gif";
+                                    string[] imgs = DS.Tables[0].Rows[0]["Pics"].ToString().Split(',');
+                                    FirstImg = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
                                 }
                                 Pics.Append("<div class=\"swipe\" id=\"mySwipe\">");
                                 Pics.Append("<div class=\"swipe-wrap\">");
@@ -388,30 +390,10 @@ namespace TravelOnline.WeChat
                                 //特色结束
 
                                 XmlNodeList elemList = XmlDoc.GetElementsByTagName("RouteInfos");
-                                int PicCount = 0;
+                                
                                 string route = "";
                                 for (int i = 0; i < elemList.Count; i++)
                                 {
-
-                                    string picpath, pic2;
-                                    if (elemList[i].SelectSingleNode("Pics").InnerText.Length > 10 && i < 6)
-                                    {
-                                        pic2 = "/Images/none.gif";
-                                        try
-                                        {
-                                            picpath = string.Format(@"{0}\Images\Views\{1}", AppDomain.CurrentDomain.BaseDirectory, elemList[i].SelectSingleNode("Pics").InnerText);
-                                            pic2 = string.Format("/Images/Views/{0}/M_{1}", elemList[i].SelectSingleNode("Pics").InnerText.Split("/".ToCharArray())[0], elemList[i].SelectSingleNode("Pics").InnerText.Split("/".ToCharArray())[1]);
-                                            if (System.IO.File.Exists(picpath) == true)
-                                            {
-                                                PicUrl.Append(string.Format("<div><a><img class=\"img-responsive img-h250\" style=\"height:240px\" src=\"{0}\"/></a></div>", pic2));
-                                                PicCount = PicCount + 1;
-                                            }
-                                        }
-                                        catch
-                                        { }
-
-                                    }
-
                                     Routes.Append("<div class=\"recommend_detail\">");
                                     Routes.Append("<div class=\"recommend_txt route\">");
                                     Routes.Append(string.Format("<h3><i class=\"fa fa-calendar\"></i> {0}</h3>", elemList[i].SelectSingleNode("daterank").InnerText));
@@ -427,6 +409,18 @@ namespace TravelOnline.WeChat
 
                                 }
 
+                                int PicCount = 0;
+                                string pic2 = "/Images/none.gif";
+                                if (DS.Tables[0].Rows[0]["Pics"].ToString().Length > 10)
+                                {
+                                    string[] imgs = DS.Tables[0].Rows[0]["Pics"].ToString().Split(',');
+                                    foreach(string img in imgs)
+                                    {
+                                        pic2 = string.Format("http://shql.palmyou.com/file/picture/{0}", img);
+                                        PicUrl.Append(string.Format("<div><a><img class=\"img-responsive img-h250\" style=\"height:240px\" src=\"{0}\"/></a></div>", pic2));
+                                        PicCount = PicCount + 1;
+                                    }
+                                }
                                 //展示图片
                                 Pics.Append("<div class=\"addWrap\" style=\"height:240px;\">");
                                 if (PicCount > 0)
@@ -807,15 +801,16 @@ namespace TravelOnline.WeChat
         //创建出发日期的jason
         public static string CreatePlanDateJason(string lineid)
         {
-            string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-            TravelOnlineService rsp = new TravelOnlineService();
-            rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+            //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+            //TravelOnlineService rsp = new TravelOnlineService();
+            //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
             string ss = "";
             try
             {
-                string[] ListInfo = Regex.Split(rsp.WeChatPlanDateCreate(UpPassWord, lineid), @"\@\@", RegexOptions.IgnoreCase);
-                ss = ListInfo[0];
-                if(null!=HttpContext.Current.Session["Group_Date_"+ lineid])
+                //string[] ListInfo = Regex.Split(rsp.WeChatPlanDateCreate(UpPassWord, lineid), @"\@\@", RegexOptions.IgnoreCase);
+                string ListInfo = ErpUtil.getWechatTeamInfo(string.Format("{0:yyyy-MM-dd}", DateTime.Now), string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddMonths(4)), lineid);
+                ss = ListInfo;
+                if (null!=HttpContext.Current.Session["Group_Date_"+ lineid])
                 {
                     ss = ss + " var Group_Date ='" + HttpContext.Current.Session["Group_Date_" + lineid] + "'; var Group_Discount = " + HttpContext.Current.Session["Group_Discount_" + lineid] +";";　　　　　　　　　　　　　　　
                 }
@@ -1499,7 +1494,12 @@ namespace TravelOnline.WeChat
                     for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
                     {
                         Pics = "/images/none.gif";
-                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/Images/Views/{0}/M_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+
+                        if (DS.Tables[0].Rows[0]["Pics"].ToString().Length > 10)
+                        {
+                            string[] imgs = DS.Tables[0].Rows[0]["Pics"].ToString().Split(',');
+                            Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                        }
 
                         Strings.Append("<li>");
                         Strings.Append("<div class=\"product-item product-list\">");
@@ -1984,6 +1984,10 @@ namespace TravelOnline.WeChat
         {
             StringBuilder Strings = new StringBuilder();
             Strings.Append(string.Format("Sale='0' and Price>0 and PlanDate>='{0}' and ", DateTime.Today.ToString()));
+            string notshow = ConfigurationManager.AppSettings["NotShow"];
+            string cannotsearch = ConfigurationManager.AppSettings["CannotSearch"];
+            if (notshow != null && !"萌动专享".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", notshow));
+            if (cannotsearch != null && !"萌动专享".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
             if (searchval != "")
             {
                 string dest_id = "0";

@@ -20,6 +20,10 @@ using TravelOnline.RequestHandlerFacade;
 using TravelOnline.NewPage.pay;
 using TravelOnline.NewPage.Class;
 using TravelOnline.WeChat.Util;
+using RestSharp;
+using TravelOnline.NewPage.erp;
+using System.Xml;
+using TravelOnline.Utility;
 
 namespace TravelOnline.NewPage
 {
@@ -492,6 +496,7 @@ namespace TravelOnline.NewPage
                 string couponAmount = string.IsNullOrEmpty(Request.Form["couponAmount"]) ? "0" : Request.Form["couponAmount"];
                 string IntegralAmount = string.IsNullOrEmpty(Request.Form["IntegralAmount"]) ? "0" : Request.Form["IntegralAmount"];
                 int AutoId;
+                string ErpId = "";
                 //return "({\"success\":\"" + OrderId + "\"})";
 
                 //string SqlQueryText = string.Format("select * from OL_TempOrder where OrderId='{0}'", OrderId);
@@ -513,50 +518,50 @@ namespace TravelOnline.NewPage
                     AutoId = MyConvert.ConToInt(DS.Tables[0].Rows[0]["AutoId"].ToString());
                     OrderId = DS.Tables[0].Rows[0]["OrderId"].ToString();
 
-                    OrderInfos Sorder = new OrderInfos();
-                    Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
-                    Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
-                    Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
-                    Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
-                    Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
+                    //OrderInfos Sorder = new OrderInfos();
+                    //Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
+                    //Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
+                    //Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
+                    //Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
+                    //Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
 
-                    decimal OrderGathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
-                    Sorder.gathering = OrderGathering.ToString();
-                    Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
+                    //decimal OrderGathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
+                    //Sorder.gathering = OrderGathering.ToString();
+                    //Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
 
-                    Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
-                    Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
-                    Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
-                    Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
-                    Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
+                    //Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
+                    //Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
+                    //Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
+                    //Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
+                    //Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
 
-                    Sorder.ordername = Request.Form["ordername"].Trim();
-                    Sorder.mobile = Request.Form["ordermobile"].Trim();
-                    Sorder.email = Request.Form["orderemail"].Trim();
-                    Sorder.ordermemo = Request.Form["ordermemo"].Trim();
+                    //Sorder.ordername = Request.Form["ordername"].Trim();
+                    //Sorder.mobile = Request.Form["ordermobile"].Trim();
+                    //Sorder.email = Request.Form["orderemail"].Trim();
+                    //Sorder.ordermemo = Request.Form["ordermemo"].Trim();
 
-                    Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
-                    Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
-                    Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
-                    Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
-                    Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
-                    Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
-                    Sorder.SellDept = DS.Tables[0].Rows[0]["BranchId"].ToString();
+                    //Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                    //Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
+                    //Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
+                    //Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
+                    //Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
+                    //Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
+                    //Sorder.SellDept = DS.Tables[0].Rows[0]["BranchId"].ToString();
 
-                    Sorder.CruisesFlag = "0";
-                    Sorder.ccid = DS.Tables[0].Rows[0]["ccid"].ToString();
-                    Sorder.acom = DS.Tables[0].Rows[0]["acom"].ToString();
-                    Sorder.adept = DS.Tables[0].Rows[0]["adept"].ToString();
-                    Sorder.SellUser = DS.Tables[0].Rows[0]["auser"].ToString();
-                    Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
+                    //Sorder.CruisesFlag = "0";
+                    //Sorder.ccid = DS.Tables[0].Rows[0]["ccid"].ToString();
+                    //Sorder.acom = DS.Tables[0].Rows[0]["acom"].ToString();
+                    //Sorder.adept = DS.Tables[0].Rows[0]["adept"].ToString();
+                    //Sorder.SellUser = DS.Tables[0].Rows[0]["auser"].ToString();
+                    //Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
 
-                    //公司id为1，表示内部部门预定
-                    if (DS.Tables[0].Rows[0]["ordercompany"].ToString() == "1")
-                    {
-                        Sorder.SellDept = DS.Tables[0].Rows[0]["adept"].ToString();
-                        Sorder.acom = "0";
-                        Sorder.adept = "0";
-                    }
+                    ////公司id为1，表示内部部门预定
+                    //if (DS.Tables[0].Rows[0]["ordercompany"].ToString() == "1")
+                    //{
+                    //    Sorder.SellDept = DS.Tables[0].Rows[0]["adept"].ToString();
+                    //    Sorder.acom = "0";
+                    //    Sorder.adept = "0";
+                    //}
 
                     List<string> Sql = new List<string>();
 
@@ -639,20 +644,201 @@ namespace TravelOnline.NewPage
                     if (MyDataBaseComm.Transaction(SqlQuery) == true)
                     {
                         List<string> Sqlnew = new List<string>();
-                        string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                        TravelOnlineService rsp = new TravelOnlineService();
-                        rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                        //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                        //TravelOnlineService rsp = new TravelOnlineService();
+                        //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
                         string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
                         try
                         {
-                            OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                            //OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
                             //OrderFlag = "1";
+                            //金棕榈下单请求
+                            RestClient client = new RestClient(ConfigurationManager.AppSettings["JINWebServiceUrl"].ToString());
+                            //订单Xml生成
+                            StringBuilder Stings = new StringBuilder();
+                            Stings.Append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                            Stings.Append("<JJTourcrsAddOrderRQ>");
+                            Stings.Append("<Header>");
+                            Stings.Append(string.Format("<Token>{0}</Token>", ErpUtil.getToken()));
+                            Stings.Append(string.Format("<DateTime>{0}</DateTime>", string.Format("{0:yyyy-MM-dd}", DateTime.Now)));
+                            Stings.Append("</Header>");
+                            Stings.Append("<Body><OrderQuery><order><orderInfo>");
+                            Stings.Append(string.Format("<iweboutid>{0}</iweboutid>", DS.Tables[0].Rows[0]["AutoId"].ToString()));//订单id
+                            Stings.Append(string.Format("<cweboutno>{0}</cweboutno>", DS.Tables[0].Rows[0]["OrderId"].ToString()));//订单号
+                            Stings.Append(string.Format("<teamID>{0}</teamID>", DS.Tables[0].Rows[0]["ErpPlanId"].ToString()));//团号
+                            Stings.Append(string.Format("<adults>{0}</adults>", DS.Tables[0].Rows[0]["Adults"].ToString()));//成人数
+                            Stings.Append(string.Format("<childs>{0}</childs>", DS.Tables[0].Rows[0]["Childs"].ToString()));//儿童数
+                            Stings.Append(string.Format("<olds>{0}</olds>", 0));//老人数
+                            Stings.Append(string.Format("<babys>{0}</babys>", 0));//婴儿数
+                            Stings.Append(string.Format("<doubleRoom>{0}</doubleRoom>", 0));//双人间
+                            Stings.Append(string.Format("<singleRoom>{0}</singleRoom>", 0));//单人间
+                            Stings.Append(string.Format("<contactName>{0}</contactName>", Request.Form["ordername"].Trim()));//联系人姓名
+                            Stings.Append(string.Format("<address>{0}</address>", OrderMemo.Trim()));//联系人地址
+                            Stings.Append(string.Format("<memberCardNo>{0}</memberCardNo>", DS.Tables[0].Rows[0]["orderuser"].ToString()));//联系人会员卡号
+                            Stings.Append(string.Format("<mobile>{0}</mobile>", Request.Form["ordermobile"].Trim()));//联系人手机
+                            Stings.Append(string.Format("<cOrderSource>{0}</cOrderSource>", 11));//订单来源
+                            Stings.Append(string.Format("<cSource>{0}</cSource>", "上海青旅"));//订单的具体渠道名称
+                            Stings.Append(string.Format("<userflag>{0}</userflag>", "218C63D5-A0A6-4FFA-8B6B-0CE4B7739A9F"));//用户标示
+                            Stings.Append("</orderInfo>");
+                            Stings.Append("<orderAccounts>");
+                            string SqlQueryText1 = string.Format("select * from OL_OrderPrice where OrderId='{0}'", OrderId);
+                            DataSet DS1 = new DataSet();
+                            DS1.Clear();
+                            DS1 = MyDataBaseComm.getDataSet(SqlQueryText1);
+                            if (DS1.Tables[0].Rows.Count > 0)
+                            {
+                                for (int i = 0; i < DS1.Tables[0].Rows.Count; i++)
+                                {
+                                    Stings.Append("<orderAccount>");
+                                    Stings.Append(string.Format("<singlePrice>{0}</singlePrice>", DS1.Tables[0].Rows[i]["SellPrice"].ToString()));//单价Todo
+                                    Stings.Append(string.Format("<qty>{0}</qty>", DS1.Tables[0].Rows[i]["OrderNums"].ToString()));//人数
+                                    Stings.Append(string.Format("<priceID>{0}</priceID>", DS1.Tables[0].Rows[i]["ErpPriceId"].ToString()));//相关报价ID Todo
+                                    Stings.Append("</orderAccount>");
+                                }
+
+                            }
+                            Stings.Append("</orderAccounts>");
+                            //Stings.Append("<orderGuests>");
+                            //string[] GuestName1 = Request.Form["guestname"].Split(',');
+                            //string[] Mobile1 = Request.Form["guestmobile"].Split(',');
+                            //string[] IdType1 = Request.Form["cer1"].Split(',');
+                            //string[] IdNumber1 = Request.Form["guestzjhm"].Split(',');
+                            //for (int i = 0; i < GuestName1.Length; i++)
+                            //{
+                            //    Stings.Append("<orderGuest>");
+                            //    Stings.Append(string.Format("<iweboutid>{0}</iweboutid>", i + 1));//游客姓名
+                            //    Stings.Append(string.Format("<name>{0}</name>", GuestName1[i]));//游客姓名
+                            //    Stings.Append(string.Format("<sex>{0}</sex>", Request.Form["vsex" + i]));//游客性别
+                            //    try
+                            //    {
+                            //        Convert.ToInt64(IdNumber1[i]);
+                            //        switch (IdType1[i])
+                            //        {
+                            //            case "1":
+                            //                Stings.Append(string.Format("<idCard>{0}</idCard>", IdNumber1[i]));//身份证号
+                            //                break;
+                            //            case "2":
+                            //                Stings.Append(string.Format("<passCode>{0}</passCode>", IdNumber1[i]));//护照
+                            //                break;
+                            //            case "3":
+                            //                Stings.Append(string.Format("<gaPassCode>{0}</gaPassCode>", IdNumber1[i]));//港澳通行证
+                            //                break;
+                            //            case "5":
+                            //                Stings.Append(string.Format("<armyCode>{0}</armyCode>", IdNumber1[i]));//士官证号
+                            //                break;
+                            //            case "6":
+                            //                Stings.Append(string.Format("<otherType>{0}</otherType>", "回乡证"));//回乡证
+                            //                Stings.Append(string.Format("<otherCode>{0}</otherCode>", IdNumber1[i]));//回乡证号
+                            //                break;
+                            //            case "7":
+                            //                Stings.Append(string.Format("<otherType>{0}</otherType>", "台胞证"));//台胞证
+                            //                Stings.Append(string.Format("<otherCode>{0}</otherCode>", IdNumber1[i]));//台胞证号
+                            //                break;
+                            //            default:
+                            //                //Stings.Append(string.Format("<idCard>{0}</idCard>", IdNumber1[i]));//身份证号
+                            //                break;
+                            //        }
+                            //    }
+                            //    catch
+                            //    {
+                            //    }
+
+                            //    Stings.Append(string.Format("<mobileTel>{0}</mobileTel>", Mobile1[i]));//游客手机
+                            //    Stings.Append("</orderGuest>");
+                            //}
+                            //Stings.Append("</orderGuests></order></OrderQuery></Body>");
+                            //Stings.Append("</JJTourcrsAddOrderRQ>");
+                            string SqlQueryText2 = string.Format("select * from OL_GuestInfo where OrderId='{0}'", OrderId);
+                            DataSet GuestDS = new DataSet();
+                            GuestDS.Clear();
+                            GuestDS = MyDataBaseComm.getDataSet(SqlQueryText2);
+                            if (GuestDS.Tables[0].Rows.Count > 0)
+                            {
+                                Stings.Append("<orderGuests>");
+                                for (int i = 0; i < GuestDS.Tables[0].Rows.Count; i++)
+                                {
+                                    Stings.Append("<orderGuest>");
+                                    Stings.Append(string.Format("<iweboutid>{0}</iweboutid>", GuestDS.Tables[0].Rows[i]["id"].ToString()));//
+                                    Stings.Append(string.Format("<name>{0}</name>", GuestDS.Tables[0].Rows[i]["GuestName"].ToString()));//游客姓名
+                                    Stings.Append(string.Format("<sex>{0}</sex>", GuestDS.Tables[0].Rows[i]["Sex"].ToString() == "M" ? "男" : "女"));//游客性别
+                                    if (GuestDS.Tables[0].Rows[i]["birthDay"].ToString() != "")
+                                    {
+                                        Stings.Append(string.Format("<birthDate>{0}</birthDate>", string.Format("{0:yyyy-MM-dd}", GuestDS.Tables[0].Rows[i]["birthDay"])));
+                                    }
+                                    if (GuestDS.Tables[0].Rows[i]["IdNumber"].ToString() != "")
+                                    {
+                                        try
+                                        {
+                                            switch (GuestDS.Tables[0].Rows[i]["IdType"].ToString())
+                                            {
+                                                case "1":
+                                                    Stings.Append(string.Format("<idCard>{0}</idCard>", GuestDS.Tables[0].Rows[i]["IdNumber"].ToString()));//身份证号
+                                                    break;
+                                                case "2":
+                                                    Stings.Append(string.Format("<passCode>{0}</passCode>", GuestDS.Tables[0].Rows[i]["IdNumber"].ToString()));//护照
+                                                    break;
+                                                case "3":
+                                                    Stings.Append(string.Format("<gaPassCode>{0}</gaPassCode>", GuestDS.Tables[0].Rows[i]["IdNumber"].ToString()));//港澳通行证
+                                                    break;
+                                                case "5":
+                                                    Stings.Append(string.Format("<armyCode>{0}</armyCode>", GuestDS.Tables[0].Rows[i]["IdNumber"].ToString()));//士官证号
+                                                    break;
+                                                case "6":
+                                                    Stings.Append(string.Format("<otherType>{0}</otherType>", "回乡证"));//回乡证
+                                                    Stings.Append(string.Format("<otherCode>{0}</otherCode>", GuestDS.Tables[0].Rows[i]["IdNumber"].ToString()));//回乡证号
+                                                    break;
+                                                case "7":
+                                                    Stings.Append(string.Format("<otherType>{0}</otherType>", "台胞证"));//台胞证
+                                                    Stings.Append(string.Format("<otherCode>{0}</otherCode>", GuestDS.Tables[0].Rows[i]["IdNumber"].ToString()));//台胞证号
+                                                    break;
+                                                default:
+                                                    //Stings.Append(string.Format("<idCard>{0}</idCard>", IdNumber1[i]));//身份证号
+                                                    break;
+                                            }
+                                        }
+                                        catch
+                                        {
+                                        }
+                                    }
+                                    Stings.Append("</orderGuest>");
+                                }
+                                Stings.Append("</orderGuests>");
+                            }
+                            Stings.Append("</order></OrderQuery></Body>");
+                            Stings.Append("</JJTourcrsAddOrderRQ>");
+                            IRestRequest request = new RestRequest("jjapi-ws/api/JJTourcrsAddOrder", Method.POST);
+                            request.RequestFormat = DataFormat.Xml;
+                            request.AddHeader("Accept", "application/xml");
+                            request.AddParameter("application/xml", Stings, ParameterType.RequestBody);
+                            SaveLogUtils.SaveInfoToLog("saveorderinfo: " + Stings, "RequestErpInfoLog.txt");
+                            IRestResponse response = client.Execute(request);
+                            XmlDocument XmlDoc = new XmlDocument();
+                            XmlDoc.LoadXml(response.Content);
+                            XmlNode o = XmlDoc.SelectSingleNode("o");
+                            if (o != null)
+                            {
+                                string status = o.SelectSingleNode("status").InnerText;
+                                if (status == "0" || status == "2")
+                                {
+                                    OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                                    ErpId = o.SelectSingleNode("orderNo").InnerText;
+                                }
+                                else
+                                {
+                                    string Error = o.SelectSingleNode("message").InnerText;
+                                    return Error;
+                                }
+                            }
+                            else
+                            {
+                                OrderFlag = "9";
+                            }
                         }
                         catch
                         {
                             OrderFlag = "9";
                         }
-                        SaveErrorToLog("步骤5 畅游提交：订单号=" + AutoId + " OrderFlag=" + OrderFlag);
+                        SaveErrorToLog("步骤5 ERP提交：订单号=" + AutoId + " OrderFlag=" + OrderFlag);
 
                         if (OrderFlag == "9")
                         {
@@ -666,7 +852,7 @@ namespace TravelOnline.NewPage
 
                             Sqlnew.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", OrderId, DateTime.Now.ToString(), "您在官网提交了预订单"));
                             Sqlnew.Add(string.Format("delete from OL_TempOrder where OrderId='{0}'", OrderId));
-                            Sqlnew.Add(string.Format("update OL_Order set PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4}-{5} where OrderId='{1}'", OrderFlag, OrderId, DateTime.Now.ToString(), "0", "0", "0"));
+                            Sqlnew.Add(string.Format("update OL_Order set PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4}-{5},ErpId='{6}' where OrderId='{1}'", OrderFlag, OrderId, DateTime.Now.ToString(), "0", "0", "0", ErpId));
                             SaveErrorToLog("步骤6：提交订单ok");
 
                             if (!couponAmount.Equals("0"))
@@ -718,8 +904,8 @@ namespace TravelOnline.NewPage
                             if (MyConvert.ConToInt(Convert.ToString(Session["Online_UserCompany"])) == 1)
                             {
                                 //清空呼叫中心订单id
-                                HttpCookie cookie = default(HttpCookie);
-                                cookie = new HttpCookie("CallCenterOrderId", "");
+                                System.Web.HttpCookie cookie = default(System.Web.HttpCookie);
+                                cookie = new System.Web.HttpCookie("CallCenterOrderId", "");
                                 cookie.Expires = DateTime.Now.AddDays(-10);
                                 Response.Cookies.Add(cookie);
                             }
@@ -879,21 +1065,22 @@ namespace TravelOnline.NewPage
             }
             else
             {
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
-                try
-                {
-                    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
-                }
-                catch
-                {
-                    GetPlan.Seats = "0";
-                    GetPlan.Route = "99";
-                    GetPlan.StopDate = "";
-                }
+                //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                //TravelOnlineService rsp = new TravelOnlineService();
+                //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                //try
+                //{
+                //    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
+                //}
+                //catch
+                //{
+                //    GetPlan.Seats = "0";
+                //    GetPlan.Route = "99";
+                //    GetPlan.StopDate = "";
+                //}
             }
-            string Seats = GetPlan.Seats;
+            //string Seats = GetPlan.Seats;
+            string Seats = "99";
 
             if (MyConvert.ConToInt(ordernums) > MyConvert.ConToInt(Seats))
             {
@@ -920,6 +1107,7 @@ namespace TravelOnline.NewPage
             Fil[16] = "UserName"; Val[16] = ordername;
             Fil[17] = "LineDays"; Val[17] = LineDays;
             Fil[18] = "ccid"; Val[18] = CcId;
+            Fil[19] = "ErpPlanId"; Val[19] = planid;
 
             Id = MyDataBaseComm.InsertDataStrGetReturn(TableName, Fil, Val);
 
@@ -952,12 +1140,12 @@ namespace TravelOnline.NewPage
                 else
                 {
                     string[] PriceType = Request.Form["p1"].Split(',');
-                    string[] PriceId = Request.Form["p2"].Split(',');
+                    //string[] PriceId = Request.Form["p2"].Split(',');
                     string[] PriceName = Request.Form["p3"].Split(',');
                     string[] PriceMemo = Request.Form["p4"].Split(',');
                     string[] OrderNums = Request.Form["p9"].Split(',');
                     string[] SellPrice = Request.Form["p5"].Split(',');
-
+                    string[] ErpPriceId = Request.Form["p2"].Split(',');
 
                     for (int i = 0; i < PriceType.Length; i++)
                     {
@@ -970,7 +1158,7 @@ namespace TravelOnline.NewPage
                             Fil[4] = "SellPrice"; Val[4] = SellPrice[i];
                             Fil[5] = "SumPrice"; Val[5] = (MyConvert.ConToDec(OrderNums[i]) * MyConvert.ConToDec(SellPrice[i])).ToString();
                             Fil[6] = "InputDate"; Val[6] = DateTime.Now.ToString();
-                            Fil[7] = "PriceId"; Val[7] = PriceId[i];
+                            Fil[7] = "ErpPriceId"; Val[7] = ErpPriceId[i];
                             Fil[8] = "PriceMemo"; Val[8] = PriceMemo[i];
 
                             Sql.Add(MyDataBaseComm.InsertDataStr(TableName, Fil, Val, ""));
@@ -1170,20 +1358,23 @@ namespace TravelOnline.NewPage
             StringBuilder Strings = new StringBuilder();
             StringBuilder ExtStrings = new StringBuilder();
 
-            string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-            TravelOnlineService rsp = new TravelOnlineService();
-            rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+            //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+            //TravelOnlineService rsp = new TravelOnlineService();
+            //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
             PlanPrices GetPlan = new PlanPrices();
 
             try
             {
                 if (Planid == "0")
                 {
-                    GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
+                    GetPlan = ErpUtil.getPriceInfo(Lineid, BeginDate);
+                    //GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
                 }
                 else
                 {
-                    GetPlan = rsp.GetPlanPrices(UpPassWord, Lineid, Planid, PriceId);
+                    GetPlan = ErpUtil.getPriceInfo(Planid);
+                    //GetPlan = ErpUtil.getPriceInfo("E0F01C59-F1F6-4300-A47E-1B087672B7EF");
+                    //GetPlan = rsp.GetPlanPrices(UpPassWord, Lineid, Planid, PriceId);
 
                 }
             }
@@ -1213,7 +1404,7 @@ namespace TravelOnline.NewPage
                         Drops = "";
                         switch (GetPlan.PlanStaPrice[i].PriceType)
                         {
-                            case "成人价":
+                            case "基本价":
                                 Drops = AdultOption;
                                 AdultOption = AdultSelOption;
                                 break;
@@ -1268,33 +1459,33 @@ namespace TravelOnline.NewPage
                 Strings.Append("<h4>可选服务</h4><div class=\"select-content fl clearfix\">");
                 for (int i = 0; i < GetPlan.PlanExtPrice.Length; i++)
                 {
-                    switch (GetPlan.PlanExtPrice[i].InfoId)
-                    {
-                        case "1":
-                            ExtType = "单房差";
-                            break;
-                        case "2":
-                            ExtType = "自费项目";
-                            break;
-                        case "3":
-                            ExtType = "小费";
-                            break;
-                        case "4":
-                            ExtType = "其他费用";
-                            break;
-                        case "5":
-                            ExtType = "保险费用";
-                            break;
-                        case "6":
-                            ExtType = "机票税金";
-                            break;
-                        case "7":
-                            ExtType = "费用升级";
-                            break;
-                        default:
-                            break;
-                    }
-
+                    //switch (GetPlan.PlanExtPrice[i].InfoId)
+                    //{
+                    //    case "1":
+                    //        ExtType = "单房差";
+                    //        break;
+                    //    case "2":
+                    //        ExtType = "自费项目";
+                    //        break;
+                    //    case "3":
+                    //        ExtType = "小费";
+                    //        break;
+                    //    case "4":
+                    //        ExtType = "其他费用";
+                    //        break;
+                    //    case "5":
+                    //        ExtType = "保险费用";
+                    //        break;
+                    //    case "6":
+                    //        ExtType = "机票税金";
+                    //        break;
+                    //    case "7":
+                    //        ExtType = "费用升级";
+                    //        break;
+                    //    default:
+                    //        break;
+                    //}
+                    ExtType = GetPlan.PlanExtPrice[i].PriceType;
 
                     switch (GetPlan.PlanExtPrice[i].OnlineNeeds)
                     {
@@ -1310,6 +1501,18 @@ namespace TravelOnline.NewPage
                         default:
                             Drops = OptionHtml;
                             break;
+                    }
+
+                    if (ConfigurationManager.AppSettings["Ticketlineid"].Contains(Lineid))
+                    {
+                        if (OrderNums < 3 || Lineid.Equals("25498"))
+                        {
+                            Drops = "<option value=\"1\">1</option>";
+                        }
+                        else
+                        {
+                            Drops = "<option value=\"0\">0</option>";
+                        }
                     }
 
                     Strings.Append(string.Format(@"

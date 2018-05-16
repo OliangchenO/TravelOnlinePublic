@@ -12,9 +12,9 @@ using TravelOnline.GetCombineKeys;
 
 namespace TravelOnline.Management
 {
-    public partial class SpecialLine : BasePage
+    public partial class ManageTicket : BasePage
     {
-        public string Cid, AutoId, CruisesShip, CombineId,flag="0";
+        public string Cid, AutoId, CruisesShip, CombineId, flag = "0";
         public DataSet DS1;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -70,7 +70,7 @@ namespace TravelOnline.Management
                         DS = MyDataBaseComm.getDataSet(sqlstr);
                         flag = "1";
                     }
-                    
+
 
                 }
             }
@@ -96,7 +96,7 @@ namespace TravelOnline.Management
                 if (flag == "1") e.Row.Cells[0].Text = "";
 
             }
-            
+
         }
 
         protected void GridView_Serch(object sender, EventArgs e)

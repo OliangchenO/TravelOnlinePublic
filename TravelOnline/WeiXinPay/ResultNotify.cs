@@ -9,6 +9,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 using TravelOnline.WeChat.Util;
+using TravelOnline.NewPage.erp;
 
 namespace TravelOnline.WeiXinPay
 {
@@ -122,6 +123,7 @@ namespace TravelOnline.WeiXinPay
                 return;
             }
             string OrderID = DS.Tables[0].Rows[0]["OrderID"].ToString();
+            string ErpID = DS.Tables[0].Rows[0]["ErpID"].ToString();
             string lineid = DS.Tables[0].Rows[0]["lineid"].ToString();
             
             int num = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from OL_PayMent where OrderId='{0}' and TradeNo='{1}'", OrderID, info.GetValue("transaction_id").ToString())));
@@ -152,20 +154,28 @@ namespace TravelOnline.WeiXinPay
                 string[] SqlQuery = Sql.ToArray();
                 if (MyDataBaseComm.Transaction(SqlQuery) == true)
                 {
-                    string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                    TravelOnlineService rsp = new TravelOnlineService();
-                    rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
-                    PayInfo Pays = new PayInfo();
-                    Pays.OrderId = OrderID;
-                    Pays.TradeNo = info.GetValue("transaction_id").ToString();
-                    Pays.PayPrice = total_fee;
-                    Pays.PayTime = DateTime.Now.ToString();
-                    Pays.PayContent = payType;
+
 
                     string Result;
                     try
                     {
-                        Result = rsp.PayInfoSave(UpPassWord, Pays);
+                        if (MyConvert.ConToInt(DS.Tables[0].Rows[0]["Shipid"].ToString()) > 0)
+                        {
+                            string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                            TravelOnlineService rsp = new TravelOnlineService();
+                            rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                            PayInfo Pays = new PayInfo();
+                            Pays.OrderId = OrderID;
+                            Pays.TradeNo = info.GetValue("transaction_id").ToString();
+                            Pays.PayPrice = total_fee;
+                            Pays.PayTime = DateTime.Now.ToString();
+                            Pays.PayContent = payType;
+                            Result = rsp.PayInfoSave(UpPassWord, Pays);
+                        }
+                        else
+                        {
+                            Result = ErpUtil.savePayInfo(payType, ErpID, total_fee, info.GetValue("transaction_id").ToString(), info.GetValue("transaction_id").ToString(), "微信", DateTime.Now.ToString());
+                        }
                     }
                     catch
                     {
@@ -179,12 +189,30 @@ namespace TravelOnline.WeiXinPay
                         bool result = Tuanshiwei.insertPurchaseRecord(OrderMobile, lineid, PayFlag, OrderNums);
                         if (!result)
                         {
-                            string msg = "OrderID:" + OrderID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
+                            string msg = "OrderID:" + OrderID + ", ErpId:" + ErpID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
                             Tuanshiwei.SaveTswErrorToLog("调用团市委保存支付记录接口失败:", msg);
-                        }else
+                        }
+                        else
                         {
-                            string msg = "OrderID:" + OrderID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
+                            string msg = "OrderID:" + OrderID + ", ErpId:" + ErpID + ", OrderMobile" + OrderMobile + ", lineid:" + lineid + ", PayFlag:" + PayFlag + ", OrderNums" + OrderNums;
                             Tuanshiwei.SaveTswErrorToLog("调用团市委保存支付记录接口成功:", msg);
+                        }
+                    }
+                    else if (ConfigurationManager.AppSettings["Zyzlineid"].Contains(lineid))
+                    {
+                        string OrderNums = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                        string OrderMobile = DS.Tables[0].Rows[0]["OrderMobile"].ToString();
+                        string receiveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        bool result = VolunteerUtils.insertPurchaseRecord(OrderMobile, receiveTime, OrderNums, total_fee);
+                        if (!result)
+                        {
+                            string msg = "OrderID:" + OrderID + ", ErpId:" + ErpID + ", OrderMobile:" + OrderMobile + ", OrderNums:" + OrderNums + ", receiveMoney:" + total_fee + ", receiveTime:" + receiveTime;
+                            VolunteerUtils.SaveTswErrorToLog("调用团市委保存支付记录接口失败:", msg);
+                        }
+                        else
+                        {
+                            string msg = "OrderID:" + OrderID + ", ErpId:" + ErpID + ", OrderMobile:" + OrderMobile + ", OrderNums:" + OrderNums + ", receiveMoney:" + total_fee + ", receiveTime:" + receiveTime;
+                            VolunteerUtils.SaveTswErrorToLog("调用团市委保存支付记录接口成功:", msg);
                         }
                     }
                 }

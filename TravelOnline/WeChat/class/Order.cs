@@ -18,6 +18,9 @@ using TravelOnline.LoginUsers;
 using TravelOnline.WeChat.freetrip.interfaces;
 using Belinda.Jasp;
 using TravelOnline.WeChat.Util;
+using TravelOnline.NewPage.erp;
+using RestSharp;
+using TravelOnline.Utility;
 
 namespace TravelOnline.WeChat
 {
@@ -50,29 +53,11 @@ namespace TravelOnline.WeChat
             }
             //浦发人数限制
 
-
-            if (MyConvert.ConToInt(planid) == 0)
-            {
-                GetPlan.Seats = "99";
-                GetPlan.Route = "99";
-                GetPlan.StopDate = "";
-            }
-            else
-            {
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
-                try
-                {
-                    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
-                }
-                catch
-                {
-                    GetPlan.Seats = "0";
-                    GetPlan.Route = "99";
-                    GetPlan.StopDate = "";
-                }
-            }
+           
+           GetPlan.Seats = "99";
+           GetPlan.Route = "99";
+           GetPlan.StopDate = "";
+           
 
             if (GetPlan.StopDate.Length > 0)
             {
@@ -113,7 +98,7 @@ namespace TravelOnline.WeChat
             {
                 List<string> Sql = new List<string>();
                 string SqlQueryText;
-                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')",
+                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,ErpPlanId) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}')",
                     ucode,
                     LineInfos.LineType,
                     LineInfos.LinesClass,
@@ -130,7 +115,8 @@ namespace TravelOnline.WeChat
                     LineInfos.LineDays,
                     routeflag,
                     GetPlan.PlanNo,
-                    ""
+                    "",
+                    planid
                 );
                 Sql.Add(SqlQueryText);
 
@@ -183,7 +169,7 @@ namespace TravelOnline.WeChat
             if (DS.Tables[0].Rows.Count > 0)
             {
                 Lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
-                Planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
+                Planid = DS.Tables[0].Rows[0]["ErpPlanId"].ToString();
                 BeginDate = DS.Tables[0].Rows[0]["BeginDate"].ToString();
                 OrderNums = MyConvert.ConToInt(DS.Tables[0].Rows[0]["OrderNums"].ToString());
                 Adults = MyConvert.ConToInt(DS.Tables[0].Rows[0]["Adults"].ToString());
@@ -197,20 +183,22 @@ namespace TravelOnline.WeChat
                 string AdultOption = string.Format("value={0} max={1} min=0", Adults, OrderNums);
                 string ChildOption = string.Format("value={0} max={1} min=0", Childs, Childs);
 
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                //TravelOnlineService rsp = new TravelOnlineService();
+                //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
                 PlanPrices GetPlan = new PlanPrices();
 
                 try
                 {
                     if (Planid == "0" && BeginDate.Length > 5)
                     {
-                        GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
+                        GetPlan = ErpUtil.getPriceInfo(Lineid, BeginDate);
+                        //GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
                     }
                     else
                     {
-                        GetPlan = rsp.GetPlanPrices(UpPassWord, Lineid, Planid, PriceId);
+                        GetPlan = ErpUtil.getPriceInfo(Planid);
+                        //GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
                     }
                 }
                 catch
@@ -283,7 +271,7 @@ namespace TravelOnline.WeChat
                             {
                                 switch (GetPlan.PlanStaPrice[i].PriceType)
                                 {
-                                    case "成人价":
+                                    case "基本价":
                                         Strings.Append(AdultOption);
                                         AdultOption = DefaultOption;
                                         break;
@@ -330,27 +318,7 @@ namespace TravelOnline.WeChat
                         Strings.Append("");
                         for (int i = 0; i < GetPlan.PlanExtPrice.Length; i++)
                         {
-                            switch (GetPlan.PlanExtPrice[i].InfoId)
-                            {
-                                case "1":
-                                    ExtType = "单房差";
-                                    break;
-                                case "2":
-                                    ExtType = "自费项目";
-                                    break;
-                                case "3":
-                                    ExtType = "小费";
-                                    break;
-                                case "4":
-                                    ExtType = "其他费用";
-                                    break;
-                                case "5":
-                                    ExtType = "保险费用";
-                                    break;
-                                default:
-                                    ExtType = "";
-                                    break;
-                            }
+                            ExtType = GetPlan.PlanExtPrice[i].PriceType;
                             if (GetPlan.PlanExtPrice[i].OnlineNeeds != "0")
                             {
                                 //Strings.Append("<div class=\"row sellprice\">");//row 开始
@@ -522,9 +490,9 @@ namespace TravelOnline.WeChat
                 dt.Rows[0]["Childs"] = Childs;
                 dt.Rows[0]["data"] = string.Format("{0:yyyy-MM-dd}", dt.Rows[0]["BeginDate"]);
 
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                //TravelOnlineService rsp = new TravelOnlineService();
+                //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
                 PlanPrices GetPlan = new PlanPrices();
                 ObJson.Add("DefaultOption", DefaultOption);
                 ObJson.Add("DefaultChildOption", DefaultChildOption);
@@ -534,11 +502,13 @@ namespace TravelOnline.WeChat
                 {
                     if (Planid == "0" && BeginDate.Length > 5)
                     {
-                        GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
+                        //GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
+                        GetPlan = ErpUtil.getPriceInfo(Lineid, BeginDate);
                     }
                     else
                     {
-                        GetPlan = rsp.GetPlanPrices(UpPassWord, Lineid, Planid, PriceId);
+                        //GetPlan = rsp.GetPlanPrices(UpPassWord, Lineid, Planid, PriceId);
+                        GetPlan = ErpUtil.getPriceInfo(Planid);
                     }
                     if (GetPlan.PlanStaPrice != null)
                     {
@@ -749,12 +719,12 @@ namespace TravelOnline.WeChat
                 //预订成功 begin
                 Strings.Append("<div class=\"recommend_detail\">");
                 Strings.Append("<div class=\"recommend_txt\">");
-                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "1") Strings.Append("<h3>预订成功（已占位）</h3>");
-                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "0") Strings.Append("<h3>预订成功（待确认）</h3>");
+                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "30") Strings.Append("<h3>预订成功（已占位）</h3>");
+                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "10") Strings.Append("<h3>预订成功（待确认）</h3>");
                 Strings.Append("<div style=\"font-size: 14px;line-height:30px\">");
                 //        
                 Strings.Append(string.Format("您的订单号：<span class=\"orderid\">{0}</span><br/>", DS.Tables[0].Rows[0]["autoid"].ToString()));
-                Strings.Append("我们的工作人员将会尽快通过电话或者EMAIL和您联系。如果您所填写的信息有误，此订单将被取消。<br/>");
+                Strings.Append("如果您所填写的信息有误，此订单将被取消。<br/>");
                 //Strings.Append(string.Format("即时占位订单，请您在预订后<span class=\"orderid\">{0}</span>小时以内付款；非占位订单，请您在订单确认以后<span class=\"orderid\">{0}</span>小时内付款（紧急情况或特殊情况除外）。<br/>", AdjustTime));
 
                 if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "1") Strings.Append(string.Format("请您在<span class=\"orderid\">预订后{0}小时</span>以内付款（紧急情况或特殊情况除外）。<br/>", AdjustTime));
@@ -770,7 +740,7 @@ namespace TravelOnline.WeChat
                 Strings.Append("<div class=\"recommend_txt\">");
                 Strings.Append("<h3>付款方式</h3>");
                 Strings.Append("<div style=\"font-size: 14px;line-height:30px\">");
-                if (DS.Tables[0].Rows[0]["PayType"].ToString() == "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "1" && DS.Tables[0].Rows[0]["PayFlag"].ToString() == "0")
+                if (DS.Tables[0].Rows[0]["PayType"].ToString() == "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "30" && DS.Tables[0].Rows[0]["PayFlag"].ToString() == "0")
                 {
                     //Strings.Append("");
                     Strings.Append(string.Format("<A class=\"btn yellow\" href=\"/wechat/pay.aspx?OrderId={0}\" target=\"_blank\">在线支付</A>", orderid));
@@ -957,7 +927,7 @@ namespace TravelOnline.WeChat
                 Strings.Append("<div class=\"recommend_txt\">");
                 Strings.Append("<h3>付款方式</h3>");
                 Strings.Append("<div style=\"font-size: 14px;line-height:30px\">");
-                if (DS.Tables[0].Rows[0]["PayType"].ToString() == "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "1" && DS.Tables[0].Rows[0]["PayFlag"].ToString() == "0")
+                if (DS.Tables[0].Rows[0]["PayType"].ToString() == "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "30" && DS.Tables[0].Rows[0]["PayFlag"].ToString() == "0")
                 {
                     //Strings.Append("");
                     Strings.Append(string.Format("<A class=\"btn yellow\" href=\"/wechat/pay.aspx?OrderId={0}\" target=\"_blank\">在线支付</A>", orderid));
@@ -1467,7 +1437,7 @@ namespace TravelOnline.WeChat
                         }
                         if (PriceInfo.Length > 0)
                         {
-                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,ErpPriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
                                     orderid,
                                     PriceInfo[0],
                                     PriceInfo[1],
@@ -1580,38 +1550,95 @@ namespace TravelOnline.WeChat
                     SumYCPrefer = Nums * YCPrefer;
                 }
 
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                //TravelOnlineService rsp = new TravelOnlineService();
+                //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
 
-                OrderInfos Sorder = new OrderInfos();
-                Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
-                Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
-                Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
-                Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
-                Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
-                Sorder.email = DS.Tables[0].Rows[0]["OrderEmail"].ToString();
-                Sorder.gathering = DS.Tables[0].Rows[0]["Price"].ToString();
-                Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
-                Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
-                Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
-                Sorder.mobile = ophone;
-                Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
-                Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
-                Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
-                Sorder.ordermemo = omemo;
-                Sorder.ordername = oname;
-                Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
-                Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
-                Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
-                Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
-                Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
-                Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
-                Sorder.SellDept = BranchId;
-                Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
+                //OrderInfos Sorder = new OrderInfos();
+                //Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
+                //Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
+                //Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
+                //Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
+                //Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
+                //Sorder.email = DS.Tables[0].Rows[0]["OrderEmail"].ToString();
+                //Sorder.gathering = DS.Tables[0].Rows[0]["Price"].ToString();
+                //Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
+                //Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
+                //Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
+                //Sorder.mobile = ophone;
+                //Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
+                //Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
+                //Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
+                //Sorder.ordermemo = omemo;
+                //Sorder.ordername = oname;
+                //Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                //Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
+                //Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
+                //Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
+                //Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
+                //Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
+                //Sorder.SellDept = BranchId;
+                //Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
 
-                Sorder.CruisesFlag = "0";
-                Sorder.ccid = "0";
+                //Sorder.CruisesFlag = "0";
+                //Sorder.ccid = "0";
+
+                //金棕榈开始
+                RestClient client = new RestClient(ConfigurationManager.AppSettings["JINWebServiceUrl"].ToString());
+                //订单Xml生成
+                StringBuilder Stings = new StringBuilder();
+                Stings.Append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                Stings.Append("<JJTourcrsAddOrderRQ>");
+                Stings.Append("<Header>");
+                Stings.Append(string.Format("<Token>{0}</Token>", ErpUtil.getToken()));
+                Stings.Append(string.Format("<DateTime>{0}</DateTime>", string.Format("{0:yyyy-MM-dd}", DateTime.Now)));
+                Stings.Append("</Header>");
+                Stings.Append("<Body><OrderQuery><order><orderInfo>");
+                Stings.Append(string.Format("<iweboutid>{0}</iweboutid>", DS.Tables[0].Rows[0]["AutoId"].ToString()));//订单id
+                Stings.Append(string.Format("<cweboutno>{0}</cweboutno>", DS.Tables[0].Rows[0]["OrderId"].ToString()));//订单号
+                Stings.Append(string.Format("<teamID>{0}</teamID>", DS.Tables[0].Rows[0]["ErpPlanId"].ToString()));//团号
+                Stings.Append(string.Format("<adults>{0}</adults>", DS.Tables[0].Rows[0]["Adults"].ToString()));//成人数
+                Stings.Append(string.Format("<childs>{0}</childs>", DS.Tables[0].Rows[0]["Childs"].ToString()));//儿童数
+                Stings.Append(string.Format("<olds>{0}</olds>", 0));//老人数
+                Stings.Append(string.Format("<babys>{0}</babys>", 0));//婴儿数
+                Stings.Append(string.Format("<doubleRoom>{0}</doubleRoom>", 0));//双人间
+                Stings.Append(string.Format("<singleRoom>{0}</singleRoom>", 0));//单人间
+                Stings.Append(string.Format("<contactName>{0}</contactName>", oname.Trim()));//联系人姓名
+                Stings.Append(string.Format("<memberCardNo>{0}</memberCardNo>", DS.Tables[0].Rows[0]["orderuser"].ToString()));//联系人会员卡号
+                Stings.Append(string.Format("<mobile>{0}</mobile>", ophone.Trim()));//联系人手机
+                Stings.Append(string.Format("<cOrderSource>{0}</cOrderSource>", 11));//订单来源
+                Stings.Append(string.Format("<cSource>{0}</cSource>", "上海青旅"));//订单的具体渠道名称
+                Stings.Append(string.Format("<userflag>{0}</userflag>", "218C63D5-A0A6-4FFA-8B6B-0CE4B7739A9F"));//用户标示
+                Stings.Append("</orderInfo>");
+                Stings.Append("<orderAccounts>");
+                string SqlQueryText1 = string.Format("select * from OL_OrderPrice where OrderId='{0}'", orderid);
+                DataSet DS2 = new DataSet();
+                DS2.Clear();
+                DS2 = MyDataBaseComm.getDataSet(SqlQueryText1);
+                if (DS2.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < DS2.Tables[0].Rows.Count; i++)
+                    {
+                        Stings.Append("<orderAccount>");
+                        Stings.Append(string.Format("<singlePrice>{0}</singlePrice>", DS2.Tables[0].Rows[i]["SellPrice"].ToString()));//单价Todo
+                        Stings.Append(string.Format("<qty>{0}</qty>", DS2.Tables[0].Rows[i]["OrderNums"].ToString()));//人数
+                        Stings.Append(string.Format("<priceID>{0}</priceID>", DS2.Tables[0].Rows[i]["ErpPriceId"].ToString()));//相关报价ID Todo
+                        Stings.Append("</orderAccount>");
+                    }
+
+                }
+                Stings.Append("</orderAccounts>");
+                Stings.Append("<orderGuests>");
+                for (int i = 0; i < Nums; i++)
+                {
+                    Stings.Append("<orderGuest>");
+                    Stings.Append(string.Format("<name>{0}</name>", oname.Trim()));//游客姓名
+                    Stings.Append("</orderGuest>");
+                }
+                Stings.Append("</orderGuests></order></OrderQuery></Body>");
+                Stings.Append("</JJTourcrsAddOrderRQ>");
+                //金棕榈结束
+
                 Decimal gathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
 
                 if (SumPre_Price > 0)
@@ -1681,13 +1708,42 @@ namespace TravelOnline.WeChat
                     Sql.Add(string.Format("update OL_CreatePrefer set flag=1 where code='{0}' and lineid='{1}' and flag=0", preferCode, Lineid));
                     gathering = gathering - MyConvert.ConToDec(SumYCPrefer.ToString());
                 }
-                Sorder.gathering = Convert.ToString(gathering);
+                //Sorder.gathering = Convert.ToString(gathering);
 
                 string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
+                string ErpId = "0";
                 try
                 {
                     //OrderFlag = "1";
-                    OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                    //OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                    //金棕榈下单请求
+                    IRestRequest request = new RestRequest("jjapi-ws/api/JJTourcrsAddOrder", Method.POST);
+                    request.RequestFormat = DataFormat.Xml;
+                    request.AddHeader("Accept", "application/xml");
+                    request.AddParameter("application/xml", Stings, ParameterType.RequestBody);
+                    SaveLogUtils.SaveInfoToLog("saveorderinfo: " + Stings, "RequestErpInfoLog.txt");
+                    IRestResponse response = client.Execute(request);
+                    XmlDocument XmlDoc = new XmlDocument();
+                    XmlDoc.LoadXml(response.Content);
+                    XmlNode o = XmlDoc.SelectSingleNode("o");
+                    if (o != null)
+                    {
+                        string status = o.SelectSingleNode("status").InnerText;
+                        if (status == "0" || status == "2")
+                        {
+                            OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                            ErpId = o.SelectSingleNode("orderNo").InnerText;
+                        }
+                        else
+                        {
+                            string Error = o.SelectSingleNode("message").InnerText;
+                            return Error;
+                        }
+                    }
+                    else
+                    {
+                        OrderFlag = "9";
+                    }
                 }
                 catch
                 {
@@ -1723,7 +1779,7 @@ namespace TravelOnline.WeChat
                         Sql.Add(string.Format("INSERT INTO OL_FxOrder (OrderId, ProductType, ProductClass, LineID, PlanId, LineName, BeginDate, OrderNums, Adults, Childs, Price, OrderName, OrderEmail, OrderMobile, OrderTel,OrderFax, OrderMemo, OrderTime, OrderUser, DeptId, OrderFlag, Contract, Invoice, AutoId, LineDays, PayFlag, RouteFlag, PlanNo,PayType,BranchId,shipid,orderdept,ordercompany,ProductNum,rebate,UserName,ccid,RebateFlag,allmdjs,ota) SELECT * FROM OL_TempOrder WHERE OrderId='{0}'", orderid));
                         Sql.Add(string.Format("UPDATE OL_FxOrder set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',FxUserId='{12}' where OrderId='{0}'",
                         orderid,
-                        SumPre_Price + SumPreferAmount+ SumYCPrefer,
+                        SumPre_Price + SumPreferAmount + SumYCPrefer,
                         PayType,
                         BranchId,
                         oname,
@@ -1743,9 +1799,9 @@ namespace TravelOnline.WeChat
                     int i = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
                     if (i > 0)
                     {
-                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1,ErpId='{12}' where OrderId='{0}'",
                         orderid,
-                        SumPre_Price + SumPreferAmount + SumGroupdiscount+ SumYCPrefer,
+                        SumPre_Price + SumPreferAmount + SumGroupdiscount + SumYCPrefer,
                         PayType,
                         BranchId,
                         oname,
@@ -1755,12 +1811,13 @@ namespace TravelOnline.WeChat
                         User_Name,
                         User_Id,
                         DateTime.Now.ToString(),
-                        OrderFlag
+                        OrderFlag,
+                        ErpId
                         ));
                     }
                     else
                     {
-                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}' where OrderId='{0}'",
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',ErpId='{12}' where OrderId='{0}'",
                         orderid,
                         SumPre_Price + SumPreferAmount + SumYCPrefer,
                         PayType,
@@ -1772,7 +1829,8 @@ namespace TravelOnline.WeChat
                         User_Name,
                         User_Id,
                         DateTime.Now.ToString(),
-                        OrderFlag
+                        OrderFlag,
+                        ErpId
                         ));
                     }
 
@@ -1835,7 +1893,7 @@ namespace TravelOnline.WeChat
                     }
                     else
                     {
-                        return "{\"success\":\"OK\",\"orderid\":\""+ orderid + "\"}";
+                        return "{\"success\":\"OK\",\"orderid\":\"" + orderid + "\"}";
                     }
                 }
                 else
@@ -2226,14 +2284,21 @@ namespace TravelOnline.WeChat
             }
         }
 
-        public static string orderTicket(string lineid, string adults, string ordername, string orderphone, string orderemail, string ordermemo, string allprice, string PriceStrings, string preferCode)
+        public static string orderTovol(string lineid, string adults, string ordername, string orderphone, string orderemail, string ordermemo, string allprice, string PriceStrings)
         {
+            string num = MyDataBaseComm.getScalar(string.Format("SELECT COUNT(1) from ol_order where LineID='{0}' and OrderMobile='{1}' and PayFlag=1", lineid, orderphone));
+            if (MyConvert.ConToInt(num) >= 1)
+            {
+                return "{\"error\":\"您已购买过该产品，该产品只可购买一次\"}";
+            }
+            if (!Tuanshiwei.RegUser(orderphone, ordername))
+            {
+                return "{\"error\":\"预定失败，请稍后再试\"}";
+            }
             Guid ucode = CombineKeys.NewComb();
             PlanSeats GetPlan = new PlanSeats();
-            string date = string.Format("{0:yyyy-MM}", DateTime.Now);
-
-            string planid = ConfigurationManager.AppSettings[date + "_" + lineid + "_planid"];
-            string begindate = ConfigurationManager.AppSettings[date + "_" + lineid + "_begindate"];
+            string planid = ConfigurationManager.AppSettings["Zyzplanid"];
+            string begindate = ConfigurationManager.AppSettings["Zyzbegindate"];
             int allnums = Convert.ToInt32(adults);
 
             if (MyConvert.ConToInt(planid) == 0)
@@ -2270,7 +2335,7 @@ namespace TravelOnline.WeChat
                 if (Convert.ToDateTime(GetPlan.StopDate) == DateTime.Today)
                 {
 
-                    if (rp_times.Hour >= 17 && !lineid.Equals("25039"))
+                    if (rp_times.Hour >= 17)
                     {
                         return "{\"error\":\"已报名截止\"}";
                     }
@@ -2323,6 +2388,143 @@ namespace TravelOnline.WeChat
                     "0"
                 );
                 Sql.Add(SqlQueryText);
+                Sql.Add(string.Format("delete from OL_OrderPrice where OrderId='{0}'", ucode));
+                //插入订单价格
+                string[] AllInfo = Regex.Split(PriceStrings.Trim(), @"\|\|", RegexOptions.IgnoreCase);
+                string PriceSql;
+
+                if (AllInfo.Length > 0)
+                {
+                    for (int i = 0; i < AllInfo.Length; i++)
+                    {
+                        string[] PriceInfo = Regex.Split(AllInfo[i], @"\@\@", RegexOptions.IgnoreCase);  //AllInfo[i].Split("@@".ToArray());
+                        if (PriceInfo.Contains("undefined"))
+                        {
+                            continue;
+                        }
+                        if (PriceInfo.Length > 0)
+                        {
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                                    ucode,
+                                    PriceInfo[0],
+                                    PriceInfo[1],
+                                    PriceInfo[2],
+                                    PriceInfo[3],
+                                    PriceInfo[4],
+                                    PriceInfo[5],
+                                    PriceInfo[6],
+                                    DateTime.Now.ToString()
+                            );
+                            Sql.Add(PriceSql);
+                        }
+                    }
+                }
+
+                string[] SqlQuery = Sql.ToArray();
+                if (MyDataBaseComm.Transaction(SqlQuery) == true)
+                {
+                    HttpContext.Current.Session["OrderUid"] = ucode;
+                    string result = OrderSubmit_Tsw(ucode.ToString(), "1@0", "", ordername, orderphone, orderemail, ordermemo);
+                    return result;
+                }
+                else
+                {
+                    return "{\"error\":\"报名失败\"}";
+                }
+            }
+            else
+            {
+                return "{\"error\":\"报名失败\"}";
+            }
+        }
+
+        public static string orderTicket(string lineid, string adults, string ordername, string orderphone, string orderemail, string ordermemo, string allprice, string PriceStrings, string preferCode)
+        {
+            if (String.IsNullOrEmpty(ordername) || String.IsNullOrEmpty(orderphone) || String.IsNullOrEmpty(ordermemo))
+            {
+                return "{\"error\":\"姓名、邮寄地址为空或手机号码填写不正确\"}";
+            }
+            Guid ucode = CombineKeys.NewComb();
+            PlanSeats GetPlan = new PlanSeats();
+            string date = string.Format("{0:yyyy-MM}", DateTime.Now);
+
+            if (String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + lineid + "_planid"]) || String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + lineid + "_begindate"]))
+            {
+                return "{\"error\":\"产品已售罄\"}";
+            }
+            string planid = ConfigurationManager.AppSettings[date + "_" + lineid + "_planid"];
+            string begindate = ConfigurationManager.AppSettings[date + "_" + lineid + "_begindate"];
+            int allnums = Convert.ToInt32(adults);
+
+            GetPlan.Seats = "99";
+            GetPlan.Route = "99";
+            GetPlan.StopDate = "";
+
+            if (GetPlan.StopDate.Length > 0)
+            {
+                DateTime rp_times = DateTime.Now;
+                if (Convert.ToDateTime(GetPlan.StopDate) < DateTime.Today)
+                {
+
+                    return "{\"error\":\"已报名截止\"}";
+                }
+                if (Convert.ToDateTime(GetPlan.StopDate) == DateTime.Today)
+                {
+
+                    if (rp_times.Hour >= 17 && !lineid.Equals("25039"))
+                    {
+                        return "{\"error\":\"已报名截止\"}";
+                    }
+                }
+            }
+
+            if (MyConvert.ConToInt(GetPlan.Seats) < allnums)
+            {
+                return "{\"error\":\"余位不足，剩" + GetPlan.Seats + "人\"}";
+            }
+
+            string routeflag;
+            if (GetPlan.Route == "0")
+            {
+                routeflag = "0";
+            }
+            else
+            {
+                routeflag = "1";
+            }
+
+            PurchaseClass.LineClass LineInfos = new PurchaseClass.LineClass();
+            LineInfos = PurchaseClass.LineDetail(lineid);
+            if (LineInfos != null)
+            {
+                List<string> Sql = new List<string>();
+
+                string SqlQueryText;
+                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate,ErpPlanId) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}')",
+                    ucode,
+                    LineInfos.LineType,
+                    LineInfos.LinesClass,
+                    LineInfos.LineId,
+                    planid,
+                    LineInfos.LineName,
+                    MyConvert.ConToDate(begindate),
+                    allnums,
+                    adults,
+                    0,
+                    DateTime.Now.ToString(),
+                    "0",
+                    LineInfos.Deptid,
+                    LineInfos.LineDays,
+                    routeflag,
+                    GetPlan.PlanNo,
+                    "",
+                    MyConvert.ConToDec(allprice),
+                    "1",
+                    "0",
+                    "0",
+                    planid
+                );
+                Sql.Add(SqlQueryText);
                 if (Convert.ToString(ConfigurationManager.AppSettings["prebook"]).IndexOf("," + lineid + ",") > -1 && DateTime.Now < MyConvert.ConToDateTime(ConfigurationManager.AppSettings["prebookbegin"]))
                 {
                     string TableName = "OL_ActivityOrder";
@@ -2352,7 +2554,7 @@ namespace TravelOnline.WeChat
                         }
                         if (PriceInfo.Length > 0)
                         {
-                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,ErpPriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
                                     ucode,
                                     PriceInfo[0],
                                     PriceInfo[1],
@@ -2615,38 +2817,96 @@ namespace TravelOnline.WeChat
                     SumGroupdiscount = Nums * groupDiscount;
                 }
 
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                //TravelOnlineService rsp = new TravelOnlineService();
+                //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
 
-                OrderInfos Sorder = new OrderInfos();
-                Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
-                Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
-                Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
-                Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
-                Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
-                Sorder.email = DS.Tables[0].Rows[0]["OrderEmail"].ToString();
-                Sorder.gathering = DS.Tables[0].Rows[0]["Price"].ToString();
-                Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
-                Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
-                Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
-                Sorder.mobile = ophone;
-                Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
-                Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
-                Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
-                Sorder.ordermemo = omemo;
-                Sorder.ordername = oname;
-                Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
-                Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
-                Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
-                Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
-                Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
-                Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
-                Sorder.SellDept = BranchId;
-                Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
+                //OrderInfos Sorder = new OrderInfos();
+                //Sorder.adult = DS.Tables[0].Rows[0]["Adults"].ToString();
+                //Sorder.begindate = string.Format("{0:yyyy-MM-dd}", DS.Tables[0].Rows[0]["BeginDate"]);
+                //Sorder.childs = DS.Tables[0].Rows[0]["Childs"].ToString();
+                //Sorder.days = DS.Tables[0].Rows[0]["LineDays"].ToString();
+                //Sorder.deptid = DS.Tables[0].Rows[0]["DeptId"].ToString();
+                //Sorder.email = DS.Tables[0].Rows[0]["OrderEmail"].ToString();
+                //Sorder.gathering = DS.Tables[0].Rows[0]["Price"].ToString();
+                //Sorder.infoid = DS.Tables[0].Rows[0]["ProductClass"].ToString();
+                //Sorder.lineid = DS.Tables[0].Rows[0]["LineID"].ToString();
+                //Sorder.linename = DS.Tables[0].Rows[0]["LineName"].ToString();
+                //Sorder.mobile = ophone;
+                //Sorder.orderdate = DateTime.Now.ToString(); //DS.Tables[0].Rows[0]["OrderTime"].ToString();
+                //Sorder.orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
+                //Sorder.orderid = DS.Tables[0].Rows[0]["OrderId"].ToString();
+                //Sorder.ordermemo = omemo;
+                //Sorder.ordername = oname;
+                //Sorder.ordernumber = DS.Tables[0].Rows[0]["OrderNums"].ToString();
+                //Sorder.planid = DS.Tables[0].Rows[0]["PlanId"].ToString();
+                //Sorder.tel = DS.Tables[0].Rows[0]["OrderTel"].ToString();
+                //Sorder.orderno = DS.Tables[0].Rows[0]["AutoId"].ToString();
+                //Sorder.contract = DS.Tables[0].Rows[0]["Contract"].ToString();
+                //Sorder.invoice = DS.Tables[0].Rows[0]["Invoice"].ToString();
+                //Sorder.SellDept = BranchId;
+                //Sorder.ordertypes = DS.Tables[0].Rows[0]["ProductType"].ToString();
 
-                Sorder.CruisesFlag = "0";
-                Sorder.ccid = "0";
+                //Sorder.CruisesFlag = "0";
+                //Sorder.ccid = "0";
+
+                //金棕榈开始
+                RestClient client = new RestClient(ConfigurationManager.AppSettings["JINWebServiceUrl"].ToString());
+                //订单Xml生成
+                StringBuilder Stings = new StringBuilder();
+                Stings.Append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                Stings.Append("<JJTourcrsAddOrderRQ>");
+                Stings.Append("<Header>");
+                Stings.Append(string.Format("<Token>{0}</Token>", ErpUtil.getToken()));
+                Stings.Append(string.Format("<DateTime>{0}</DateTime>", string.Format("{0:yyyy-MM-dd}", DateTime.Now)));
+                Stings.Append("</Header>");
+                Stings.Append("<Body><OrderQuery><order><orderInfo>");
+                Stings.Append(string.Format("<iweboutid>{0}</iweboutid>", DS.Tables[0].Rows[0]["AutoId"].ToString()));//订单id
+                Stings.Append(string.Format("<cweboutno>{0}</cweboutno>", DS.Tables[0].Rows[0]["OrderId"].ToString()));//订单号
+                Stings.Append(string.Format("<teamID>{0}</teamID>", DS.Tables[0].Rows[0]["ErpPlanId"].ToString()));//团号
+                Stings.Append(string.Format("<adults>{0}</adults>", DS.Tables[0].Rows[0]["Adults"].ToString()));//成人数
+                Stings.Append(string.Format("<childs>{0}</childs>", DS.Tables[0].Rows[0]["Childs"].ToString()));//儿童数
+                Stings.Append(string.Format("<olds>{0}</olds>", 0));//老人数
+                Stings.Append(string.Format("<babys>{0}</babys>", 0));//婴儿数
+                Stings.Append(string.Format("<doubleRoom>{0}</doubleRoom>", 0));//双人间
+                Stings.Append(string.Format("<singleRoom>{0}</singleRoom>", 0));//单人间
+                Stings.Append(string.Format("<contactName>{0}</contactName>", oname.Trim()));//联系人姓名
+                Stings.Append(string.Format("<address>{0}</address>", omemo.Trim()));//联系人地址
+                Stings.Append(string.Format("<memberCardNo>{0}</memberCardNo>", DS.Tables[0].Rows[0]["orderuser"].ToString()));//联系人会员卡号
+                Stings.Append(string.Format("<mobile>{0}</mobile>", ophone.Trim()));//联系人手机
+                Stings.Append(string.Format("<cOrderSource>{0}</cOrderSource>", 11));//订单来源
+                Stings.Append(string.Format("<cSource>{0}</cSource>", "上海青旅"));//订单的具体渠道名称
+                Stings.Append(string.Format("<userflag>{0}</userflag>", "218C63D5-A0A6-4FFA-8B6B-0CE4B7739A9F"));//用户标示
+                Stings.Append("</orderInfo>");
+                Stings.Append("<orderAccounts>");
+                string SqlQueryText1 = string.Format("select * from OL_OrderPrice where OrderId='{0}'", orderid);
+                DataSet DS2 = new DataSet();
+                DS2.Clear();
+                DS2 = MyDataBaseComm.getDataSet(SqlQueryText1);
+                if (DS2.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < DS2.Tables[0].Rows.Count; i++)
+                    {
+                        Stings.Append("<orderAccount>");
+                        Stings.Append(string.Format("<singlePrice>{0}</singlePrice>", DS2.Tables[0].Rows[i]["SellPrice"].ToString()));//单价Todo
+                        Stings.Append(string.Format("<qty>{0}</qty>", DS2.Tables[0].Rows[i]["OrderNums"].ToString()));//人数
+                        Stings.Append(string.Format("<priceID>{0}</priceID>", DS2.Tables[0].Rows[i]["ErpPriceId"].ToString()));//相关报价ID Todo
+                        Stings.Append("</orderAccount>");
+                    }
+
+                }
+                Stings.Append("</orderAccounts>");
+                Stings.Append("<orderGuests>");
+                for (int i = 0; i < Nums; i++)
+                {
+                    Stings.Append("<orderGuest>");
+                    Stings.Append(string.Format("<name>{0}</name>", oname.Trim()));//游客姓名
+                    Stings.Append("</orderGuest>");
+                }
+                Stings.Append("</orderGuests></order></OrderQuery></Body>");
+                Stings.Append("</JJTourcrsAddOrderRQ>");
+                //金棕榈结束
+
                 Decimal gathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
 
                 if (SumPre_Price > 0)
@@ -2699,13 +2959,41 @@ namespace TravelOnline.WeChat
 
                     gathering = gathering - MyConvert.ConToDec(SumGroupdiscount.ToString());
                 }
-                Sorder.gathering = Convert.ToString(gathering);
+                //Sorder.gathering = Convert.ToString(gathering);
 
                 string OrderFlag = "0";//预订状态，不占位订单和无位置订单为0，畅游占位成功为1，提交错误返回9
+                string ErpId = "0";
                 try
                 {
                     //OrderFlag = "1";
-                    OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                    //OrderFlag = rsp.SaveOrder(UpPassWord, Sorder);
+                    //金棕榈下单请求
+                    IRestRequest request = new RestRequest("jjapi-ws/api/JJTourcrsAddOrder", Method.POST);
+                    request.RequestFormat = DataFormat.Xml;
+                    request.AddHeader("Accept", "application/xml");
+                    request.AddParameter("application/xml", Stings, ParameterType.RequestBody);
+                    IRestResponse response = client.Execute(request);
+                    XmlDocument XmlDoc = new XmlDocument();
+                    XmlDoc.LoadXml(response.Content);
+                    XmlNode o = XmlDoc.SelectSingleNode("o");
+                    if (o != null)
+                    {
+                        string status = o.SelectSingleNode("status").InnerText;
+                        if (status == "0" || status == "2")
+                        {
+                            OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                            ErpId = o.SelectSingleNode("orderNo").InnerText;
+                        }
+                        else
+                        {
+                            string Error = o.SelectSingleNode("message").InnerText;
+                            return Error;
+                        }
+                    }
+                    else
+                    {
+                        OrderFlag = "9";
+                    }
                 }
                 catch
                 {

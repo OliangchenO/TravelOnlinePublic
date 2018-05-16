@@ -84,10 +84,10 @@ namespace TravelOnline.Management
                     case "0":
                         e.Row.Cells[1].Text = string.Format("<a class=tip tag={0} href=\"javascript:void(0);\">待确认</a>", DataBinder.Eval(e.Row.DataItem, "OrderId"));
                         break;
-                    case "1":
+                    case "10":
                         e.Row.Cells[1].Text = string.Format("<a class=tip tag={0} href=\"javascript:void(0);\">占位</a>", DataBinder.Eval(e.Row.DataItem, "OrderId"));
                         break;
-                    case "2":
+                    case "30":
                         e.Row.Cells[1].Text = string.Format("<a class=tip tag={0} href=\"javascript:void(0);\">确认</a>", DataBinder.Eval(e.Row.DataItem, "OrderId"));
                         break;
                     case "3":
@@ -131,7 +131,7 @@ namespace TravelOnline.Management
                 //}
                 if (DataBinder.Eval(e.Row.DataItem, "ProductType").ToString() != "Coupon")
                 {
-                    if (DataBinder.Eval(e.Row.DataItem, "OrderFlag").ToString() == "0" || DataBinder.Eval(e.Row.DataItem, "OrderFlag").ToString() == "1")
+                    if (DataBinder.Eval(e.Row.DataItem, "OrderFlag").ToString() == "0" || DataBinder.Eval(e.Row.DataItem, "OrderFlag").ToString() == "10")
                     {
                         if (MyConvert.ConToInt(DataBinder.Eval(e.Row.DataItem, "shipid").ToString()) == 0)
                         {

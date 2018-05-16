@@ -45,7 +45,18 @@ namespace TravelOnline.WeChat
             }
             linetype = Request.QueryString["linetype"];
             page_url = Request.QueryString["linetype"];
-            searchstring = Request.Form["search"];
+            if ("mengdong".Equals(Request.QueryString["key"]))
+            {
+                searchstring = "萌动一夏亲子联票";
+            }
+            else if ("mengdongzhuan".Equals(Request.QueryString["key"]))
+            {
+                searchstring = "萌动专享";
+            }
+            else
+            {
+                searchstring = Request.Form["search"];
+            }
             //lineclass = Request.QueryString["linetype"];
             //Response.Write(linetype);
             if (!string.IsNullOrEmpty(linetype))

@@ -114,7 +114,6 @@ namespace TravelOnline.NewPage.erp
 
         public static string getTeamInfo(string startDate, string endDate, string MislineId)
         {
-            SaveLogUtils.SaveInfoToLog("getTeamInfo: goin", "ResponseErpInfoLog.txt");
             RestClient client = new RestClient(ConfigurationManager.AppSettings["JINWebServiceUrl"].ToString());
             SaveLogUtils.SaveInfoToLog("getTeamInfo: " + ConfigurationManager.AppSettings["JINWebServiceUrl"].ToString(), "ResponseErpInfoLog.txt");
             StringBuilder Stings = new StringBuilder();

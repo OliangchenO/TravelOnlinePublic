@@ -268,11 +268,23 @@ namespace TravelOnline.NewPage
             //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
             try
             {
-                //PlanDateJason, PlanDateString 提取两个数据，一个是开班日期jason，一个是已生成的少于4个计划的html
-                //LineId = "17222";
                 //string[] ListInfo = Regex.Split(rsp.OnlinePlanDateCreate(UpPassWord, LineId), @"\@\@", RegexOptions.IgnoreCase);
                 //PlanDateJason = ListInfo[0];
-                PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", DateTime.Now), string.Format("{0:yyyy-MM-dd}", planDate), LineId);
+                if (ConfigurationManager.AppSettings["Ticketlineid"].Contains(LineId))
+                {
+                    string date = string.Format("{0:yyyy-MM}", DateTime.Now);
+                    if (String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"]) || String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]))
+                    {
+                        PlanDateJason = "";
+                    }
+                    string planid = ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"];
+                    string begindate = ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"];
+                    PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]), string.Format("{0:yyyy-MM-dd}", ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]), LineId);
+                }
+                else
+                {
+                    PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", DateTime.Now), string.Format("{0:yyyy-MM-dd}", planDate), LineId);
+                }
             }
             catch(Exception e)
             {

@@ -163,12 +163,7 @@
                             </div>
                         </div>
 						
-                        <%if (Convert.ToString(ConfigurationManager.AppSettings["Ticketlineid"]).IndexOf("," + LineId + ",") > -1){ %>
-                            <input type="hidden" class="isTicket" value="1" />
-                        <%}else{ %>
-                            <input type="hidden" class="isTicket" value="0" />
-                        <%} %>
-
+                        
                         <%if (Convert.ToString(ConfigurationManager.AppSettings["ZhongChouHuoDong"]).IndexOf("," + LineId + ",") > -1){%>
                         <%if (seckillNum != null && seckillNum != ""){ %>
                             <div style="float:right; font: 14px/30px 'Microsoft Yahei'; color: red; width: 110px;">仅余<%=100-System.Int32.Parse(seckillNum)-4%>限额</div>
@@ -334,7 +329,7 @@
 							<li><%=RouteFeature%></li>
 						</ul>
 					</div>
-					<div class="hotline">4006-777-666</div>
+					<div class="hotline">34014500/34014501</div>
 				</div>
 			</div>
             <div class="clearfix"></div>
@@ -513,7 +508,7 @@
 							<p>在线支付：支付宝、快钱等多种在线支付方式，供您选择。</p>
 							<p>门店付款：您可以到距离你最近的门店，完成付款。 </p>
 						</div>
-					</div>--%>
+					</div>
                     <div class="ydxz-list top30">
 						<div class="shopping">自费项目</div>
 						<div class="shopping-length">
@@ -526,6 +521,7 @@
 							<%=Shopping%>
 						</div>
 					</div>
+                    --%>
 					<div class="ydxz-list top30">
 						<div class="pattern">注意事项</div>
 						<div class="pattern-length">
@@ -636,7 +632,6 @@
     <script type="text/javascript">
         <%=PlanDateJason%>
         var ShowMonthNum = 1;
-        var isTicket = 0;
         $(document).ready(function () {
             HistoryRecord();
             $('select').select2({ minimumResultsForSearch: -1 });
@@ -701,12 +696,6 @@
 
         function CountPrice() {
             var PriceCount = 0;
-            var isTicket = $(".isTicket").val();
-            if (isTicket == 1) {
-
-            } else {
-
-            }
             $("#price_list dl").each(function () {
                 var id = $(this).attr("tag");
                 var nums = Number($(this).find("#p9_" + id).val());

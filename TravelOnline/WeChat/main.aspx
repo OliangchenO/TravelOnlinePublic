@@ -281,15 +281,15 @@
     <div class="row">
         <!-- BEGIN COPYRIGHT -->
         <div class="col-xs-12">
-        <a class="margin-right-20" href="tel:4006777666"><i class="fa fa-phone-square"></i> 4006-777-666</a>
+        <a class="margin-right-20" href="tel:34014500"><i class="fa fa-phone-square"></i>34014500/34014501</a>
         <a class="margin-left-20" href="http://www.scyts.com">官方网站</a>
         </div>
         <!-- END COPYRIGHT -->
         <!-- BEGIN PAYMENTS -->
         <div class="col-xs-12 padding-top-5 margin-bottom-10">
-        2017 © 上海中国青年旅行社
+        2018 © 上海中国青年旅行社
         </div>
-        <img class="weixing-ma" src="http://www.scyts.com/image/wx.png">
+        <!--<img class="weixing-ma" src="http://www.scyts.com/image/wx.png">-->
         <!-- END PAYMENTS -->
     </div>
     </div>
@@ -452,10 +452,10 @@
         $.get(url, function (obj) {
             if (obj.success) {
                 //top.location = "/app/order#orderlist";
-                top.location = "/app/order#member";
+                top.location = "/WeChat/order.aspx#member";
             }
             else {
-                top.location = "/app/order#login";
+                top.location = "/WeChat/order.aspx#login";
             }
         }, 'json');
     });

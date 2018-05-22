@@ -187,7 +187,6 @@ namespace TravelOnline.WeChat
                                 }
                                 Strings.Append("</div></div>");
                             }
-                            SaveLogUtils.SaveInfoToLog("order_ticket:" + Strings, "test.txt");
                         }
                     }
                     catch(Exception err)

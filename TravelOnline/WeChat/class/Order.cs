@@ -1604,6 +1604,7 @@ namespace TravelOnline.WeChat
                 Stings.Append(string.Format("<doubleRoom>{0}</doubleRoom>", 0));//双人间
                 Stings.Append(string.Format("<singleRoom>{0}</singleRoom>", 0));//单人间
                 Stings.Append(string.Format("<contactName>{0}</contactName>", oname.Trim()));//联系人姓名
+                Stings.Append(string.Format("<address>{0}</address>", omemo.Trim()));//联系人地址
                 Stings.Append(string.Format("<memberCardNo>{0}</memberCardNo>", DS.Tables[0].Rows[0]["orderuser"].ToString()));//联系人会员卡号
                 Stings.Append(string.Format("<mobile>{0}</mobile>", ophone.Trim()));//联系人手机
                 Stings.Append(string.Format("<cOrderSource>{0}</cOrderSource>", 11));//订单来源

@@ -1980,14 +1980,15 @@ namespace TravelOnline.WeChat
         #endregion
 
         //线路列表结果及页码导航生成
-        public static string LineListCreate(string navbar, string linetype, string lineclass, string lineclassname, int filter, string dest, int pages, string searchval)
+        public static string LineListCreate(string navbar, string linetype, string lineclass, string lineclassname, int filter, string dest, int pages, string searchval,string lineclasstype)
         {
             StringBuilder Strings = new StringBuilder();
             Strings.Append(string.Format("Sale='0' and Price>0 and PlanDate>='{0}' and ", DateTime.Today.ToString()));
             string notshow = ConfigurationManager.AppSettings["NotShow"];
             string cannotsearch = ConfigurationManager.AppSettings["CannotSearch"];
-            if (notshow != null && !"青春上海/萌动".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", notshow));
-            if (cannotsearch != null && !"青春上海/萌动".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
+            string searchkey = ConfigurationManager.AppSettings["searchkey"];
+            if (notshow != null && !searchkey.Contains(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", notshow));
+            if (cannotsearch != null && !searchkey.Contains(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
             if (searchval != "")
             {
                 string dest_id = "0";
@@ -2007,7 +2008,24 @@ namespace TravelOnline.WeChat
             else
             {
                 if (linetype != "") Strings.Append(string.Format("LineType='{0}' and ", linetype));
-                if (lineclass != "") Strings.Append(string.Format("(lineclass='{0}' or LineName like '%{1}%') and ", lineclass, lineclassname));
+                if (lineclassname != "")
+                {
+                    string[] destinations = lineclassname.Split(',');
+                    Strings.Append("(");
+                    if (!String.IsNullOrEmpty(lineclasstype))
+                    {
+                        Strings.Append(string.Format("Lineclass = '{0}' or ", lineclasstype));
+                    }
+                    foreach (string deststr in destinations)
+                    {
+                        if (!String.IsNullOrEmpty(deststr))
+                        {
+                            Strings.Append(string.Format("Lineclass = '{0}' or ", deststr));
+                        }
+                    }
+                    Strings.Remove(Strings.Length - 4,3);
+                    Strings.Append(") and ");
+                }
                 if (dest != "0") Strings.Append(string.Format("Destinationid like '%,{0},%' and ", dest));
             }
 

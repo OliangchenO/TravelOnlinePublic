@@ -43,7 +43,7 @@ namespace TravelOnline.WeChat
             switch (Request.QueryString["action"])
             {
                 case "LoadLineList":
-                    Response.Write(WeChatClass.LineListCreate(Request.QueryString["navbar"], Request.QueryString["linetype"], Request.QueryString["lineclass"], Request.QueryString["lineclassname"], MyConvert.ConToInt(Request.QueryString["filter"]), Request.QueryString["dest"], MyConvert.ConToInt(Request.QueryString["pages"]), Request.QueryString["search"]));
+                    Response.Write(WeChatClass.LineListCreate(Request.QueryString["navbar"], Request.QueryString["linetype"], Request.QueryString["lineclass"], Request.QueryString["lineclassname"], MyConvert.ConToInt(Request.QueryString["filter"]), Request.QueryString["dest"], MyConvert.ConToInt(Request.QueryString["pages"]), Request.QueryString["search"], Request.QueryString["lineclasstype"]));
                     Response.End();
                     //LoadLineList();
                     break;

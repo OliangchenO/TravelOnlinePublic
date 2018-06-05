@@ -100,7 +100,7 @@ namespace TravelOnline.WeChat
 
                                 Strings.Append("<div class=\"col-xs-5\">");
                                 Strings.Append("<div style=\"width:100px\">");
-                                Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" style=\"display: block;\" class=\"form-control touch\" ", GetPlan.PlanStaPrice[i].PriceId, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price)));
+                                Strings.Append(string.Format("<input tps=SellPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" style=\"display: block;\" class=\"form-control touch pricecommit\" ", GetPlan.PlanStaPrice[i].PriceId, MyConvert.ConToDec(GetPlan.PlanStaPrice[i].Price)));
                                 if (!lstPriceType.Contains("儿童价"))
                                 {
                                     if (!lstPriceType.Contains("儿童价") && i > 0)
@@ -177,7 +177,7 @@ namespace TravelOnline.WeChat
 
                                         Strings.Append("<div class=\"col-xs-5\">");
                                         Strings.Append("<div style=\"width:100px\">");
-                                        Strings.Append(string.Format("<input tps=ExtPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control\" readonly value=1 max=999 min=0 /></div>", GetPlan.PlanExtPrice[i].PriceId, GetPlan.PlanExtPrice[i].Price));
+                                        Strings.Append(string.Format("<input tps=ExtPrice tagid=\"{0}\" price=\"{1}\" type=\"text\" class=\"form-control pricecommit\" readonly value=1 max=999 min=0 /></div>", GetPlan.PlanExtPrice[i].PriceId, GetPlan.PlanExtPrice[i].Price));
                                         Strings.Append("");
                                         Strings.Append("</div>");
 

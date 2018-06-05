@@ -57,7 +57,7 @@ jQuery(document).ready(function () {
             break;
     }
 
-    //history.replaceState(state);
+    history.replaceState(state);
 
     $('.navbar-toggle').click(function () {
         $("#s_navbar").val($(this).val());
@@ -400,7 +400,7 @@ function LoadList() {
     var search = $("#search_hide").val();
     if ($("#search_hide").val() != "") {
     }
-    var url = "../../WeChat/AjaxService.aspx?action=LoadLineList&navbar=" + $("#s_navbar").val() + "&linetype=" + $("#s_linetype").val() + "&lineclassname=" + $("#s_lineclassname").val() + "&lineclass=" + $("#s_lineclass").val() + "&filter=" + $("#s_filter").val() + "&dest=" + $("#s_dest").val() + "&pages=" + $("#s_pages").val() + "&search=" + escape(search);
+    var url = "../../WeChat/AjaxService.aspx?action=LoadLineList&navbar=" + $("#s_navbar").val() + "&linetype=" + $("#s_linetype").val() + "&lineclassname=" + $("#s_destinations").val() + "&lineclasstype=" + $("#s_lineclassname").val() + "&lineclass=" + $("#s_lineclass").val() + "&filter=" + $("#s_filter").val() + "&dest=" + $("#s_dest").val() + "&pages=" + $("#s_pages").val() + "&search=" + escape(search);
     
     $.getJSON(url, function (date) {
         if (date.pagecount == 0) {
@@ -451,19 +451,15 @@ function LoadCalender() {
             if ($.cookie("lineid") != null) {
                 if ($('#s_lineid').val() == $.cookie("lineid")) {
                     $("#plandate .hasEvent").each(function () {
-                        if ($(this).attr("date") == $.cookie("plandate") && $(this).attr("price")!=0) $(this).addClass("curdate");
+                        if ($(this).attr("date") == $.cookie("plandate")) $(this).addClass("curdate");
                     });
                 }
             }
             $("#plandate .hasEvent").bind("click", function () {
-                if ($(this).attr("price") != 0) {
-                    $("#plandate .hasEvent").removeClass("curdate");
-                    $(this).addClass("curdate");
-                    $("#s_plandate").val($(this).attr("date"));
-                    $("#s_planid").val($(this).attr("tag"));
-                } else {
-                    alert("没有余位");
-                }
+                $("#plandate .hasEvent").removeClass("curdate");
+                $(this).addClass("curdate");
+                $("#s_plandate").val($(this).attr("date"));
+                $("#s_planid").val($(this).attr("tag"));
             });
         }
     });
@@ -510,6 +506,7 @@ $('#SelectPlanDate').click(function () {
 });
 
 $('#share').click(function () {
+    showmessage("run");
     WeixinJSBridge.invoke("onMenuShareAppMessage", data, callback)
 })
 

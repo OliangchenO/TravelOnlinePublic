@@ -15,7 +15,7 @@ namespace TravelOnline.WeChat
     public partial class linelist : System.Web.UI.Page
     {
         public string viewflag = "page", titlename, linetype, lineclass, lineclasslist, lineid, FirstPic, LineFeature;
-        public string typename, areaname, page_url, linerecomm,searchstring,config;
+        public string typename, areaname, page_url, linerecomm,searchstring,config, destinations;
         public object lineclasslist_New, linerecomm_New;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -53,6 +53,10 @@ namespace TravelOnline.WeChat
             {
                 searchstring = "青春上海/萌动";
             }
+            else if ("tuangongwei".Equals(Request.QueryString["key"]))
+            {
+                searchstring = "团工委专享";
+            }
             else
             {
                 searchstring = Request.Form["search"];
@@ -70,7 +74,7 @@ namespace TravelOnline.WeChat
                 {
                     viewflag = "list";
                     lineclass = linetype;
-                    string SqlQueryText = string.Format("select ProductType,ProductName from OL_ProductType where MisClassId='{0}'", lineclass);
+                    string SqlQueryText = string.Format("select ProductType,ProductName,destination from OL_ProductType where MisClassId='{0}'", lineclass);
                     //return SqlQueryText;
                     DataSet DS = new DataSet();
                     DS.Clear();
@@ -79,6 +83,7 @@ namespace TravelOnline.WeChat
                     {
                         linetype = DS.Tables[0].Rows[0]["ProductType"].ToString().ToLower();
                         areaname = DS.Tables[0].Rows[0]["ProductName"].ToString();
+                        destinations = DS.Tables[0].Rows[0]["destination"].ToString();
                     }
                 }
                 if (MyConvert.ConToDec(lineid) > 0)

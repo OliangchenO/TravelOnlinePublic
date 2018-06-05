@@ -183,7 +183,7 @@
 <script src="/assets/plugins/iCheck/icheck.js"></script>
 <!-- END CORE PLUGINS -->
 <script src="/assets/scripts/app.js"></script>
-<script src="/app_js/order-ticket.js"></script>
+<script src="/app_js/order-ticket.js?v20180531"></script>
  </body>
 
 </html>

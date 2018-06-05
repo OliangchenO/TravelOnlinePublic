@@ -515,14 +515,14 @@ $('#goPay').live("click", function () {
     var Parms = "";
     $(".sellprice").each(function () {
         var pid = "#" + $(this).attr("id");
-        if ($(pid + " .touch").val() != "0") {
-            Parms += $(pid + " .touch").attr("tps") + "@@";
-            Parms += $(pid + " .touch").attr("tagid") + "@@";
+        if ($(pid + " .pricecommit").val() != "0") {
+            Parms += $(pid + " .pricecommit").attr("tps") + "@@";
+            Parms += $(pid + " .pricecommit").attr("tagid") + "@@";
             Parms += $(pid + " .pricename").html() + "@@";
             Parms += $(pid + " .pricememo").html() + "@@";
-            Parms += $(pid + " .touch").attr("price") + "@@";
-            Parms += $(pid + " .touch").val() + "@@";
-            Parms += Number($(pid + " .touch").attr("price")) * Number($(pid + " .touch").val());
+            Parms += $(pid + " .pricecommit").attr("price") + "@@";
+            Parms += $(pid + " .pricecommit").val() + "@@";
+            Parms += Number($(pid + " .pricecommit").attr("price")) * Number($(pid + " .pricecommit").val());
             Parms += "||";
         }
     });

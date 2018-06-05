@@ -270,21 +270,22 @@ namespace TravelOnline.NewPage
             {
                 //string[] ListInfo = Regex.Split(rsp.OnlinePlanDateCreate(UpPassWord, LineId), @"\@\@", RegexOptions.IgnoreCase);
                 //PlanDateJason = ListInfo[0];
-                if (ConfigurationManager.AppSettings["Ticketlineid"].Contains(LineId))
-                {
-                    string date = string.Format("{0:yyyy-MM}", DateTime.Now);
-                    if (String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"]) || String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]))
-                    {
-                        PlanDateJason = "";
-                    }
-                    string planid = ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"];
-                    string begindate = ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"];
-                    PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]), string.Format("{0:yyyy-MM-dd}", ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]), LineId);
-                }
-                else
-                {
-                    PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", DateTime.Now), string.Format("{0:yyyy-MM-dd}", planDate), LineId);
-                }
+                //if (ConfigurationManager.AppSettings["Ticketlineid"].Contains(LineId))
+                //{
+                //    string date = string.Format("{0:yyyy-MM}", DateTime.Now);
+                //    if (String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"]) || String.IsNullOrEmpty(ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]))
+                //    {
+                //        PlanDateJason = "";
+                //    }
+                //    string planid = ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"];
+                //    string begindate = ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"];
+                //    PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]), string.Format("{0:yyyy-MM-dd}", ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"]), LineId);
+                //}
+                //else
+                //{
+                //    PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", DateTime.Now), string.Format("{0:yyyy-MM-dd}", planDate), LineId);
+                //}
+                PlanDateJason = ErpUtil.getTeamInfo(string.Format("{0:yyyy-MM-dd}", DateTime.Now), string.Format("{0:yyyy-MM-dd}", planDate), LineId);
             }
             catch(Exception e)
             {

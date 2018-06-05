@@ -1986,8 +1986,8 @@ namespace TravelOnline.WeChat
             Strings.Append(string.Format("Sale='0' and Price>0 and PlanDate>='{0}' and ", DateTime.Today.ToString()));
             string notshow = ConfigurationManager.AppSettings["NotShow"];
             string cannotsearch = ConfigurationManager.AppSettings["CannotSearch"];
-            if (notshow != null && !"萌动专享".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", notshow));
-            if (cannotsearch != null && !"萌动专享".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
+            if (notshow != null && !"青春上海/萌动".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", notshow));
+            if (cannotsearch != null && !"青春上海/萌动".Equals(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
             if (searchval != "")
             {
                 string dest_id = "0";

@@ -51,7 +51,7 @@ namespace TravelOnline.WeChat
             }
             else if ("mengdongzhuan".Equals(Request.QueryString["key"]))
             {
-                searchstring = "萌动专享";
+                searchstring = "青春上海/萌动";
             }
             else
             {

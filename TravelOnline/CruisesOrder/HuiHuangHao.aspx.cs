@@ -399,6 +399,8 @@ namespace TravelOnline.CruisesOrder
                             cel14.SetCellValue(dr["sign"].ToString());
 
                             GuestName = dr["GuestName"].ToString();
+                            ICell cel15 = row1.CreateCell(15); //团号
+                            cel15.SetCellValue("上青旅" + dr["PlanNo"] + "号");
                             ICell cel16 = row1.CreateCell(16); //客人中文名
                             cel16.SetCellValue(GuestName);
                             string orderMobile = !dr["OrderMobile"].ToString().Equals("") ? dr["OrderMobile"].ToString() : dr["OrderTel"].ToString();

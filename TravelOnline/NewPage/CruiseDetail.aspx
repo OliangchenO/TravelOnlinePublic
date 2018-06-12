@@ -13,7 +13,7 @@
     <link href="/newcss/common.css" rel="stylesheet" type="text/css" />
     <link href="/newcss/temphefot.css" rel="stylesheet" type="text/css" />
     <link href="/newcss/index.css" rel="stylesheet" type="text/css" />
-    <link href="/newcss/page.css" rel="stylesheet" type="text/css" />
+    <link href="/newcss/page.css?v=20180611" rel="stylesheet" type="text/css" />
     <link href="/newcss/line.css" rel="stylesheet" type="text/css" />
     <link href="/newcss/oldline.css" rel="stylesheet" type="text/css" />
     <link href="/newjs/select2/select2.css" rel="stylesheet" type="text/css"/>
@@ -153,7 +153,7 @@
 					<script type="text/javascript">addLoadEvent(Focus());</script>
 					<!--banner End-->
 					<div class="left-b">
-                    	<div class="hotline"></div>
+                    	<div class="hotline">咨询热线：34014500/34014501</div>
                     </div>
 				</div>
 				<div class="info-r fl" style="border:none;">
@@ -168,7 +168,7 @@
 						</div>
 						<div class="sp fl">起价说明
 							<div class="show">
-								本起价是在最近24小时内测算的，按双人出行共用一间房核算的最低单人价格。例如，您选择了相应日期2位成人出行，上海青旅为您推荐的房型及最少入住天数，每人即可享受此最低起价价格。产品价格会根据您所选择的出发日期、出行人数、入住房型以及所选附加服务的不同而有所差别。
+								本起价是在最近24小时内测算的，按双人出行共用一间房核算的最低单人价格（邮轮部分产品可能四人出行共用一间房间）。例如，您选择了相应日期2位成人出行，上海青旅为您推荐的房型及最少入住天数，每人即可享受此最低起价价格。产品价格会根据您所选择的出发日期、出行人数、入住房型以及所选附加服务的不同而有所差别。
 								<b></b>
 							</div>
 						</div>

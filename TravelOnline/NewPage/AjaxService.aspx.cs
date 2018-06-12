@@ -578,14 +578,16 @@ namespace TravelOnline.NewPage
                     string OrderName = Request.Form["ordername"].Trim();
                     string OrderEmail = Request.Form["orderemail"].Trim();
                     string OrderMobile = Request.Form["ordermobile"].Trim();
+                    string OrderAdd = Request.Form["orderAdd"].Trim();
                     string OrderMemo = Request.Form["ordermemo"].Trim();
+                    string memo = OrderMemo.Equals("") ? OrderAdd : OrderAdd + " 备注:" + OrderMemo;
 
                     Sql.Add(string.Format("UPDATE OL_TempOrder set OrderFlag='7',OrderName='{1}',OrderMobile='{2}',OrderEmail='{3}',OrderMemo='{4}' where OrderId='{0}'",
                         OrderId,
                         OrderName,
                         OrderMobile,
                         OrderEmail,
-                        OrderMemo
+                        memo
                     ));
                     SaveErrorToLog("步骤2：更新订单联系人及邮件电话ok");
 
@@ -673,12 +675,19 @@ namespace TravelOnline.NewPage
                             Stings.Append(string.Format("<doubleRoom>{0}</doubleRoom>", 0));//双人间
                             Stings.Append(string.Format("<singleRoom>{0}</singleRoom>", 0));//单人间
                             Stings.Append(string.Format("<contactName>{0}</contactName>", Request.Form["ordername"].Trim()));//联系人姓名
-                            Stings.Append(string.Format("<address>{0}</address>", OrderMemo.Trim()));//联系人地址
+                            Stings.Append(string.Format("<address>{0}</address>", memo));//联系人地址
                             Stings.Append(string.Format("<memberCardNo>{0}</memberCardNo>", DS.Tables[0].Rows[0]["orderuser"].ToString()));//联系人会员卡号
                             Stings.Append(string.Format("<mobile>{0}</mobile>", Request.Form["ordermobile"].Trim()));//联系人手机
                             Stings.Append(string.Format("<cOrderSource>{0}</cOrderSource>", 11));//订单来源
-                            Stings.Append(string.Format("<cSource>{0}</cSource>", "上海青旅"));//订单的具体渠道名称
-                            Stings.Append(string.Format("<userflag>{0}</userflag>", "218C63D5-A0A6-4FFA-8B6B-0CE4B7739A9F"));//用户标示
+                            if (Convert.ToString(Session["Online_UserCompany"])!="")
+                            {
+                                Stings.Append(string.Format("<cSource>{0}</cSource>", "1"));//订单的具体渠道名称
+                                Stings.Append(string.Format("<userflag>{0}</userflag>", Session["Online_UserName"]));//用户标示
+                            } else
+                            {
+                                Stings.Append(string.Format("<cSource>{0}</cSource>", "0"));//订单的具体渠道名称
+                                Stings.Append(string.Format("<userflag>{0}</userflag>", ""));//用户标示
+                            }
                             Stings.Append("</orderInfo>");
                             Stings.Append("<orderAccounts>");
                             string SqlQueryText1 = string.Format("select * from OL_OrderPrice where OrderId='{0}'", OrderId);

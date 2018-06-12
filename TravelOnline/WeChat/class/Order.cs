@@ -1608,8 +1608,16 @@ namespace TravelOnline.WeChat
                 Stings.Append(string.Format("<memberCardNo>{0}</memberCardNo>", DS.Tables[0].Rows[0]["orderuser"].ToString()));//联系人会员卡号
                 Stings.Append(string.Format("<mobile>{0}</mobile>", ophone.Trim()));//联系人手机
                 Stings.Append(string.Format("<cOrderSource>{0}</cOrderSource>", 11));//订单来源
-                Stings.Append(string.Format("<cSource>{0}</cSource>", "上海青旅"));//订单的具体渠道名称
-                Stings.Append(string.Format("<userflag>{0}</userflag>", "218C63D5-A0A6-4FFA-8B6B-0CE4B7739A9F"));//用户标示
+                if (Convert.ToString(HttpContext.Current.Session["Online_UserCompany"]) != "")
+                {
+                    Stings.Append(string.Format("<cSource>{0}</cSource>", "1"));//订单的具体渠道名称
+                    Stings.Append(string.Format("<userflag>{0}</userflag>", User_Name));//用户标示
+                }
+                else
+                {
+                    Stings.Append(string.Format("<cSource>{0}</cSource>", "0"));//订单的具体渠道名称
+                    Stings.Append(string.Format("<userflag>{0}</userflag>", User_Name));//用户标示
+                }
                 Stings.Append("</orderInfo>");
                 Stings.Append("<orderAccounts>");
                 string SqlQueryText1 = string.Format("select * from OL_OrderPrice where OrderId='{0}'", orderid);
@@ -2298,32 +2306,18 @@ namespace TravelOnline.WeChat
             }
             Guid ucode = CombineKeys.NewComb();
             PlanSeats GetPlan = new PlanSeats();
+            
+            if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["Zyzplanid"]) || String.IsNullOrEmpty(ConfigurationManager.AppSettings["Zyzbegindate"]))
+            {
+                return "{\"error\":\"产品已售罄\"}";
+            }
             string planid = ConfigurationManager.AppSettings["Zyzplanid"];
             string begindate = ConfigurationManager.AppSettings["Zyzbegindate"];
             int allnums = Convert.ToInt32(adults);
 
-            if (MyConvert.ConToInt(planid) == 0)
-            {
-                GetPlan.Seats = "99";
-                GetPlan.Route = "99";
-                GetPlan.StopDate = "";
-            }
-            else
-            {
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
-                try
-                {
-                    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
-                }
-                catch
-                {
-                    GetPlan.Seats = "0";
-                    GetPlan.Route = "99";
-                    GetPlan.StopDate = "";
-                }
-            }
+            GetPlan.Seats = "99";
+            GetPlan.Route = "99";
+            GetPlan.StopDate = "";
 
             if (GetPlan.StopDate.Length > 0)
             {
@@ -2365,7 +2359,7 @@ namespace TravelOnline.WeChat
                 List<string> Sql = new List<string>();
 
                 string SqlQueryText;
-                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}')",
+                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate,ErpPlanId) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}')",
                     ucode,
                     LineInfos.LineType,
                     LineInfos.LinesClass,
@@ -2386,7 +2380,8 @@ namespace TravelOnline.WeChat
                     MyConvert.ConToDec(allprice),
                     "1",
                     "0",
-                    "0"
+                    "0",
+                    planid
                 );
                 Sql.Add(SqlQueryText);
                 Sql.Add(string.Format("delete from OL_OrderPrice where OrderId='{0}'", ucode));
@@ -2405,7 +2400,7 @@ namespace TravelOnline.WeChat
                         }
                         if (PriceInfo.Length > 0)
                         {
-                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,ErpPriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
                                     ucode,
                                     PriceInfo[0],
                                     PriceInfo[1],
@@ -2876,8 +2871,16 @@ namespace TravelOnline.WeChat
                 Stings.Append(string.Format("<memberCardNo>{0}</memberCardNo>", DS.Tables[0].Rows[0]["orderuser"].ToString()));//联系人会员卡号
                 Stings.Append(string.Format("<mobile>{0}</mobile>", ophone.Trim()));//联系人手机
                 Stings.Append(string.Format("<cOrderSource>{0}</cOrderSource>", 11));//订单来源
-                Stings.Append(string.Format("<cSource>{0}</cSource>", "上海青旅"));//订单的具体渠道名称
-                Stings.Append(string.Format("<userflag>{0}</userflag>", "218C63D5-A0A6-4FFA-8B6B-0CE4B7739A9F"));//用户标示
+                if (Convert.ToString(HttpContext.Current.Session["Online_UserCompany"]) != "")
+                {
+                    Stings.Append(string.Format("<cSource>{0}</cSource>", "1"));//订单的具体渠道名称
+                    Stings.Append(string.Format("<userflag>{0}</userflag>", User_Name));//用户标示
+                }
+                else
+                {
+                    Stings.Append(string.Format("<cSource>{0}</cSource>", "0"));//订单的具体渠道名称
+                    Stings.Append(string.Format("<userflag>{0}</userflag>", ""));//用户标示
+                }
                 Stings.Append("</orderInfo>");
                 Stings.Append("<orderAccounts>");
                 string SqlQueryText1 = string.Format("select * from OL_OrderPrice where OrderId='{0}'", orderid);

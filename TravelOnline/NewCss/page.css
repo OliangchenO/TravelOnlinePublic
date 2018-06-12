@@ -591,7 +591,7 @@
 /*邮轮详情页*/
 .detail-tab .blue{background:#178ddf;color: #fff;}
 .info-l .left-b{ border-left:1px solid #e1e1e1; height:120px}
-.info-l .left-b .hotline{ text-align:left;margin-left: 32px; padding-top:39px; height: 30px; background: url('../image/detail/phone.png') 0 39px no-repeat;}
+.info-l .left-b .hotline{ text-align:left;margin-left: 32px; padding-top:39px; height: 30px; font: bold 18px/30px 'Microsoft Yahei'; color: #FF6A6A;}
 .info-r .recommend-box h4 .c-bh{position: absolute; left: 2px; background-position: -32px -63px; float: left; width: 30px; height: 26px;}
 .detail-tab a.cprint {margin-left: 20px; background: url('../image/dayin.png') no-repeat left 50%; color: #5e74a6;}
 

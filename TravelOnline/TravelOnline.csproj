@@ -53,11 +53,11 @@
       <HintPath>..\..\..\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Excel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -90,6 +90,10 @@
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>Z:\dotnet4\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="Sunrise.Spell">
       <HintPath>..\..\各种控件\获取拼音\Sunrise.Spell\bin\Release\Sunrise.Spell.dll</HintPath>
@@ -438,6 +442,7 @@
     <Content Include="CruisesOrder\ExcelOutPut.aspx" />
     <Content Include="CruisesOrder\FirstStep.aspx" />
     <Content Include="CruisesOrder\FuJia.aspx" />
+    <Content Include="CruisesOrder\HuiHuangHao.aspx" />
     <Content Include="CruisesOrder\LiangZiHao.aspx" />
     <Content Include="CruisesOrder\ManageCruisesOrder.aspx" />
     <Content Include="CruisesOrder\Bianjianbiao.aspx" />
@@ -951,7 +956,6 @@
     <Content Include="WeChat\Share\Wenda.aspx" />
     <Content Include="WeChat\WeiXinGetOpenIdaspx.aspx" />
     <Content Include="WeChat\WeiXinLogin.aspx" />
-    <Content Include="packages.config" />
     <Content Include="OfficeFiles\CruisesOut\GroupCheckinSpecial.xls" />
     <Content Include="AD\2017Young\2017全国青少年宫体育舞蹈比赛报名表.xlsx" />
     <Content Include="AD\2017Young\2017全国青少年宫体育舞蹈比赛组别、项目.doc" />
@@ -961,6 +965,9 @@
     <Content Include="OfficeFiles\CruisesOut\blank manifest format.xls" />
     <Content Include="ChinaPay\cp.cer" />
     <Content Include="OfficeFiles\CruisesOut\cruPassengerInfoOut.xls" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1334,6 +1341,13 @@
     </Compile>
     <Compile Include="CruisesOrder\FuJia.aspx.designer.cs">
       <DependentUpon>FuJia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CruisesOrder\HuiHuangHao.aspx.cs">
+      <DependentUpon>HuiHuangHao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CruisesOrder\HuiHuangHao.aspx.designer.cs">
+      <DependentUpon>HuiHuangHao.aspx</DependentUpon>
     </Compile>
     <Compile Include="CruisesOrder\LiangZiHao.aspx.cs">
       <DependentUpon>LiangZiHao.aspx</DependentUpon>
@@ -2715,6 +2729,8 @@
     <Compile Include="NewPage\cruise\Cruise.aspx.designer.cs">
       <DependentUpon>Cruise.aspx</DependentUpon>
     </Compile>
+    <Compile Include="NewPage\erp\domain\AuthorizationRS.cs" />
+    <Compile Include="NewPage\erp\ErpUtil.cs" />
     <Compile Include="NewPage\Footer.ascx.cs">
       <DependentUpon>Footer.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3632,9 +3648,11 @@
     <Compile Include="Utility\PicUploadHander.ashx.cs">
       <DependentUpon>PicUploadHander.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Utility\SaveLogUtils.cs" />
     <Compile Include="Utility\ThumbCreate.ashx.cs">
       <DependentUpon>ThumbCreate.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Utility\UrlUtils.cs" />
     <Compile Include="Web References\cn.ztsms.www\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3896,6 +3914,7 @@
     </Compile>
     <Compile Include="WeChat\Util\AESEncryptUtil.cs" />
     <Compile Include="WeChat\Util\Tuanshiwei.cs" />
+    <Compile Include="WeChat\Util\VolunteerUtils.cs" />
     <Compile Include="WeChat\WeiXinGetOpenIdaspx.aspx.cs">
       <DependentUpon>WeiXinGetOpenIdaspx.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -4030,11 +4049,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

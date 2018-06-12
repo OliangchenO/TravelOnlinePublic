@@ -85,6 +85,10 @@
                         <input class="input-w text_default" id="orderemail" name="orderemail" type="text" placeholder="用于接收确认信息" value="<%=orderemail %>" maxlength="50" datatype="e" nullmsg="请填写电子邮件地址" errormsg="请正确填写电子邮件地址" />
                     </li>
                     <li>
+                    	<label class="info-label" for=""><span></span>地址</label>
+                        <input class="input-w text_default" id="orderAdd" name="orderAdd" type="text" placeholder="邮寄地址" maxlength="100" />
+                    </li>
+                    <li>
                     	<label class="info-label" for="">给商家留言<br/>最多100字</label>
                         <textarea class="text_default" name="ordermemo" id="ordermemo" name="" maxlength="100"></textarea>
                     </li>
@@ -543,7 +547,7 @@
     <script src="/newjs/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="/newjs/common.js"></script>
     <script type="text/javascript" src="/newjs/datebind.js"></script>
-    <script type="text/javascript" src="/newjs/Validform_v5.3.2_min.js"></script>
+    <script type="text/javascript" src="/newjs/Validform_v5.3.2_min.js?v=20180511"></script>
     <script type="text/javascript">
         $(".registerform").Validform({
             showAllError: true,

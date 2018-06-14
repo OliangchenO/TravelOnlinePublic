@@ -610,7 +610,7 @@ namespace TravelOnline.CruisesOrder
                             {
                                 string[] idNumbers = DS.Tables[0].Rows[i]["IdNumber"].ToString().Split('/');
                                 cells[4 + i, 5].PutValue(idNumbers[0]);
-                                cells[4 + i, 6].PutValue(DS.Tables[0].Rows[i]["IdNumber"].ToString());
+                                cells[4 + i, 6].PutValue(idNumbers[1]);
                             }
                             else
                             {
@@ -874,7 +874,7 @@ namespace TravelOnline.CruisesOrder
         {
             string SqlQueryText;
             SqlQueryText = "SELECT *,(select BookingNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as BookingNo,(select RoomNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as RoomNo,(select top 1 BusNo from CR_VisitList where flag='0' and guestid=View_GuestRoomInfo.id) as BusNo";
-            SqlQueryText = string.Format("{0} from View_GuestRoomInfo where PlanAllotid='{1}' ", SqlQueryText, Cid);
+            SqlQueryText = string.Format("{0} from View_GuestRoomInfo where PlanAllotid='{1}' order by autoid", SqlQueryText, Cid);
             DataSet DS = new DataSet();
             DS.Clear();
             DS = MyDataBaseComm.getDataSet(SqlQueryText);

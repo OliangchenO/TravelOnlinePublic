@@ -10,6 +10,8 @@
 				<div class="box">
 					<div class="picbox">
 						<ul class="piclist mainlist">
+                            <!--邮储银行信用卡申请-->
+                            <li><a href="https://wap.psbc.com/mobilebank/masterCard-peperInfoJumpAction.do?version=html5&sponsorNum=xDloWEc1lJRKGx%2F9uZfXHEXtKGQ%2FCDCQimy9VLWYUNY%3D&sponsorName=%E4%B8%AD%E9%9D%92%E6%97%85&sponsorPeper=310104198309214876&enterChannelNum=34000000&from=singlemessage&isappinstalled=0" target="_blank"><img src="images/ycyh.jpg" /></a></li>
 							<!--旅游局-->
 							<li><a href="http://www.australia.cn/zh-cn" target="_blank"><img src="images/aus.jpg" /></a></li>
 							<li><a href="http://www.newzealand.com/cn/" target="_blank"><img src="images/nz.jpg" /></a></li>

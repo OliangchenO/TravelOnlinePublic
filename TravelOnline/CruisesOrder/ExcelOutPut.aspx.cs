@@ -273,7 +273,7 @@ namespace TravelOnline.CruisesOrder
                             {
                                 cells[2 + i, 8].PutValue(DS.Tables[0].Rows[i]["Vocation"].ToString());
                             }
-                            
+
                         }
 
 
@@ -316,7 +316,7 @@ namespace TravelOnline.CruisesOrder
                 }
 
                 Workbook workbook = new Workbook(string.Format(@"{0}OfficeFiles\CruisesOut\AllGroupCheckin.xls", AppDomain.CurrentDomain.BaseDirectory));
-                        
+
                 for (int ii = 0; ii < DS1.Tables[0].Rows.Count; ii++)
                 {
                     BusNo = DS1.Tables[0].Rows[ii]["BusNo"].ToString();
@@ -331,7 +331,7 @@ namespace TravelOnline.CruisesOrder
                     if (DS.Tables[0].Rows.Count > 0)
                     {
                         Worksheet worksheet = workbook.Worksheets[ii];
-                        worksheet.Name = BusNo + "车 " + ViewTitle + " " + ViewName + " " + (ii+1).ToString();
+                        worksheet.Name = BusNo + "车 " + ViewTitle + " " + ViewName + " " + (ii + 1).ToString();
                         Cells cells = worksheet.Cells;
                         cells["B1"].PutValue(BusNo + " 车游客名单表");
                         cells["B2"].PutValue(ViewName);
@@ -355,7 +355,7 @@ namespace TravelOnline.CruisesOrder
                             cells[4 + i, 12].PutValue(DS.Tables[0].Rows[i]["BookingNo"].ToString());
                         }
 
-                        
+
                     }
 
                 }
@@ -368,7 +368,7 @@ namespace TravelOnline.CruisesOrder
                 }
                 workbook.Save(HttpContext.Current.Response, "AllCarNo.xls", ContentDisposition.Attachment, new XlsSaveOptions(SaveFormat.Excel97To2003));
                 HttpContext.Current.Response.End();
-                
+
             }
             else
             {
@@ -475,7 +475,7 @@ namespace TravelOnline.CruisesOrder
                                 }
                                 else
                                 {
-                                    if (orders > 0) cells.Merge(3 + i - orders-1, 1, orders + 1, 1);
+                                    if (orders > 0) cells.Merge(3 + i - orders - 1, 1, orders + 1, 1);
                                     orders = 0;
                                 }
 
@@ -485,7 +485,7 @@ namespace TravelOnline.CruisesOrder
                                 }
                                 else
                                 {
-                                    if (rooms > 0) cells.Merge(3 + i - rooms-1, 2, rooms + 1, 1);
+                                    if (rooms > 0) cells.Merge(3 + i - rooms - 1, 2, rooms + 1, 1);
                                     rooms = 0;
                                 }
                             }
@@ -583,11 +583,11 @@ namespace TravelOnline.CruisesOrder
                 }
                 Workbook workbook = new Workbook(string.Format(@"{0}OfficeFiles\CruisesOut\AllGroupCheckin.xls", AppDomain.CurrentDomain.BaseDirectory));
                 //Worksheet worksheet_bak = workbook.Worksheets[0];
-                
+
                 for (int ii = 0; ii < DS1.Tables[0].Rows.Count; ii++)
                 {
                     SqlQueryText = "SELECT *,(select BookingNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as BookingNo,(select RoomNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as RoomNo,(select top 1 BusNo from CR_VisitList where flag='0' and guestid=View_GuestRoomInfo.id) as BusNo";
-                    SqlQueryText = string.Format("{0} from View_GuestRoomInfo where PlanAllotid='{1}' ", SqlQueryText, DS1.Tables[0].Rows[ii]["id"].ToString());
+                    SqlQueryText = string.Format("{0} from View_GuestRoomInfo where PlanAllotid='{1}' order by AutoId,RoomNo", SqlQueryText, DS1.Tables[0].Rows[ii]["id"].ToString());
                     DataSet DS = new DataSet();
                     DS.Clear();
                     DS = MyDataBaseComm.getDataSet(SqlQueryText);
@@ -606,13 +606,23 @@ namespace TravelOnline.CruisesOrder
                             cells[4 + i, 2].PutValue(DS.Tables[0].Rows[i]["RoomNo"].ToString());
                             cells[4 + i, 3].PutValue(DS.Tables[0].Rows[i]["GuestEnName"].ToString());
                             cells[4 + i, 4].PutValue(DS.Tables[0].Rows[i]["GuestName"].ToString());
-                            cells[4 + i, 5].PutValue(DS.Tables[0].Rows[i]["IdNumber"].ToString());
-                            cells[4 + i, 6].PutValue(DS.Tables[0].Rows[i]["Sex"].ToString());
-                            cells[4 + i, 7].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["BirthDay"]));
-                            cells[4 + i, 8].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["PassEnd"]));
-                            cells[4 + i, 9].PutValue(DS.Tables[0].Rows[i]["Mobile"].ToString());
-                            cells[4 + i, 10].PutValue(DS.Tables[0].Rows[i]["AutoId"].ToString());
-                            cells[4 + i, 11].PutValue(DS.Tables[0].Rows[i]["BookingNo"].ToString());
+                            if (DS.Tables[0].Rows[i]["IdNumber"].ToString().Contains("/"))
+                            {
+                                string[] idNumbers = DS.Tables[0].Rows[i]["IdNumber"].ToString().Split('/');
+                                cells[4 + i, 5].PutValue(idNumbers[0]);
+                                cells[4 + i, 6].PutValue(idNumbers[1]);
+                            }
+                            else
+                            {
+                                cells[4 + i, 5].PutValue(DS.Tables[0].Rows[i]["IdNumber"].ToString());
+                            }
+                            
+                            cells[4 + i, 7].PutValue(DS.Tables[0].Rows[i]["Sex"].ToString());
+                            cells[4 + i, 8].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["BirthDay"]));
+                            cells[4 + i, 9].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["PassEnd"]));
+                            cells[4 + i, 10].PutValue(DS.Tables[0].Rows[i]["Mobile"].ToString());
+                            cells[4 + i, 11].PutValue(DS.Tables[0].Rows[i]["AutoId"].ToString());
+                            cells[4 + i, 12].PutValue(DS.Tables[0].Rows[i]["BookingNo"].ToString());
                         }
                     }
                 }
@@ -685,12 +695,12 @@ namespace TravelOnline.CruisesOrder
             DataSet DS1 = new DataSet();
             DS1.Clear();
             DS1 = MyDataBaseComm.getDataSet(SqlQueryText);
-            int ClassLevel=0;
+            int ClassLevel = 0;
             int ii = 0;
             if (DS.Tables[0].Rows.Count > 0)
             {
                 DataTable dt = DS1.Tables[0];
-                
+
                 Workbook workbook = new Workbook(string.Format(@"{0}OfficeFiles\CruisesOut\BlankExcel.xls", AppDomain.CurrentDomain.BaseDirectory));
                 Worksheet worksheet = workbook.Worksheets[0];
                 Cells cells = worksheet.Cells;
@@ -739,7 +749,7 @@ namespace TravelOnline.CruisesOrder
                 cells["C2"].PutValue("已入住");
                 for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
                 {
-                    cells[2 + i, 0].PutValue(i+1);
+                    cells[2 + i, 0].PutValue(i + 1);
                     cells[2 + i, 1].PutValue(DS.Tables[0].Rows[i]["RoomNo"].ToString());
                     cells[2 + i, 2].PutValue(DS.Tables[0].Rows[i]["Nums"].ToString());
                 }
@@ -757,7 +767,7 @@ namespace TravelOnline.CruisesOrder
         protected void CruisesCarGuest()
         {
             string SqlQueryText;
-            string BusNo="", ViewName="";
+            string BusNo = "", ViewName = "";
             SqlQueryText = string.Format("SELECT * from CR_BusNo where id ='{0}'", Cid);
             DataSet DS = new DataSet();
             DS.Clear();
@@ -767,7 +777,7 @@ namespace TravelOnline.CruisesOrder
                 BusNo = DS.Tables[0].Rows[0]["BusNo"].ToString();
                 ViewName = DS.Tables[0].Rows[0]["visitname"].ToString();
             }
-            
+
             SqlQueryText = "SELECT *,(select BookingNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as BookingNo,(select RoomNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as RoomNo,(select top 1 BusNo from CR_VisitList where flag='0' and guestid=View_GuestRoomInfo.id) as BusNo";
             SqlQueryText = string.Format("{0} from View_GuestRoomInfo where IsLeader='0' and id in (select guestid from CR_VisitList where Busid='{1}' and flag='0') order by autoid", SqlQueryText, Cid);
             //DataSet DS = new DataSet();
@@ -864,7 +874,7 @@ namespace TravelOnline.CruisesOrder
         {
             string SqlQueryText;
             SqlQueryText = "SELECT *,(select BookingNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as BookingNo,(select RoomNo from CR_RoomNo where id=View_GuestRoomInfo.RoomNoid) as RoomNo,(select top 1 BusNo from CR_VisitList where flag='0' and guestid=View_GuestRoomInfo.id) as BusNo";
-            SqlQueryText = string.Format("{0} from View_GuestRoomInfo where PlanAllotid='{1}' ", SqlQueryText, Cid);
+            SqlQueryText = string.Format("{0} from View_GuestRoomInfo where PlanAllotid='{1}' order by autoid", SqlQueryText, Cid);
             DataSet DS = new DataSet();
             DS.Clear();
             DS = MyDataBaseComm.getDataSet(SqlQueryText);
@@ -893,7 +903,7 @@ namespace TravelOnline.CruisesOrder
                         cells[4 + i, 5].PutValue(DS.Tables[0].Rows[i]["IdNumber"].ToString());
                     }
                     cells[4 + i, 7].PutValue(DS.Tables[0].Rows[i]["Sex"].ToString());
-                    cells[4 + i, 8].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" +string.Format("{0:MM}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["BirthDay"]));
+                    cells[4 + i, 8].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["BirthDay"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["BirthDay"]));
                     cells[4 + i, 9].PutValue(string.Format("{0:dd}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:MM}", DS.Tables[0].Rows[i]["PassEnd"]) + "/" + string.Format("{0:yyyy}", DS.Tables[0].Rows[i]["PassEnd"]));
                     cells[4 + i, 10].PutValue(DS.Tables[0].Rows[i]["Mobile"].ToString());
                     cells[4 + i, 11].PutValue(DS.Tables[0].Rows[i]["AutoId"].ToString());
@@ -946,7 +956,7 @@ namespace TravelOnline.CruisesOrder
 
                 //Put a string value into the cell using its name 
                 //cells["B1"].PutValue(DS.Tables[0].Rows[0]["PlanNo"].ToString() + " 团队名单表");
-                string OrderId="",CombingId="";
+                string OrderId = "", CombingId = "";
 
                 int ii = 0;
                 string OCCUPANCY = "";
@@ -1008,7 +1018,7 @@ namespace TravelOnline.CruisesOrder
                         {
                             if (dr["AutoId"].ToString().Length > 2) OrderId = dr["AutoId"].ToString();
                             if (dr["combineid"].ToString().Length > 2) CombingId = dr["combineid"].ToString();
-                            
+
                             try
                             {
                                 cells[2 + i, ii + 3].PutValue(dr["GuestEnName"].ToString().Split("/".ToCharArray())[0]);
@@ -1045,7 +1055,7 @@ namespace TravelOnline.CruisesOrder
                             //cells[2 + i, ii + 11].PutValue(string.Format("{0:dd}", dr["BirthDay"]) + "/" + string.Format("{0:MM}", dr["BirthDay"]) + "/" + string.Format("{0:yyyy}", dr["BirthDay"]));
                             //cells[2 + i, ii + 11].PutValue(string.Format("{0:dd/MM/yyyy}", dr["BirthDay"]));
                             //cells[2 + ii, 10].PutValue(string.Format("{0:dd}", dr["BirthDay"]) + "/" + string.Format("{0:MM}", dr["BirthDay"]) + "/" + string.Format("{0:yyyy}", dr["BirthDay"]));
-                            
+
                             cells[2 + i, ii + 12].PutValue(dr["IdNumber"].ToString());
                             //cells[2 + i, ii + 13].PutValue(string.Format("{0:yyyy-MM-dd}", dr["PassBgn"]));
                             //cells[2 + i, ii + 13].PutValue(string.Format("{0:dd/MM/yyyy}", dr["PassEnd"]));
@@ -1164,7 +1174,7 @@ namespace TravelOnline.CruisesOrder
                             cells[2 + ii, 3].PutValue("");
                             ii += 1;
                         }
-                        
+
                     }
                 }
 
@@ -1178,6 +1188,6 @@ namespace TravelOnline.CruisesOrder
             }
         }
 
-        
+
     }
 }

@@ -1,0 +1,76 @@
+
+<html>
+	<head>
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/login.css" rel="stylesheet" type="text/css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>对账下载</title>
+		<style type="text/css">
+		body {
+			background: url("images/main_bg.jpg") repeat-x left top rgb(255, 255, 255); font: 12px/20px Arial, Helvetica, sans-serif, "瀹嬩綋"; margin: 0px; padding: 0px; text-align: center; color: rgb(51, 51, 51); font-size-adjust: none; font-stretch: normal;
+		}
+		</style>	
+	</head>	 
+	<body>
+		<div style="background: url(images/top_bg.jpg) repeat-x top;text-align: center;">
+			<div style="width: 951px; height: 156px; margin: 0 auto;">
+				<div id="top_l" style="float: left;">
+					<div
+						style="background: url(images/logo.jpg); width: 268px; height: 123px; float: left;"></div>
+					<div
+						style="background: url(images/top_grwsyhb2c.jpg); width: 167px; height: 123px; float: left;"></div>
+					<div style="width: 228px; height: 123px; float: left;"></div>
+					<div
+						style="background: url(images/top_kefu.jpg); width: 191px; height: 123px; float: left;"></div>
+					<div style="clear: both;"></div>
+					<div
+						style="background: url(images/top_hbian.jpg); width: 854px; height: 14px; float: left;"></div>
+					<div style="clear: both;"></div>
+					<div style="width: 854px; height: 30px; float: left;"></div>
+					<div style="clear: both;"></div>
+				</div>
+				<div id="top_r" style="float: left; width: 97px;">
+					<div
+						style="background: url(images/kehu1_login_top.jpg); width: 97px; height: 114px; float: left;"></div>
+					<div
+						style="background: url(images/kefu_login1.jpg); width: 97px; height: 23px; float: left;"></div>
+					<div
+						style="background: url(images/kehu2_login_top.jpg); width: 97px; height: 19px; float: left;"></div>
+					<div style="clear: none;"></div>
+				</div>
+			</div>
+		</div>
+		<div style="height: 11px;"></div>
+		<div id="con">
+			<div style="width: 950px; height: 565px; margin: 0 auto;">
+				<B>下载对帐文件(IDFR)</B>
+
+				<form action="b2c_idfr.aspx" method="post">
+					<br>
+					商户号
+					<input type="text" name="MercCode" value="1100529310001000003" size="20" />
+					<br />
+					产品编号***
+					<input type="text" name="ProductCode" value="0001" size="20" />001:个人网银
+					<br />
+					清算日期
+					<input type="text" name="OSttDate" value="20140314" size="20" />格式：yyyyMMdd
+					<br />
+					对账文件类型
+					<input type="text" name="SetFType" value="1" size="20" />0 全部 1 支付 3 退货					
+					<br />
+					<input type="submit" value="提交">
+				</form>
+				<hr />
+			</div>
+			<div style="width: 775px; height: 55px; margin: 0 auto;">
+				<div style="height: 15px;"></div>
+				<div style="height: 40px; text-align: center;">
+					版权所有&nbsp;中国邮政储蓄银行&nbsp;&nbsp;&nbsp;地址：北京市西城区金融大街3号&nbsp;&nbsp;&nbsp;邮政编码：100808
+				</div>
+			</div>
+			<div style="height: 30px;"></div>
+		</div>
+
+	</body>
+</html>

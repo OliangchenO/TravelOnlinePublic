@@ -80,7 +80,7 @@ namespace TravelOnline.Purchase
                     decimal Pay = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Pay"].ToString());
                     decimal Yue = Fee - Pay;
                     string orderflag = DS.Tables[0].Rows[0]["OrderFlag"].ToString();
-                    if (orderflag == "1" || orderflag == "2")
+                    if (orderflag == "1" || orderflag == "30")
                     {
                         if (Yue > 0)
                         {

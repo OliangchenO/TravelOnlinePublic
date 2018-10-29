@@ -28,11 +28,11 @@ namespace TravelOnline.Users
             date = date.AddMonths(-1);
             if (DropDownList1.Text == "1")
             {
-                sqlstr = string.Format("{0} and OrderTime >= '{1}' ", sqlstr, date.ToString());
+                sqlstr = string.Format("{0} and OrderTime >= '{1}' ", sqlstr, date.ToString("yyyy-MM-dd HH:mm:ss"));
             }
             else
             {
-                sqlstr = string.Format("{0} and OrderTime < '{1}' ", sqlstr, date.ToString());
+                sqlstr = string.Format("{0} and OrderTime < '{1}' ", sqlstr, date.ToString("yyyy-MM-dd HH:mm:ss"));
             }
                 
             DataSet DS = new DataSet();

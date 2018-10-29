@@ -178,7 +178,11 @@ namespace TravelOnline.NewPage.Class
                     for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
                     {
                         Pics = "/images/none.gif";
-                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                            Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                        }
                         if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                         if (i == DS.Tables[0].Rows.Count-1) styles = " class=\"no-mr\"";
@@ -244,7 +248,11 @@ namespace TravelOnline.NewPage.Class
                     for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
                     {
                         Pics = "/images/none.gif";
-                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                            Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                        }
                         if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                         styles = "";
@@ -383,7 +391,11 @@ namespace TravelOnline.NewPage.Class
                             if (i < 4)
                             {
                                 Pics = "/images/none.gif";
-                                if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                                if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                                {
+                                    string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                                    Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                                }
                                 if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                                 String1.Append(string.Format("<li{0}><dl><dt class=\"relative-box\">", style1));
@@ -506,7 +518,11 @@ namespace TravelOnline.NewPage.Class
                             }
 
                             Pics = "/images/none.gif";
-                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                            {
+                                string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                            }
                             if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                             String1.Append(string.Format("<li{0}><dl><dt class=\"relative-box\">", style1));
@@ -574,7 +590,11 @@ namespace TravelOnline.NewPage.Class
                     for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
                     {
                         Pics = "/images/none.gif";
-                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                            Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                        }
                         if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
                         
                         styles = "";
@@ -746,7 +766,11 @@ namespace TravelOnline.NewPage.Class
                     for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
                     {
                         Pics = "/images/none.gif";
-                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                        if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                        {
+                            string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                            Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                        }
                         if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
                         
                         styles = "";
@@ -881,7 +905,11 @@ namespace TravelOnline.NewPage.Class
                                             
 
                             Pics = "/images/none.gif";
-                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                            {
+                                string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                            }
                             if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                             String1.Append(string.Format(@"
@@ -1165,7 +1193,11 @@ namespace TravelOnline.NewPage.Class
                                 styles = "";
                             }
                             Pics = "/images/none.gif";
-                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Length == 24) Pics = string.Format("/images/views/{0}/m_{1}", DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[0], DS.Tables[0].Rows[i]["Pics"].ToString().Split("/".ToCharArray())[1]);
+                            if (DS.Tables[0].Rows[i]["Pics"].ToString().Length > 10)
+                            {
+                                string[] imgs = DS.Tables[0].Rows[i]["Pics"].ToString().Split(',');
+                                Pics = string.Format("http://shql.palmyou.com/file/picture/{0}", imgs[0]);
+                            }
                             if (DS.Tables[0].Rows[i]["LineType"].ToString() == "Visa") Pics = string.Format("/images/shadow/{0}", DS.Tables[0].Rows[i]["Pics"].ToString());
 
                             String1.Append(string.Format(@"

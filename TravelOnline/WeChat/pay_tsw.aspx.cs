@@ -262,7 +262,7 @@ namespace TravelOnline.WeChat
                 {
                     if (DS.Tables[0].Rows[0]["PayFlag"].ToString() == "0")
                     {
-                        if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "1" || DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "2")
+                        if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() == "30")
                         {
                         }
                         else
@@ -299,7 +299,7 @@ namespace TravelOnline.WeChat
                 DS.Clear();
                 DS = MyDataBaseComm.getDataSet(SqlQueryText);
 
-                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "2")
+                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "30")
                 {
                     Response.Write("订单状态异常，无法支付！");
                     Response.Redirect(string.Format("http://www.scyts.com/OrderView/{0}.html", OrderId), true);

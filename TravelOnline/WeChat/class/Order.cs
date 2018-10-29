@@ -1014,7 +1014,7 @@ namespace TravelOnline.WeChat
                     case "1":
                         dt.Rows[0]["Pics"] = "占位";
                         break;
-                    case "2":
+                    case "30":
                         dt.Rows[0]["Pics"] = "确认";
                         break;
                     case "3":
@@ -1733,6 +1733,7 @@ namespace TravelOnline.WeChat
                     SaveLogUtils.SaveInfoToLog("saveorderinfo: " + Stings, "RequestErpInfoLog.txt");
                     IRestResponse response = client.Execute(request);
                     XmlDocument XmlDoc = new XmlDocument();
+                    SaveLogUtils.SaveInfoToLog("saveorderinfo: " + response.Content, "ResponseErpInfoLog.txt");
                     XmlDoc.LoadXml(response.Content);
                     XmlNode o = XmlDoc.SelectSingleNode("o");
                     if (o != null)
@@ -1740,7 +1741,8 @@ namespace TravelOnline.WeChat
                         string status = o.SelectSingleNode("status").InnerText;
                         if (status == "0" || status == "2")
                         {
-                            OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                            //OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                            OrderFlag = "30";
                             ErpId = o.SelectSingleNode("orderNo").InnerText;
                         }
                         else
@@ -1776,7 +1778,7 @@ namespace TravelOnline.WeChat
 
                 if (OrderFlag == "9")
                 {
-                    Sql.Add(string.Format("update OL_TempOrder set OrderFlag='9',PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4} where OrderId='{1}'", OrderFlag, orderid, DateTime.Now.ToString(), "0", SumPre_Price));
+                    Sql.Add(string.Format("update OL_TempOrder set PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4} where OrderId='{1}'", OrderFlag, orderid, DateTime.Now.ToString(), "0", SumPre_Price));
                     Sql.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", orderid, DateTime.Now.ToString(), "您暂存了预订单"));
                 }
                 else
@@ -2156,28 +2158,9 @@ namespace TravelOnline.WeChat
             string begindate = ConfigurationManager.AppSettings["begindate"];
             int allnums = Convert.ToInt32(adults);
 
-            if (MyConvert.ConToInt(planid) == 0)
-            {
-                GetPlan.Seats = "99";
-                GetPlan.Route = "99";
-                GetPlan.StopDate = "";
-            }
-            else
-            {
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
-                try
-                {
-                    GetPlan = rsp.GetPlanSeats(UpPassWord, lineid, planid, begindate);
-                }
-                catch
-                {
-                    GetPlan.Seats = "0";
-                    GetPlan.Route = "99";
-                    GetPlan.StopDate = "";
-                }
-            }
+            GetPlan.Seats = "99";
+            GetPlan.Route = "99";
+            GetPlan.StopDate = "";
 
             if (GetPlan.StopDate.Length > 0)
             {
@@ -2219,7 +2202,7 @@ namespace TravelOnline.WeChat
                 List<string> Sql = new List<string>();
 
                 string SqlQueryText;
-                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}')",
+                SqlQueryText = string.Format("insert into OL_TempOrder (OrderId,ProductType,ProductClass,LineID,PlanId,LineName,BeginDate,OrderNums,Adults,Childs,OrderTime,OrderFlag,DeptId,LineDays,RouteFlag,PlanNo,UserName,price,PayType,BranchId,rebate,ErpPlanId) values ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}')",
                     ucode,
                     LineInfos.LineType,
                     LineInfos.LinesClass,
@@ -2240,7 +2223,8 @@ namespace TravelOnline.WeChat
                     MyConvert.ConToDec(allprice),
                     "1",
                     "0",
-                    "0"
+                    "0",
+                    planid
                 );
                 Sql.Add(SqlQueryText);
                 Sql.Add(string.Format("delete from OL_OrderPrice where OrderId='{0}'", ucode));
@@ -2259,7 +2243,7 @@ namespace TravelOnline.WeChat
                         }
                         if (PriceInfo.Length > 0)
                         {
-                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,PriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                            PriceSql = string.Format("insert into OL_OrderPrice (OrderId,PriceType,ErpPriceId,PriceName,PriceMemo,SellPrice,OrderNums,SumPrice,InputDate) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
                                     ucode,
                                     PriceInfo[0],
                                     PriceInfo[1],
@@ -2985,7 +2969,7 @@ namespace TravelOnline.WeChat
                         string status = o.SelectSingleNode("status").InnerText;
                         if (status == "0" || status == "2")
                         {
-                            OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                            OrderFlag = "30";
                             ErpId = o.SelectSingleNode("orderNo").InnerText;
                         }
                         else

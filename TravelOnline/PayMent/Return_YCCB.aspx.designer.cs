@@ -7,9 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace TravelOnline.Master {
+namespace TravelOnline.PayMent {
     
     
-    public partial class Header {
+    public partial class Return_YCCB {
     }
 }

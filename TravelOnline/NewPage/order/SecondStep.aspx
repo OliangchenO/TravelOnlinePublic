@@ -146,7 +146,7 @@
                             <div class="exp2 hide">
                                 <li>
                                     <label class="info-label" for=""><span>*</span>领取地址</label>
-                                    <div class="zddd">上海市徐汇区衡山路2号201室，09:30-17:30,4006-777-666</div>
+                                    <div class="zddd">上海市徐汇区衡山路2号201室，09:30-17:30,4009-877-666</div>
                                 </li>
                             </div>
                         </div>
@@ -535,7 +535,7 @@
             </div>
             <div class="bill-con">
             	<i></i>
-            	<h2>4006-777-666</h2>
+            	<h2>4009-877-666</h2>
                 <p>如遇到问题，请咨询我们!</p>
             </div>
 		</div>

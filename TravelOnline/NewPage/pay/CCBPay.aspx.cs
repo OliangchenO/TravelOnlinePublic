@@ -45,7 +45,7 @@ namespace TravelOnline.NewPage.pay
             DS = MyDataBaseComm.getDataSet(SqlQueryText);
             if (DS.Tables[0].Rows.Count > 0)
             {
-                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "2")
+                if (DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "1" && DS.Tables[0].Rows[0]["OrderFlag"].ToString() != "30")
                 {
                     Response.Write("订单状态异常，无法支付！");
                     Response.Redirect(string.Format("http://www.scyts.com/OrderView/{0}.html", OrderId), true);
@@ -71,6 +71,9 @@ namespace TravelOnline.NewPage.pay
                         break;
                     case "CHINAPAY":
                         GoChinaPay();
+                        break;
+                    case "yccb":
+                        GoYcPay();
                         break;
                 }
             }
@@ -213,6 +216,56 @@ namespace TravelOnline.NewPage.pay
             Response.Write(url);
         }
 
+        public void GoYcPay()
+        {
+            String TranAbbr = "IPER";
+            String MercDtTm = DateTime.Now.ToString("yyyyMMddHHmmss");
+            String TermSsn = MyConvert.GetTimeStamp() + AutoId;
+            String OSttDate = "";
+            String OAcqSsn = "";
+            String MercCode = "1100529310001000003";//todo配置
+            String TermCode = "";
+            String TranAmt = YeE;
+            String MercUrl = "http://20.126.22.125:8080/PayMent/Return_YCCB.aspx";//todo配置
+            String Remark1 = "";
+            String Remark2 = "";
+            byte[] bytes = Encoding.Default.GetBytes(Remark2);
+            Remark2 = Convert.ToBase64String(bytes);
+
+            String Term = "";
+            String TermFlag = "";
+            String termProdID = "";
+
+            string transName = "IPER";
+
+            string Plain = "TranAbbr=" + TranAbbr + "|"
+                       + "MercDtTm=" + MercDtTm + "|"
+                       + "TermSsn=" + TermSsn + "|"
+                       + "OSttDate=" + OSttDate + "|"
+                       + "OAcqSsn=" + OAcqSsn + "|"
+                       + "MercCode=" + MercCode + "|"
+                       + "TermCode=" + TermCode + "|"
+                       + "TranAmt=" + TranAmt + "|"
+                       + "MercUrl=" + MercUrl + "|"
+                       + "Remark1=" + Remark1 + "|"
+                       + "Remark2=" + Remark2 + "|"
+                       + "Term=" + Term + "|"
+                       + "TermFlag=" + TermFlag + "|"
+                       + "TermProdID=" + termProdID;
+            string Signature = PSBCMerchant.SignatureService.sign(Plain);
+
+            string URL = "http://103.22.255.201:8443/psbcpay/main";//todo配置
+            StringBuilder html = new StringBuilder();
+            html.Append("<script language=\"javascript\">window.onload=function(){document.pay_form.submit();}</script>\n");
+            html.Append("<form id=\"pay_form\" name=\"pay_form\" action=\"").Append(URL).Append(
+                        "\" method=\"post\">\n");
+            html.Append("<input type = \"hidden\" name = \"transName\" value = \"" + transName + "\"/>");
+            html.Append("<input type = \"hidden\" name = \"Plain\" value = \"" + Plain + "\"/>");
+            html.Append("<input type = \"hidden\" name = \"Signature\" value = \"" + Signature + "\"/>");
+            html.Append("</form>\n");
+            Response.Write(html);
+
+        }
 
         public bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {   // 总是接受    

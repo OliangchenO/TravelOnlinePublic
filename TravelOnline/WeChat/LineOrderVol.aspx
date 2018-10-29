@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LineOrder.aspx.cs" Inherits="TravelOnline.WeChat.LineOrder" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LineOrderVol.aspx.cs" Inherits="TravelOnline.WeChat.LineOrderVol" %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="zh" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="zh" class="ie9 no-js"> <![endif]-->
@@ -114,7 +114,7 @@
 <script src="/assets/plugins/iCheck/icheck.js"></script>
 <!-- END CORE PLUGINS -->
 <script src="/assets/scripts/app.js"></script>
-<script src="/app_js/order-tsw.js?v=20181022"></script>
+<script src="/app_js/order-tsw.js"></script>
  </body>
 
 </html>

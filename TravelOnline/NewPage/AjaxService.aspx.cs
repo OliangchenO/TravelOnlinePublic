@@ -823,13 +823,15 @@ namespace TravelOnline.NewPage
                             IRestResponse response = client.Execute(request);
                             XmlDocument XmlDoc = new XmlDocument();
                             XmlDoc.LoadXml(response.Content);
+                            SaveLogUtils.SaveInfoToLog("saveorderinfo: " + Stings, "ResponseErpInfoLog.txt");
                             XmlNode o = XmlDoc.SelectSingleNode("o");
                             if (o != null)
                             {
                                 string status = o.SelectSingleNode("status").InnerText;
                                 if (status == "0" || status == "2")
                                 {
-                                    OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                                    //OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
+                                    OrderFlag = "30";
                                     ErpId = o.SelectSingleNode("orderNo").InnerText;
                                 }
                                 else
@@ -861,7 +863,7 @@ namespace TravelOnline.NewPage
 
                             Sqlnew.Add(string.Format("insert into OL_OrderLog (OrderId,LogTime,LogContent) values ('{0}','{1}','{2}')", OrderId, DateTime.Now.ToString(), "您在官网提交了预订单"));
                             Sqlnew.Add(string.Format("delete from OL_TempOrder where OrderId='{0}'", OrderId));
-                            Sqlnew.Add(string.Format("update OL_Order set PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4}-{5},ErpId='{6}' where OrderId='{1}'", OrderFlag, OrderId, DateTime.Now.ToString(), "0", "0", "0", ErpId));
+                            Sqlnew.Add(string.Format("update OL_Order set PayFlag='0',OrderFlag='{0}',OrderTime='{2}',RebateFlag='{3}',Price=Price-{4}-{5},ErpId='{6}',paytype='1' where OrderId='{1}'", OrderFlag, OrderId, DateTime.Now.ToString(), "0", "0", "0", ErpId));
                             SaveErrorToLog("步骤6：提交订单ok");
 
                             if (!couponAmount.Equals("0"))

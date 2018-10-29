@@ -381,6 +381,13 @@
                                 <b></b>
                             </div>
                         </label>
+                        <!--邮储银行-->
+                        <label class="lab">
+                            <input name="banklist" type="radio" value="yccb"/>
+                            <div class="bank nsyh fl">
+                                <b></b>
+                            </div>
+                        </label>
                         
                         <div class="gopaybox"><input class="" type="submit" value="同意以下条款，去付款" /><a href="javascript:;" id="BankPay"></a></div>
                     </form>

@@ -25,7 +25,10 @@
                     </form>
                 </div>
             </div>--%>
-            <div class="fr"><img src="/img/tel.gif" height="57" alt="上海青旅官网" /></div>
+            <div style="width: 200px;text-align: right;float: right">
+				<p>服务时间：09:00-17:30</p>
+				<p style="color: #e66202;font: 24px 'Arial';font-weight: bold;">4009-877-666</p><p style="font: 12px 'Microsoft Yahei'; color:#e66202;">专家热线：64743035、64743032</p><p></p>
+			</div>
         </div>
     </div>
 </div>

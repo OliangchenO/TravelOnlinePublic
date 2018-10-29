@@ -16,6 +16,7 @@ using Belinda.Jasp;
 using TravelOnline.BLL;
 using TravelOnline.Models;
 using TravelOnline.NewPage.erp;
+using TravelOnline.Utility;
 
 namespace TravelOnline.WeChat
 {
@@ -1986,9 +1987,10 @@ namespace TravelOnline.WeChat
             Strings.Append(string.Format("Sale='0' and Price>0 and PlanDate>='{0}' and ", DateTime.Today.ToString()));
             string notshow = ConfigurationManager.AppSettings["NotShow"];
             string cannotsearch = ConfigurationManager.AppSettings["CannotSearch"];
+            SaveLogUtils.SaveInfoToLog("cannotsearch: " + cannotsearch, "sqlInfoLog.txt");
             string searchkey = ConfigurationManager.AppSettings["searchkey"];
-            if (notshow != null && !searchkey.Contains(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", notshow));
-            if (cannotsearch != null && !searchkey.Contains(searchval)) Strings.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
+            if (notshow != null && !searchval.Contains(searchkey)) Strings.Append(string.Format("MisLineId not in ({0}) and ", notshow));
+            if (cannotsearch != null && !searchval.Contains(searchkey)) Strings.Append(string.Format("MisLineId not in ({0}) and ", cannotsearch));
             if (searchval != "")
             {
                 string dest_id = "0";
@@ -2071,6 +2073,7 @@ namespace TravelOnline.WeChat
             if (rowcount != 0)
             {
                 SqlQueryText = LineListPageSerch.GetPagesSqlQueryText(fieldlist, condition, pkey, tablename, sortflag, sortname, pagesize, currpage);
+                SaveLogUtils.SaveInfoToLog("sqlinfo: " + SqlQueryText, "sqlInfoLog.txt");
                 ListResult = CreateLineListString(SqlQueryText, navbar);
             }
             Strings.Clear();

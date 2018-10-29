@@ -10,7 +10,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TravelOnline.Class.Purchase;
+using TravelOnline.NewPage.erp;
 using TravelOnline.TravelMisWebService;
+using TravelOnline.Utility;
 using TravelOnline.WeChat.Util;
 
 namespace TravelOnline.WeChat
@@ -22,6 +24,7 @@ namespace TravelOnline.WeChat
         {
             string data = Request.QueryString["data"];
             JObject dataJson = Tuanshiwei.getDecodeAES(data);
+            SaveLogUtils.SaveInfoToLog("dataJson: " + dataJson.ToString(), "sqlInfoLog.txt");
             LineId = dataJson["LineId"].ToString();
             activityId = dataJson["activityId"].ToString();
             HttpContext.Current.Session["Activity_" + LineId] = activityId;
@@ -37,19 +40,27 @@ namespace TravelOnline.WeChat
             {
                 LineName = DS.Tables[0].Rows[0]["LineName"].ToString();
                 LinePrice = DS.Tables[0].Rows[0]["Price"].ToString();
-                string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
-                TravelOnlineService rsp = new TravelOnlineService();
-                rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
+                //string UpPassWord = Convert.ToString(ConfigurationManager.AppSettings["UpLoadPassWord"]);
+                //TravelOnlineService rsp = new TravelOnlineService();
+                //rsp.Url = Convert.ToString(ConfigurationManager.AppSettings["TravelMisWebService"]) + "/WebService/TravelOnline.asmx";
                 PlanPrices GetPlan = new PlanPrices();
                 planid = ConfigurationManager.AppSettings["planid"];
                 begindate = ConfigurationManager.AppSettings["begindate"];
                 try
                 {
-                    GetPlan = rsp.GetPlanPrices(UpPassWord, LineId, planid, "0");
+                    if (planid == "0" && begindate.Length > 5)
+                    {
+                        GetPlan = ErpUtil.getPriceInfo(planid, begindate);
+                        //GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
+                    }
+                    else
+                    {
+                        GetPlan = ErpUtil.getPriceInfo(planid);
+                        //GetPlan = rsp.GetLinePrices(UpPassWord, Lineid, BeginDate);
+                    }
                 }
                 catch
                 {
-
                 }
                 string DefaultOption = string.Format("value=0 max=999 min=0");
                 string DefaultChildOption = string.Format("value=0 max=999 min=0");

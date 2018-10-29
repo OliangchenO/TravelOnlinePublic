@@ -7,9 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace TravelOnline.Master {
+namespace TravelOnline.WeChat {
     
     
-    public partial class Header {
+    public partial class LineOrderVol
+    {
     }
 }

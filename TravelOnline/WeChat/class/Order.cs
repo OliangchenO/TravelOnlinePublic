@@ -1742,8 +1742,14 @@ namespace TravelOnline.WeChat
                         if (status == "0" || status == "2")
                         {
                             //OrderFlag = o.SelectSingleNode("orderStatus").InnerText;
-                            OrderFlag = "30";
                             ErpId = o.SelectSingleNode("orderNo").InnerText;
+                            if (ErpId != null && !ErpId.Equals(""))
+                            {
+                                OrderFlag = "30";
+                            }else
+                            {
+                                return "预定失败请稍后再试！";
+                            }
                         }
                         else
                         {
@@ -2893,8 +2899,7 @@ namespace TravelOnline.WeChat
                 }
                 Stings.Append("</orderGuests></order></OrderQuery></Body>");
                 Stings.Append("</JJTourcrsAddOrderRQ>");
-                //金棕榈结束
-
+                //金棕榈结
                 Decimal gathering = MyConvert.ConToDec(DS.Tables[0].Rows[0]["Price"].ToString());
 
                 if (SumPre_Price > 0)
@@ -2969,8 +2974,14 @@ namespace TravelOnline.WeChat
                         string status = o.SelectSingleNode("status").InnerText;
                         if (status == "0" || status == "2")
                         {
-                            OrderFlag = "30";
                             ErpId = o.SelectSingleNode("orderNo").InnerText;
+                            if (ErpId != null && !ErpId.Equals(""))
+                            {
+                                OrderFlag = "30";
+                            } else
+                            {
+                                return "预定失败请稍后再试！";
+                            }
                         }
                         else
                         {
@@ -3036,7 +3047,7 @@ namespace TravelOnline.WeChat
                     int i = MyConvert.ConToInt(MyDataBaseComm.getScalar(string.Format("select count(1) from ol_groupplan where MisLineId='{0}' and GroupDate='{1:yyyy-MM-dd}'", DS.Tables[0].Rows[0]["LineId"].ToString(), DS.Tables[0].Rows[0]["BeginDate"])));
                     if (i > 0)
                     {
-                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1 where OrderId='{0}'",
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',GroupOrder=1,ErpId='{12}' where OrderId='{0}'",
                         orderid,
                         SumPre_Price + SumPreferAmount + SumGroupdiscount,
                         PayType,
@@ -3048,12 +3059,13 @@ namespace TravelOnline.WeChat
                         User_Name,
                         User_Id,
                         DateTime.Now.ToString(),
-                        OrderFlag
+                        OrderFlag,
+                        ErpId
                         ));
                     }
                     else
                     {
-                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}' where OrderId='{0}'",
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',ErpId='{12}' where OrderId='{0}'",
                         orderid,
                         SumPre_Price + SumPreferAmount,
                         PayType,
@@ -3065,7 +3077,8 @@ namespace TravelOnline.WeChat
                         User_Name,
                         User_Id,
                         DateTime.Now.ToString(),
-                        OrderFlag
+                        OrderFlag,
+                        ErpId
                         ));
                     }
 

@@ -9,6 +9,7 @@ using TravelOnline.WeChat.jssdk;
 using TravelOnline.LoginUsers;
 using Belinda.Jasp;
 using System.Xml;
+using System.Configuration;
 
 namespace TravelOnline.WeChat
 {
@@ -90,6 +91,8 @@ namespace TravelOnline.WeChat
                 {
                     viewflag = "line";
                     string SqlQueryText = string.Format("select LineName,LineType,LineClass,Pics,LineFeature from OL_Line where MisLineId='{0}'", lineid);
+                    string notshow = ConfigurationManager.AppSettings["NotShow"];
+                    if (notshow != null) SqlQueryText = string.Format("select LineName,LineType,LineClass,Pics,LineFeature from OL_Line where MisLineId='{0}' and MisLineId not in ({1})", lineid, notshow);
                     //string SqlQueryText = string.Format("select Cname,Types,LineType from tbLine where Id='{0}'", lineid);
                     //return SqlQueryText;
                     DataSet DS = new DataSet();

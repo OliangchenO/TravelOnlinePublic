@@ -114,7 +114,7 @@
 <script src="/assets/plugins/iCheck/icheck.js"></script>
 <!-- END CORE PLUGINS -->
 <script src="/assets/scripts/app.js"></script>
-<script src="/app_js/order-tsw.js?v=20181022"></script>
+<script src="/app_js/order-tsw.js?v=20181029"></script>
  </body>
 
 </html>

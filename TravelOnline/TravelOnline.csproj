@@ -91,6 +91,10 @@
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>Z:\dotnet4\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="PSBCMerchantToolKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\VSWorkspace\TravelOnline\bin\PSBCMerchantToolKit.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\RestSharp.dll</HintPath>
@@ -413,6 +417,8 @@
     <Content Include="app_js\order-ticket.js" />
     <Content Include="app_js\order-tsw.js" />
     <Content Include="app_js\order.js" />
+    <Content Include="bin\PSBCMerchantToolKit.dll" />
+    <Content Include="bin\webconfig.txt" />
     <Content Include="ChinaPay\chinapayMer.pfx" />
     <Content Include="Common\GetAutoDropList.aspx" />
     <Content Include="Common\JournalList.aspx" />
@@ -802,6 +808,12 @@
     <Content Include="NewPage\pay\Pay.aspx" />
     <Content Include="NewPage\pay\PuFaPay.aspx" />
     <Content Include="NewPage\pay\WeixinPay.aspx" />
+    <Content Include="NewPage\pay\ycyh\b2c_idfr.aspx" />
+    <Content Include="NewPage\pay\ycyh\b2c_idfr1.htm" />
+    <Content Include="NewPage\pay\ycyh\b2c_idfr.htm" />
+    <Content Include="NewPage\pay\ycyh\b2c_iqsr.aspx" />
+    <Content Include="NewPage\pay\ycyh\b2c_iqsr.htm" />
+    <Content Include="NewPage\pay\ycyh\index.htm" />
     <Content Include="NewPage\search.aspx" />
     <Content Include="NewPage\SearchBanner.ascx" />
     <Content Include="NewPage\VisaBanner.ascx" />
@@ -825,6 +837,7 @@
     <Content Include="PayMent\Return_notifyChinaPay.aspx" />
     <Content Include="PayMent\Return_notifySHRCB.aspx" />
     <Content Include="PayMent\Return_ChinaPay.aspx" />
+    <Content Include="PayMent\Return_YCCB.aspx" />
     <Content Include="PayMent\Return_SHRCB.aspx" />
     <Content Include="PayMent\Return_WeiXinpay.aspx" />
     <Content Include="Purchase\AjaxService.aspx" />
@@ -929,6 +942,7 @@
     <Content Include="WeChat\AjaxService.aspx" />
     <Content Include="WeChat\CaptureCoupon.aspx" />
     <Content Include="WeChat\coupon.aspx" />
+    <Content Include="WeChat\ErrorRepay.aspx" />
     <Content Include="WeChat\freetripOrder.aspx" />
     <Content Include="WeChat\freetrip\comment.aspx" />
     <Content Include="WeChat\freetrip\index.aspx" />
@@ -940,6 +954,7 @@
     <Content Include="WeChat\Fx_register.aspx" />
     <Content Include="WeChat\JsApiPayPage.aspx" />
     <Content Include="WeChat\linelist.aspx" />
+    <Content Include="WeChat\LineOrderVol.aspx" />
     <Content Include="WeChat\LineOrder.aspx" />
     <Content Include="WeChat\main.aspx" />
     <Content Include="WeChat\main_fx.aspx" />
@@ -3069,6 +3084,13 @@
     <Compile Include="PayMent\Return_ChinaPay.aspx.designer.cs">
       <DependentUpon>Return_ChinaPay.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PayMent\Return_YCCB.aspx.cs">
+      <DependentUpon>Return_YCCB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PayMent\Return_YCCB.aspx.designer.cs">
+      <DependentUpon>Return_YCCB.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PayMent\Return_SHRCB.aspx.cs">
       <DependentUpon>Return_SHRCB.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3707,6 +3729,13 @@
     <Compile Include="WeChat\coupon.aspx.designer.cs">
       <DependentUpon>coupon.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WeChat\ErrorRepay.aspx.cs">
+      <DependentUpon>ErrorRepay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\ErrorRepay.aspx.designer.cs">
+      <DependentUpon>ErrorRepay.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WeChat\freetripOrder.aspx.cs">
       <DependentUpon>freetripOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3811,6 +3840,13 @@
     </Compile>
     <Compile Include="WeChat\linelist.aspx.designer.cs">
       <DependentUpon>linelist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeChat\LineOrderVol.aspx.cs">
+      <DependentUpon>LineOrderVol.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeChat\LineOrderVol.aspx.designer.cs">
+      <DependentUpon>LineOrderVol.aspx</DependentUpon>
     </Compile>
     <Compile Include="WeChat\LineOrder.aspx.cs">
       <DependentUpon>LineOrder.aspx</DependentUpon>
@@ -4006,19 +4042,7 @@
     <None Include="Web References\TravelMisWebService\TravelOnline.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\" />
     <Folder Include="OfficeFiles\CruisesModel\Norvegian\" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

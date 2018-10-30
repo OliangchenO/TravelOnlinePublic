@@ -38,6 +38,8 @@ namespace TravelOnline.WeChat
                 string linePrice = "";
                 string tuanDiscount = "";
                 string SqlQueryText = string.Format("select top 1 * from OL_Line where MisLineId='{0}'", lineid);
+                string notshow = ConfigurationManager.AppSettings["NotShow"];
+                if (notshow != null) SqlQueryText = string.Format("select top 1 * from OL_Line where MisLineId='{0}' and MisLineId not in ({1})", lineid, notshow);
                 //return SqlQueryText;
                 DataSet DS = new DataSet();
                 DS.Clear();

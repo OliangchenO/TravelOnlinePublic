@@ -1748,7 +1748,7 @@ namespace TravelOnline.WeChat
                                 OrderFlag = "30";
                             }else
                             {
-                                return "预定失败请稍后再试！";
+                                return "{\"error\":\"报名失败\"}";
                             }
                         }
                         else
@@ -3137,7 +3137,7 @@ namespace TravelOnline.WeChat
                     }
                     if (OrderFlag == "9")
                     {
-                        return "{\"success\":\"Save\"}";
+                        return "{\"error\":\"报名失败\"}";
                     }
                     else
                     {

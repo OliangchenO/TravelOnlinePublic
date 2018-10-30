@@ -499,17 +499,25 @@ function CountPrice() {
 }
 
 $('#goPay').live("click", function () {
+    $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 提交中");
+    $("#goPay").attr('disabled', "true");
     if ($("#ordername").val() == "") {
         showmessage("姓名不能为空");
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     if ($("#ordermemo").val() == "") {
         showmessage("邮寄地址不能为空");
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     var info = CheckRegPhone($("#orderphone").val());
     if (info != "") {
         showmessage(info);
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     var Parms = "";
@@ -543,9 +551,16 @@ function orderTicket() {
             if (obj.success == "OK") {
                 window.location.href = "/wechat/pay.aspx?OrderId=" + obj.orderid;
             }
+            if (obj.success == "Save") {
+                showmessage("预定失败请稍后再试");
+                $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+                $("#goPay").removeAttr('disabled', "true");
+            }
         }
         else {
             showmessage(obj.error);
+            $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+            $("#goPay").removeAttr('disabled', "true");
         }
     }, 'json');
 }

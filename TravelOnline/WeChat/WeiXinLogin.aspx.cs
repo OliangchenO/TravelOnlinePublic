@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using TravelOnline.EncryptCode;
 using TravelOnline.GetCombineKeys;
 using TravelOnline.WeChat.jssdk;
+using TravelOnline.Utility;
 
 namespace TravelOnline.WeChat
 {
@@ -291,7 +292,7 @@ namespace TravelOnline.WeChat
                     if (flag == "Wx_regedit_ticket")
                     {
                         string lineid = Request.QueryString["LineId"];
-                        if (null != lineid && "" != lineid)
+                        if (null != lineid && !"".Equals(lineid))
                         {
                             Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + lineid);
                         }

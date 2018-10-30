@@ -348,8 +348,7 @@ namespace TravelOnline.NewPage
             FieldList += ",(SELECT DestinationName FROM dbo.OL_Destination WHERE (Id = dbo.OL_Line.FirstDestination)) AS DestinationName";
             FieldList += ",(select max(preferAmount) from OL_Preferential where (Lineid=dbo.OL_Line.MisLineid and (pStartDate is null or pStartDate<=getdate()) and (pEndDate is null or pEndDate>=getdate()))) AS preferAmount";
             DS = MyDataBaseComm.getDataSetFromProcedures("OL_Line", "id", FieldList, sb.ToString(), SortField, SortExtend, "2", iDisplayLength, s_page, Sort, out RecordCount);
-            SaveLogUtils.SaveInfoToLog("search: " + FieldList, "text.txt");
-            SaveLogUtils.SaveInfoToLog("search: " + sb.ToString(), "text.txt");
+           
             
             if (DS.Tables[0].Rows.Count > 0)
             {

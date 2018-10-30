@@ -492,17 +492,25 @@ function CountPrice() {
 }
 
 $('#goPay').live("click", function () {
+    $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 提交中");
+    $("#goPay").attr('disabled', "true");
     if ($("#ordername").val() == "") {
         showmessage("姓名不能为空");
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     if ($("#ordermemo").val() == "") {
         showmessage("邮寄地址不能为空");
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     var info = CheckRegPhone($("#orderphone").val());
     if (info != "") {
         showmessage(info);
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     var Parms = "";
@@ -536,6 +544,8 @@ $('#goPay').live("click", function () {
                 data: { "dataJson": dataJson },
                 error: function (request) {
                     showmessage("网络错误，请稍后再试！");
+                    $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+                    $("#goPay").removeAttr('disabled', "true");
                 },
                 success: function (result) {
                     var res = eval("(" + result + ")");
@@ -543,6 +553,8 @@ $('#goPay').live("click", function () {
                         orderForTsw();
                     } else {
                         showmessage("请至青春上海官网报名！");
+                        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+                        $("#goPay").removeAttr('disabled', "true");
                     }
                 }
             })

@@ -10,6 +10,7 @@ using TravelOnline.LoginUsers;
 using Belinda.Jasp;
 using System.Xml;
 using System.Configuration;
+using TravelOnline.Utility;
 
 namespace TravelOnline.WeChat
 {
@@ -89,6 +90,7 @@ namespace TravelOnline.WeChat
                 }
                 if (MyConvert.ConToDec(lineid) > 0)
                 {
+                    Session["Order_LineId"] = lineid;
                     viewflag = "line";
                     string SqlQueryText = string.Format("select LineName,LineType,LineClass,Pics,LineFeature from OL_Line where MisLineId='{0}'", lineid);
                     string notshow = ConfigurationManager.AppSettings["NotShow"];

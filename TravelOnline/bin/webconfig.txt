@@ -1,0 +1,10 @@
+<appSettings>
+    <!--pfx文件路径-->
+    <add key="pathpfx" value="D:\360用户文件\邮储银行\DotNet\test-env\merchant_test.pfx"/>
+    <!--cer文件路径-->
+    <add key="pathcer" value="D:\360用户文件\邮储银行\DotNet\test-env\paygate.cer"/>
+    <!--pfx密码-->
+    <add key ="passwordpfx" value="111111"/>
+    <!--cer密码-->
+    <add key ="passwordcer" value="111111"/>
+</appSettings>

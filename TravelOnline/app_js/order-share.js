@@ -3,6 +3,7 @@
 //}
 var detailid = "";
 var lineid = "";
+var prefer = "0";
 var pagehash = window.location.hash.replace("#", "").toLowerCase();
 var actions = window.location.hash.replace("#", "").toLowerCase();
 if (pagehash.indexOf("orderdetail") > -1) {
@@ -14,6 +15,7 @@ if (pagehash.indexOf("login") > -1) {
     var sid = pagehash.split("?");
     actions = sid[0];
     lineid = sid[1];
+    $.cookie("lineid", lineid, { expires: 30, path: '/WeChat' });
 }
 var state = { action: actions, title: "", url: "#" + pagehash };
 var scroll_top = 0;
@@ -341,7 +343,7 @@ function ShowOrderDetail_New(data) {
             html += "<div class='recommend_txt'>";
             html += "<h3>付款方式</h3>";
             html += "<div style='font-size: 14px;line-height:30px'>";
-            if (data.rows[0].PayType == "1" && data.rows[0].OrderFlag == "1" && data.rows[0].PayFlag == "0") {
+            if (data.rows[0].PayType == "1" && data.rows[0].OrderFlag == "30") {
                 html += "<A class='btn yellow' href='/wechat/pay.aspx?OrderId=" + data.orderid + "' target='_blank'>在线支付</A>";
             }
             if (data.row1[0].PayType == "2") {
@@ -446,38 +448,76 @@ function Validate() {
     }
 }
 
+function checkPrefer() {
+    if ($("#preferCode").val() != "") {
+        url = "../../WeChat/AjaxService.aspx?action=checkPrefer&preferCode=" + $("#preferCode").val() + "&lineId=" + $('#LineId').val();
+        $.get(url, function (obj) {
+            var objjson = eval("(" + obj + ")");
+            if (objjson.success == "ok") {
+                prefer = objjson.prefer;
+                CountPrice();
+            } else {
+                prefer = "0";
+                showmessage(objjson.error);
+                CountPrice();
+            }
+        });
+    } else {
+        prefer = "0";
+        CountPrice();
+    }
+}
+
 function CountPrice() {
     var PriceSum = 0;
     $(".touch").each(function () {
         PriceSum += Number($(this).attr("price")) * Number($(this).val());
     });
     $("#adults").val(Number($("input[tps = 'SellPrice']").val()));
-    var shareDiscount = Number(99) * Number($("input[tps = 'SellPrice']").val())
+    var shareDiscount = Number(100) * Number($("input[tps = 'SellPrice']").val())
     $("#shareDiscount").html(shareDiscount);
-    if (Number($("input[tps = 'SellPrice']").val()) >= 3) {
-        Number($("input[tps = 'ExtPrice']").val("0"));
-        PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
-    } else {
-        Number($("input[tps = 'ExtPrice']").val("1"));
-        PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
+    $("#prePay").html(Number($("input[tps = 'SellPrice']").val()));
+    if (typeof ($("input[tps = 'ExtPrice']").val()) != "undefined") {
+        if (Number($("input[tps = 'SellPrice']").val()) >= 3 && Number(25498) != Number($.cookie("lineid"))) {
+            Number($("input[tps = 'ExtPrice']").val("0"));
+            PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
+        } else {
+            Number($("input[tps = 'ExtPrice']").val("1"));
+            PriceSum += Number($("input[tps = 'ExtPrice']").val()) * Number($("input[tps = 'ExtPrice']").attr("price"));
+        }
     }
-    $(".payprice").html(Number(PriceSum) - Number(shareDiscount));
+    var preferAll = 0;
+    if(prefer != "0") {
+        preferAll = Number($("#adults").val()) * Number(prefer);
+        $("#preferText").html("使用优惠券立减" +preferAll + "元");
+        } else {
+            $("#preferText").html("未使用优惠券");
+    }
+    $(".payprice").html(Number(PriceSum) - Number(shareDiscount) - preferAll);
     $("#allprice").val(PriceSum);
     $(".allprice").html(PriceSum);
 }
 
 $('#goPay').live("click", function () {
+    $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 提交中");
+    $("#goPay").attr('disabled', "true");
     if ($("#ordername").val() == "") {
         showmessage("姓名不能为空");
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     if ($("#ordermemo").val() == "") {
         showmessage("邮寄地址不能为空");
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     var info = CheckRegPhone($("#orderphone").val());
     if (info != "") {
         showmessage(info);
+        $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+        $("#goPay").removeAttr('disabled', "true");
         return false;
     }
     var Parms = "";
@@ -509,6 +549,8 @@ function orderShare() {
         }
         else {
             showmessage(obj.error);
+            $("#goPay").html("<i class=\"fa fa-chevron-circle-right\"></i> 去支付");
+            $("#goPay").removeAttr('disabled', "true");
         }
     }, 'json');
 }
@@ -709,7 +751,7 @@ $('#login').live("click", function () {
                 case "orderTicket":
                     window.location.href = "/WeChat/order_ticket.aspx?LineId=" + $.cookie("lineid");
                 case "orderShare":
-                    window.location.href = "/WeChat/Share/OrderShare.aspx?LineId=25039";
+                    window.location.href = "/WeChat/Share/OrderShare.aspx?LineId=" +$.cookie("lineid");
             }
         }
         else {

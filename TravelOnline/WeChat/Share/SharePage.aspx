@@ -15,7 +15,7 @@
 </head> 
   <body id="mainbody" style="margin:0px;"> 
   <div id="main_view"> 
-      <a href="javascript:;" id="goBook"><img src="../../Images/shareTicket.jpg" style="vertical-align:middle; width:100%;"/></a>
+      <a href="javascript:;" id="goBook"><img src="../../Images/shareTicket2018.jpg" style="vertical-align:middle; width:100%;"/></a>
   </div> 
  </body>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -107,16 +107,14 @@
     })   
 
     $('#goBook').live("click", function () {
-        alert("活动已结束！");
-        return;
         if (isShare == true) {
             url = "../../WeChat/AjaxService.aspx?action=CheckOnline&r=" + Math.random();
             $.get(url, function (obj) {
                 if (obj.success) {
-                    window.location.href = "/WeChat/Share/OrderShare.aspx?LineId=25039";
+                    window.location.href = "/WeChat/Share/OrderShare.aspx?LineId=1481";
                     scroll(0, 0);
                 } else {
-                    window.location.href = "/WeChat/Share/OrderShare.aspx#login?25039";
+                    window.location.href = "/WeChat/Share/OrderShare.aspx#login?1481";
                 }
             }, 'json');
         } else {

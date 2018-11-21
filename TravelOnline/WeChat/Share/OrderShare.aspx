@@ -165,7 +165,7 @@
 <script src="/assets/plugins/iCheck/icheck.js"></script>
 <!-- END CORE PLUGINS -->
 <script src="/assets/scripts/app.js"></script>
-<script src="/app_js/order-share.js"></script>
+<script src="/app_js/order-share.js?v=20181121"></script>
  </body>
 
 </html>

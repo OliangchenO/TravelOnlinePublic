@@ -124,7 +124,7 @@
                 <dl class="other-login">
                 <dt>使用合作网站账号登录</dt>
                 <dd>
-                    <a href="/WeChat/WeiXinLogin.aspx?state=Wx_regedit_share" class="sina" id="weixinLogin" target="_blank">微信</a>
+                    <a href="#" class="sina" id="weixinLogin" target="_blank">微信</a>
                 </dd>
                 </dl>
                 <%} %>
@@ -165,7 +165,7 @@
 <script src="/assets/plugins/iCheck/icheck.js"></script>
 <!-- END CORE PLUGINS -->
 <script src="/assets/scripts/app.js"></script>
-<script src="/app_js/order-share.js?v=20181121"></script>
+<script src="/app_js/order-share.js?v=20181122"></script>
  </body>
 
 </html>

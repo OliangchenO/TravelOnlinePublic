@@ -30,8 +30,8 @@
     var isShare = false;
     wx.ready(function () {
             var title =  '青春旅途联票';
-            var imgUrl = 'http://www.scyts.com/images/shareImg.jpg';
-            var desc = '青春旅途联票分享每张立減99元';
+            var imgUrl = 'http://www.scyts.com/images/shareImg2018.jpg';
+            var desc = '青春旅途联票分享每张立減100元';
             var link = window.location.href;
             //在此输入各种API
             //分享到朋友圈

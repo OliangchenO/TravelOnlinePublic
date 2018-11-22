@@ -22,7 +22,6 @@ namespace TravelOnline.WeChat
         public string LineId, Orderphone, LineName, LinePrice, PriceInfo, planid, begindate, activityId;
         protected void Page_Load(object sender, EventArgs e)
         {
-            SaveLogUtils.SaveInfoToLog("Page_Load: runhere", "ResponseErpInfoLog.txt");
             LineId = Request.QueryString["LineId"];
             Orderphone = Request.QueryString["mobile"];
             JSONObject ObJson = new JSONObject();

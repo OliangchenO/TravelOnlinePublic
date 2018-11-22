@@ -306,7 +306,7 @@ namespace TravelOnline.WeChat
                         }
                     } else if (flag == "Wx_regedit_share")
                     {
-                        Response.Redirect("/WeChat/Share/OrderShare.aspx?LineId=25039");
+                        Response.Redirect("/WeChat/Share/OrderShare.aspx?LineId=1481");
                     } else if (flag == "Wx_qa") {
                         Response.Redirect("/WeChat/Share/Wenda.aspx");
                     } else

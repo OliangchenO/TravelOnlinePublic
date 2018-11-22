@@ -57,6 +57,7 @@ namespace TravelOnline.WeChat
                     PlanPrices GetPlan = new PlanPrices();
                     string date = string.Format("{0:yyyy-MM}", DateTime.Now);
                     planid = ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"];
+                    begindate = ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"];
                     try
                     {
                         GetPlan = ErpUtil.getPriceInfo(planid);

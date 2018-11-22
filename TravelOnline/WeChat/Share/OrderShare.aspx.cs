@@ -23,7 +23,6 @@ namespace TravelOnline.WeChat.Share
             ucode = System.Guid.NewGuid();
             Response.Cookies.Add(new HttpCookie("CheckCode", ""));
             LineId = Request.QueryString["LineId"];
-            SaveLogUtils.SaveInfoToLog("runhere", "text.txt");
             if (Convert.ToString(Session["Online_UserId"]).Length > 0)
             {
                 JSONObject ObJson = new JSONObject();
@@ -40,6 +39,7 @@ namespace TravelOnline.WeChat.Share
                     PlanPrices GetPlan = new PlanPrices();
                     string date = string.Format("{0:yyyy-MM}", DateTime.Now);
                     planid = ConfigurationManager.AppSettings[date + "_" + LineId + "_planid"];
+                    begindate = ConfigurationManager.AppSettings[date + "_" + LineId + "_begindate"];
                     try
                     {
                         if (planid == "0" && begindate.Length > 5)

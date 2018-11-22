@@ -523,14 +523,14 @@ $('#goPay').live("click", function () {
     var Parms = "";
     $(".sellprice").each(function () {
         var pid = "#" + $(this).attr("id");
-        if ($(pid + " .touch").val() != "0") {
-            Parms += $(pid + " .touch").attr("tps") + "@@";
-            Parms += $(pid + " .touch").attr("tagid") + "@@";
+        if ($(pid + " .pricecommit").val() != "0") {
+            Parms += $(pid + " .pricecommit").attr("tps") + "@@";
+            Parms += $(pid + " .pricecommit").attr("tagid") + "@@";
             Parms += $(pid + " .pricename").html() + "@@";
             Parms += $(pid + " .pricememo").html() + "@@";
-            Parms += $(pid + " .touch").attr("price") + "@@";
-            Parms += $(pid + " .touch").val() + "@@";
-            Parms += Number($(pid + " .touch").attr("price")) * Number($(pid + " .touch").val());
+            Parms += $(pid + " .pricecommit").attr("price") + "@@";
+            Parms += $(pid + " .pricecommit").val() + "@@";
+            Parms += Number($(pid + " .pricecommit").attr("price")) * Number($(pid + " .pricecommit").val());
             Parms += "||";
         }
     });
@@ -540,7 +540,7 @@ $('#goPay').live("click", function () {
 })
 
 function orderShare() {
-    url = "../../WeChat/AjaxService.aspx?action=orderShare&LineId=" + $('#LineId').val();
+    url = "../../WeChat/AjaxService.aspx?action=orderShare";
     $.post(url, $("#form_data").serialize(), function (obj) {
         if (obj.success) {
             if (obj.success == "OK") {
@@ -555,6 +555,9 @@ function orderShare() {
     }, 'json');
 }
 
+$('#weixinLogin').live("click", function () {
+    top.location = "/WeChat/WeiXinLogin.aspx?state=Wx_regedit_share&LineId=" + $.cookie("lineid");
+})
 
 $('#ordernow').live("click", function () {
     //判断并提交订单

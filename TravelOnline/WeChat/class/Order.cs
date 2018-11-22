@@ -2623,7 +2623,6 @@ namespace TravelOnline.WeChat
             {
                 routeflag = "1";
             }
-
             PurchaseClass.LineClass LineInfos = new PurchaseClass.LineClass();
             LineInfos = PurchaseClass.LineDetail(lineid);
             if (LineInfos != null)
@@ -3482,7 +3481,7 @@ namespace TravelOnline.WeChat
                     }
                     else
                     {
-                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11},ErpId='{12}'' where OrderId='{0}'",
+                        Sql.Add(string.Format("UPDATE OL_Order set ccid='0',PayFlag='0',Price=Price-{1},PayType='{2}',BranchId='{3}',OrderName='{4}',OrderMobile='{5}',OrderEmail='{6}',OrderMemo='{7}',UserName='{8}',OrderUser='{9}',OrderTime='{10}',OrderFlag='{11}',ErpId='{12}' where OrderId='{0}'",
                         orderid,
                         SumPre_Price + SumPreferAmount + SumShareDiscount,
                         PayType,

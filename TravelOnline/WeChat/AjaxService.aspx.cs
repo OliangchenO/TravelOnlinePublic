@@ -26,6 +26,7 @@ using TestMvc.Utility;
 using System.Net;
 using TravelOnline.WeChat.Util;
 using Belinda.Jasp;
+using TravelOnline.Utility;
 
 namespace TravelOnline.WeChat
 {
@@ -221,7 +222,6 @@ namespace TravelOnline.WeChat
                     Response.Write(WeChatOrder.orderTicket(Request.Form["LineId"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"], Request.QueryString["preferCode"].Trim()));
                     Response.End();
                     break;
-
                 case "orderShare":
                     Response.Write(WeChatOrder.orderShare(Request.Form["LineId"], Request.Form["adults"], Request.Form["ordername"], Request.Form["orderphone"], Request.Form["orderemail"], Request.Form["ordermemo"], Request.Form["allprice"], Request.Form["PriceStrings"]));
                     Response.End();

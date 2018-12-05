@@ -399,6 +399,11 @@ var _hmt = _hmt || [];
             var imgUrl = 'http://www.scyts.com' + FirstPic;
             var desc = '<%=LineFeature%>';
             var link = window.location.href;
+            var lineid = '<%=lineid %>';
+
+            if (lineid == 1508) {
+                WeixinJSBridge.call('hideOptionMenu');
+            }
             //在此输入各种API
             //分享到朋友圈
             wx.onMenuShareTimeline({

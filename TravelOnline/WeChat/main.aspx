@@ -281,7 +281,7 @@
     <div class="row">
         <!-- BEGIN COPYRIGHT -->
         <div class="col-xs-12">
-        <a class="margin-right-20" href="tel:34014500"><i class="fa fa-phone-square"></i>34014500/34014501</a>
+        <a class="margin-right-20" href="tel:34014500"><i class="fa fa-phone-square"></i>4009877666</a>
         <a class="margin-left-20" href="http://www.scyts.com">官方网站</a>
         </div>
         <!-- END COPYRIGHT -->

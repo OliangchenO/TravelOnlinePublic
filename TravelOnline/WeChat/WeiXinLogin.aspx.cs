@@ -51,6 +51,18 @@ namespace TravelOnline.WeChat
                 GetOpenID();
             }
             string state = Request.QueryString["state"];
+            Log.Debug("********state", state);
+            string LineId = Request.QueryString["LineId"];
+            try
+            {
+                Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(state);
+                state = dic["state"];
+                LineId = dic["LineId"];
+            } catch (Exception)
+            {
+
+            }
+            Log.Debug("********LineId", LineId);
             
             if ("Fx_regedit".Equals(state))
             {
@@ -60,7 +72,7 @@ namespace TravelOnline.WeChat
             {
                 regedit();
             }else {
-                regedit_ticket(state);
+                regedit_ticket(state, LineId);
             }
         }
 
@@ -101,7 +113,12 @@ namespace TravelOnline.WeChat
                 data.SetValue("redirect_uri", redirect_uri);
                 data.SetValue("response_type", "code");
                 data.SetValue("scope", "snsapi_login,snsapi_base,snsapi_userinfo");//
-                data.SetValue("state", Request.QueryString["state"] + "#wechat_redirect");
+
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                dic.Add("state", Request.QueryString["state"]);
+                dic.Add("LineId", Request.QueryString["LineId"]);
+              
+                data.SetValue("state", JsonConvert.SerializeObject(dic) + "#wechat_redirect");
                 string url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + data.ToUrl();
                 Log.Debug("url:", url);
                 try
@@ -271,7 +288,7 @@ namespace TravelOnline.WeChat
             }
         }
 
-        private void regedit_ticket(string flag)
+        private void regedit_ticket(string flag, string LineId)
         {
             Log.Debug("regedit()", "start!");
             try
@@ -291,19 +308,26 @@ namespace TravelOnline.WeChat
                     string url = Request.Url.ToString();
                     if (flag == "Wx_regedit_ticket")
                     {
-                        string lineid = Request.QueryString["LineId"];
-                        if (null != lineid && !"".Equals(lineid))
+                        if (LineId!=null)
                         {
-                            Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + lineid);
-                        }
-                        else
+                            Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + LineId);
+                        } else
                         {
-                            if (Convert.ToString(Session["Order_LineId"]).Length > 0)
+                            string lineid = Request.QueryString["LineId"];
+                            if (null != lineid && !"".Equals(lineid))
                             {
-                                Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + Convert.ToString(Session["Order_LineId"]));
+                                Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + lineid);
                             }
-                            Response.Redirect("/WeChat/order_ticket.aspx?LineId=600");
+                            else
+                            {
+                                if (Convert.ToString(Session["Order_LineId"]).Length > 0)
+                                {
+                                    Response.Redirect("/WeChat/order_ticket.aspx?LineId=" + Convert.ToString(Session["Order_LineId"]));
+                                }
+                                Response.Redirect("/WeChat/order_ticket.aspx?LineId=1");
+                            }
                         }
+                        
                     } else if (flag == "Wx_regedit_share")
                     {
                         Response.Redirect("/WeChat/Share/OrderShare.aspx?LineId=1481");
